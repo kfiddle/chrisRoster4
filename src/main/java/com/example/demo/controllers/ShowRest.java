@@ -36,24 +36,29 @@ public class ShowRest {
     }
 
     @PostMapping("/add-performance")
-    public Collection<Show> addAShow(@RequestBody Show incoming) throws IOException {
+    public Show addAShow(@RequestBody Show incoming) throws IOException {
+
+        Show showToReturn;
 
         try {
             if (!showRepo.existsByTitle(incoming.getTitle())) {
-                showRepo.save(new ShowBuilder()
+                showToReturn = new ShowBuilder()
                         .title(incoming.getTitle())
                         .performanceDates(incoming.getPerformanceDates())
                         .rehearsalDates(incoming.getRehearsalDates())
                         .numberOfServices(incoming.getNumberOfServices())
                         .notes(incoming.getNotes())
-                        .build());
+                        .build();
+
+                showRepo.save(showToReturn);
+                return showToReturn;
             }
+
         } catch (
                 Exception error) {
             error.printStackTrace();
         }
-
-        return (Collection<Show>) showRepo.findAll();
+        return null;
     }
 
     @PostMapping("/edit-performance")
