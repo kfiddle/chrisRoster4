@@ -42,7 +42,7 @@ public class ShowRest {
             if (!showRepo.existsByTitle(incoming.getTitle())) {
                 showRepo.save(new ShowBuilder()
                         .title(incoming.getTitle())
-                        .showDates(incoming.getShowDates())
+                        .performanceDates(incoming.getPerformanceDates())
                         .rehearsalDates(incoming.getRehearsalDates())
                         .numberOfServices(incoming.getNumberOfServices())
                         .notes(incoming.getNotes())

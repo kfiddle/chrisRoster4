@@ -20,7 +20,7 @@ public class Show implements Comparable<Show> {
     private String title;
 
     @ElementCollection
-    private List<DateTime> showDates = new ArrayList<>();
+    private List<DateTime> performanceDates = new ArrayList<>();
 
     @ElementCollection
     private List<DateTime> rehearsalDates = new ArrayList<>();
@@ -34,7 +34,7 @@ public class Show implements Comparable<Show> {
 
     public Show(ShowBuilder showBuilder) {
         this.title = showBuilder.title;
-        this.showDates = showBuilder.showDates;
+        this.performanceDates = showBuilder.performanceDates;
         this.rehearsalDates = showBuilder.rehearsalDates;
         this.numberOfServices = showBuilder.numberOfServices;
         this.notes = showBuilder.notes;
@@ -44,8 +44,8 @@ public class Show implements Comparable<Show> {
         this.title = title;
     }
 
-    public void setShowDates(List<DateTime> showDates) {
-        this.showDates = showDates;
+    public void setPerformanceDates(List<DateTime> performanceDates) {
+        this.performanceDates = performanceDates;
     }
 
     public void setRehearsalDates(List<DateTime> rehearsalDates) {
@@ -68,8 +68,8 @@ public class Show implements Comparable<Show> {
         return title;
     }
 
-    public List<DateTime> getShowDates() {
-        return showDates;
+    public List<DateTime> getPerformanceDates() {
+        return performanceDates;
     }
 
     public List<DateTime> getRehearsalDates() {
@@ -86,7 +86,7 @@ public class Show implements Comparable<Show> {
 
     @Override
     public int compareTo(Show next) {
-        return showDates.get(0).getDate().compareTo(next.showDates.get(0).getDate());
+        return performanceDates.get(0).getDate().compareTo(next.performanceDates.get(0).getDate());
     }
 
 }

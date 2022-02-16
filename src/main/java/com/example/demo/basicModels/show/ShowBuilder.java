@@ -10,7 +10,7 @@ public class ShowBuilder {
 
     public String title;
 
-    public List<DateTime> showDates = new ArrayList<>();
+    public List<DateTime> performanceDates = new ArrayList<>();
 
     public List<DateTime> rehearsalDates = new ArrayList<>();
 
@@ -29,14 +29,14 @@ public class ShowBuilder {
 
     public ShowBuilder withDate(DateTime primaryDate) {
         if (primaryDate != null) {
-            showDates.add(primaryDate);
+            performanceDates.add(primaryDate);
         }
         return this;
     }
 
-    public ShowBuilder showDates(List<DateTime> showDates) {
-        Optional<List<DateTime>> datesOpt = Optional.ofNullable(showDates);
-        datesOpt.ifPresent(gotten -> this.showDates = gotten);
+    public ShowBuilder performanceDates(List<DateTime> performanceDates) {
+        Optional<List<DateTime>> datesOpt = Optional.ofNullable(performanceDates);
+        datesOpt.ifPresent(gotten -> this.performanceDates = gotten);
         return this;
     }
 

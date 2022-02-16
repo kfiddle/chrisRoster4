@@ -151,13 +151,13 @@ public class Populator implements CommandLineRunner {
         pops4Dates.add(pops4First);
         pops4Dates.add(pops4Second);
 
-        Show pops1 = new ShowBuilder().title("Pops 1: Come Home for the Holidays").showDates(pops1Dates).build();
+        Show pops1 = new ShowBuilder().title("Pops 1: Come Home for the Holidays").performanceDates(pops1Dates).build();
         Show sym1 = new ShowBuilder().title("Sym 1: Midori").withDate(sym1Date).build();
         Show pops2 = new ShowBuilder().title("Pops 2: Music of the Knights").withDate(pops2Date).build();
         Show sym2 = new ShowBuilder().title("Sym 2: French / Organ").withDate(sym2Date).build();
         Show sym3 = new ShowBuilder().title("Sym 3: Olga Kern").withDate(sym3Date).build();
-        Show pops3 = new ShowBuilder().title("Pops 3: Mary Poppins in Concert").showDates(pops3Dates).build();
-        Show pops4 = new ShowBuilder().title("Pops 4:Star Wars:A New Hope in Concert").showDates(pops4Dates).build();
+        Show pops3 = new ShowBuilder().title("Pops 3: Mary Poppins in Concert").performanceDates(pops3Dates).build();
+        Show pops4 = new ShowBuilder().title("Pops 4:Star Wars:A New Hope in Concert").performanceDates(pops4Dates).build();
         Show sym4 = new ShowBuilder().title("Sym 4: Tim Adams / saxophone").withDate(sym4Date).build();
         Show pops5 = new ShowBuilder().title("Pops 5: R&H").withDate(pops5Date).build();
         Show sym5 = new ShowBuilder().title("Sym 5: Mahler 2").withDate(sym5Date).build();

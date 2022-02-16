@@ -7,6 +7,7 @@ import com.example.demo.basicModels.piece.PieceEditor;
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.basicModels.player.PlayerEditor;
 import com.example.demo.repos.PieceRepo;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -71,6 +72,17 @@ public class PieceRest {
             error.printStackTrace();
         }
         return (Collection<Piece>) pieceRepo.findAll();
+    }
+
+    @RequestMapping("get-sorted-pieces/{sortType}")
+    public Collection<Piece> getSortedPieces(@PathVariable String sortType) {
+        try {
+            return pieceRepo.findAllBy(Sort.by(sortType));
+        } catch (
+                Exception error) {
+            error.printStackTrace();
+        }
+        return null;
     }
 
 
