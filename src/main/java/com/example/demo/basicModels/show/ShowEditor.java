@@ -1,0 +1,31 @@
+package com.example.demo.basicModels.show;
+
+import com.example.demo.basicModels.DateTime;
+
+import java.util.List;
+import java.util.Optional;
+
+public class ShowEditor {
+
+    Show storedShow;
+
+    public ShowEditor(Show storedShow) {
+        this.storedShow = storedShow;
+    }
+
+    public void editFrom(Show incoming) {
+        Optional<String> titleOpt = Optional.ofNullable(incoming.getTitle());
+        Optional<List<DateTime>> showDatesOpt = Optional.ofNullable(incoming.getShowDates());
+        Optional<List<DateTime>> rehearsalDatesOpt = Optional.ofNullable(incoming.getRehearsalDates());
+        int services = incoming.getNumberOfServices();
+        Optional<String> notesOpt = Optional.ofNullable(incoming.getNotes());
+
+        titleOpt.ifPresent(gotten -> storedShow.setTitle(gotten));
+        showDatesOpt.ifPresent(gotten -> storedShow.setShowDates(gotten));
+        rehearsalDatesOpt.ifPresent(gotten -> storedShow.setShowDates(gotten));
+        if (services > 0) {
+            storedShow.setNumberOfServices(services);
+        }
+        notesOpt.ifPresent(gotten -> storedShow.setNotes(gotten));
+    }
+}

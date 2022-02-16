@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Player {
+public class Player implements Comparable<Player> {
 
     @Id
     @GeneratedValue
@@ -58,4 +58,128 @@ public class Player {
         }
     }
 
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public void setParts(List<Part> parts) {
+        this.parts = parts;
+    }
+
+    public void setPrimaryPart(Part primaryPart) {
+        this.primaryPart = primaryPart;
+    }
+
+    public void setFirstNameArea(String firstNameArea) {
+        this.firstNameArea = firstNameArea;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setHomePhone(String homePhone) {
+        this.homePhone = homePhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public List<Part> getParts() {
+        return parts;
+    }
+
+    public Part getPrimaryPart() {
+        return primaryPart;
+    }
+
+    public String getFirstNameArea() {
+        return firstNameArea;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    @Override
+    public int compareTo(Player otherPlayer) {
+        if (primaryPart.compare(otherPlayer.getPrimaryPart()) != 0) {
+            return primaryPart.compare(otherPlayer.getPrimaryPart());
+        } else if (rank > otherPlayer.getRank()) {
+            return 1;
+        } else return type.compare(otherPlayer.getType());
+    }
 }

@@ -10,13 +10,9 @@ public class ShowBuilder {
 
     public String title;
 
-    public List<Long> showTunesIds;
-
     public List<DateTime> showDates = new ArrayList<>();
-    ;
 
     public List<DateTime> rehearsalDates = new ArrayList<>();
-    ;
 
     public int numberOfServices;
 
@@ -28,12 +24,6 @@ public class ShowBuilder {
     public ShowBuilder title(String title) {
         Optional<String> titleCheck = Optional.ofNullable(title);
         titleCheck.ifPresent(gottenTitle -> this.title = gottenTitle);
-        return this;
-    }
-
-    public ShowBuilder showTunesIds(List<Long> showTunesIds) {
-        Optional<List<Long>> showTunesOpt = Optional.ofNullable(showTunesIds);
-        showTunesOpt.ifPresent(gotten -> this.showTunesIds = gotten);
         return this;
     }
 
