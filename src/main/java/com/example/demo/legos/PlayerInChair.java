@@ -85,4 +85,8 @@ public class PlayerInChair {
         return chair;
     }
 
+    public boolean hasThisPlayer(Player incomingPlayer) {
+        return player != null && player.equals(incomingPlayer);
+    }
+
 }

@@ -2,20 +2,18 @@ package com.example.demo.controllers;
 
 
 import com.example.demo.basicModels.piece.Piece;
+import com.example.demo.basicModels.player.Player;
+import com.example.demo.enums.Type;
 import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.emptyChair.Chair;
 import com.example.demo.legos.PlayerInChair;
 import com.example.demo.legos.emptyChair.ChairBuilder;
-import com.example.demo.repos.ChairRepo;
-import com.example.demo.repos.PieceRepo;
-import com.example.demo.repos.PlayerInChairRepo;
-import com.example.demo.repos.ShowPieceRepo;
+import com.example.demo.repos.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -32,6 +30,9 @@ public class ChairsRest {
 
     @Resource
     ChairRepo chairRepo;
+
+    @Resource
+    PlayerRepo playerRepo;
 
     @RequestMapping("/get-chairs-in-show-piece")
     public Collection<PlayerInChair> getAllChairsInAPieceOnShow() {
@@ -72,5 +73,44 @@ public class ChairsRest {
         }
         return pieceCheck;
     }
+
+    @PostMapping("/get-possible-players")
+    public List<Player> getPossiblePlayersForAChair(@RequestBody PlayerInChair incomingPIC) {
+
+//        System.out.println(incomingChair.getShowPiece().getPiece().getTitle());
+//        System.out.println(incomingChair.getChair().getParts().get(0));
+//        System.out.println(incomingChair.getChair().getRank());
+
+        try {
+            List<Player> playersToSend = new ArrayList<>();
+            Optional<PlayerInChair> chairToFind = picRepo.findById(incomingPIC.getId());
+            if (chairToFind.isPresent()) {
+                PlayerInChair foundPIC = chairToFind.get();
+
+                for (Player player : playerRepo.findAllByType(Type.CONTRACTED)) {
+
+                    for (PlayerInChair chairToCheck : picRepo.findAllByShowPiece(foundPIC.getShowPiece())) {
+
+                        if (chairToCheck.hasThisPlayer(player)) {
+                            break;
+                        }
+
+                        if (chairToCheck.getChair().playerCanSitHere(player)) {
+                            playersToSend.add(player);
+                        }
+                    }
+                }
+
+            }
+            Collections.sort(playersToSend);
+            return playersToSend;
+
+
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return null;
+    }
+
 
 }

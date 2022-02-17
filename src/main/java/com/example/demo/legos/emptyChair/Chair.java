@@ -1,6 +1,7 @@
 package com.example.demo.legos.emptyChair;
 
 import com.example.demo.basicModels.piece.Piece;
+import com.example.demo.basicModels.player.Player;
 import com.example.demo.enums.Part;
 
 import javax.persistence.*;
@@ -69,5 +70,19 @@ public class Chair {
 
     public Part getPrimaryPart() {
         return parts.get(0);
+    }
+
+    public boolean playerCanSitHere(Player player) {
+
+        if (player.getRank() > rank) {
+            return false;
+        }
+
+        for (Part part : parts) {
+            if (!player.willPlayPart(part)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
