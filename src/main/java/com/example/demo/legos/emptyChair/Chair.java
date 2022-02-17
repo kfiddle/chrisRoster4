@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class EmptyChair {
+public class Chair {
 
     @Id
     @GeneratedValue
@@ -24,13 +24,13 @@ public class EmptyChair {
 
     private Part primaryPart;
 
-    public EmptyChair() {
+    public Chair() {
     }
 
-    public EmptyChair(EmptyChairBuilder emptyChairBuilder) {
-        this.piece = emptyChairBuilder.piece;
-        this.rank = emptyChairBuilder.rank;
-        this.parts = emptyChairBuilder.parts;
+    public Chair(ChairBuilder chairBuilder) {
+        this.piece = chairBuilder.piece;
+        this.rank = chairBuilder.rank;
+        this.parts = chairBuilder.parts;
     }
 
 

@@ -3,7 +3,7 @@ package com.example.demo.legos;
 
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.enums.Part;
-import com.example.demo.legos.emptyChair.EmptyChair;
+import com.example.demo.legos.emptyChair.Chair;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,16 +23,21 @@ public class PlayerInChair {
     private ShowPiece showPiece;
 
     @ManyToOne
-    private EmptyChair emptyChair;
+    private Chair chair;
 
-    private int rank;
+//    private int rank;
 
-    @ElementCollection
-    private List<Part> parts = new ArrayList<>();
-
-    private Part primaryPart;
+//    @ElementCollection
+//    private List<Part> parts = new ArrayList<>();
+//
+//    private Part primaryPart;
 
     public PlayerInChair() {
+    }
+
+    public PlayerInChair(ShowPiece showPiece, Chair chair) {
+        this.showPiece = showPiece;
+        this.chair = chair;
     }
 
     public void setPlayer(Player player) {
@@ -43,14 +48,14 @@ public class PlayerInChair {
         this.showPiece = showPiece;
     }
 
-    public void setRank(int rank) {
-        this.rank = rank;
-    }
-
-    public void setParts(List<Part> parts) {
-        this.parts = parts;
-        this.primaryPart = parts.get(0);
-    }
+//    public void setRank(int rank) {
+//        this.rank = rank;
+//    }
+//
+//    public void setParts(List<Part> parts) {
+//        this.parts = parts;
+//        this.primaryPart = parts.get(0);
+//    }
 
     public Long getId() {
         return id;
@@ -64,15 +69,20 @@ public class PlayerInChair {
         return showPiece;
     }
 
-    public int getRank() {
-        return rank;
+//    public int getRank() {
+//        return rank;
+//    }
+//
+//    public List<Part> getParts() {
+//        return parts;
+//    }
+//
+//    public Part getPrimaryPart() {
+//        return primaryPart;
+//    }
+
+    public Chair getChair() {
+        return chair;
     }
 
-    public List<Part> getParts() {
-        return parts;
-    }
-
-    public Part getPrimaryPart() {
-        return primaryPart;
-    }
 }

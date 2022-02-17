@@ -2,13 +2,14 @@ package com.example.demo.controllers;
 
 
 import com.example.demo.basicModels.piece.Piece;
-import com.example.demo.basicModels.show.ShowBuilder;
-import com.example.demo.legos.emptyChair.EmptyChair;
+import com.example.demo.legos.ShowPiece;
+import com.example.demo.legos.emptyChair.Chair;
 import com.example.demo.legos.PlayerInChair;
-import com.example.demo.legos.emptyChair.EmptyChairBuilder;
-import com.example.demo.repos.EmptyChairRepo;
+import com.example.demo.legos.emptyChair.ChairBuilder;
+import com.example.demo.repos.ChairRepo;
 import com.example.demo.repos.PieceRepo;
 import com.example.demo.repos.PlayerInChairRepo;
+import com.example.demo.repos.ShowPieceRepo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -27,7 +28,10 @@ public class ChairsRest {
     PieceRepo pieceRepo;
 
     @Resource
-    EmptyChairRepo emptyChairRepo;
+    ShowPieceRepo showPieceRepo;
+
+    @Resource
+    ChairRepo chairRepo;
 
     @RequestMapping("/get-chairs-in-show-piece")
     public Collection<PlayerInChair> getAllChairsInAPieceOnShow() {
@@ -35,24 +39,31 @@ public class ChairsRest {
     }
 
     @RequestMapping("/get-orchestration-in-piece")
-    public Collection<EmptyChair> getEmptyChairsNeededInPiece(@RequestBody Piece incomingPiece) {
-        return emptyChairRepo.findByPiece(incomingPiece);
+    public Collection<Chair> getEmptyChairsNeededInPiece(@RequestBody Piece incomingPiece) {
+        return chairRepo.findByPiece(incomingPiece);
     }
 
     @PostMapping("/add-all-empty-chairs/{pieceId}")
-    public Optional<Piece> addFullOrchestration(@PathVariable Long pieceId, @RequestBody Collection<EmptyChair> incomingChairs) throws IOException {
+    public Optional<Piece> addFullOrchestration(@PathVariable Long pieceId, @RequestBody Collection<Chair> incomingChairs) throws IOException {
         Optional<Piece> pieceCheck = pieceRepo.findById(pieceId);
 
         try {
             if (pieceCheck.isPresent()) {
                 Piece pieceForChairs = pieceCheck.get();
 
-                for (EmptyChair emptyChair : incomingChairs) {
-                    emptyChairRepo.save(new EmptyChairBuilder()
-                            .parts(emptyChair.getParts())
-                            .rank(emptyChair.getRank())
+                for (Chair chair : incomingChairs) {
+                    Chair chairToSave = new ChairBuilder()
+                            .parts(chair.getParts())
+                            .rank(chair.getRank())
                             .piece(pieceForChairs)
-                            .build());
+                            .build();
+                    chairRepo.save(chairToSave);
+
+                    if (showPieceRepo.existsByPiece(pieceForChairs)) {
+                        for (ShowPiece showPiece : showPieceRepo.findAllByPiece(pieceForChairs)) {
+                            picRepo.save(new PlayerInChair(showPiece, chairToSave));
+                        }
+                    }
                 }
             }
         } catch (

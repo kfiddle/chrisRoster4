@@ -65,6 +65,7 @@ public class ShowPiece implements Comparable<ShowPiece> {
         return orderNum;
     }
 
+
     @Override
     public int compareTo(ShowPiece other) {
         if (orderNum > other.getOrderNum()) {
@@ -72,4 +73,6 @@ public class ShowPiece implements Comparable<ShowPiece> {
         }
         return 0;
     }
+
+
 }
