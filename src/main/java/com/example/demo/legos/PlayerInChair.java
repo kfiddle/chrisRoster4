@@ -3,6 +3,7 @@ package com.example.demo.legos;
 
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.enums.Part;
+import com.example.demo.legos.emptyChair.EmptyChair;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class PlayerInChair {
 
     @ManyToOne
     private ShowPiece showPiece;
+
+    @ManyToOne
+    private EmptyChair emptyChair;
 
     private int rank;
 
