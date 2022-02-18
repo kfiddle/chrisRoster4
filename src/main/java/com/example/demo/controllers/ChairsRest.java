@@ -84,20 +84,29 @@ public class ChairsRest {
             if (picToFind.isPresent()) {
                 PlayerInChair foundPIC = picToFind.get();
 
-                Collection<Player> playersNotYetOnShow = playerRepo.findAllByType(Type.CONTRACTED);
-                for (Player player : playersNotYetOnShow) {
-                    for (PlayerInChair pic : picRepo.findAllByShowPiece(incomingPIC.getShowPiece())) {
-                        if (pic.hasThisPlayer(player)) {
-                            playersNotYetOnShow.remove(player);
-                        }
+                HashMap<Player, Boolean> eligiblePlayers = new HashMap<>();
+                for (Player player : playerRepo.findAllByType(Type.CONTRACTED)) {
+                    eligiblePlayers.put(player, true);
+                }
+
+                for (PlayerInChair picToCheck : picRepo.findAllByShowPiece(foundPIC.getShowPiece())) {
+                    if (eligiblePlayers.containsKey(picToCheck.getPlayer())) {
+                        eligiblePlayers.put(picToCheck.getPlayer(), false);
                     }
                 }
 
-                for (Player player : playersNotYetOnShow) {
-                    if (player.couldSitHere(foundPIC)) {
-                        playersToSend.add(player);
+                for (Player player : playerRepo.findAllByType(Type.CONTRACTED)) {
+                    if (!player.couldSitHere(foundPIC)) {
+                        eligiblePlayers.put(player, false);
                     }
                 }
+
+                for (Map.Entry<Player, Boolean> entry : eligiblePlayers.entrySet()) {
+                    if (entry.getValue().equals(true)) {
+                        playersToSend.add(entry.getKey());
+                    }
+                }
+
             }
             Collections.sort(playersToSend);
             return playersToSend;
