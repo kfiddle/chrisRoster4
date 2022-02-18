@@ -18,10 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -84,7 +81,7 @@ public class JPAWiringTest {
         Player yk = new Player(new PlayerBuilder().firstNameArea("Yejee").lastName("Kim").type(Type.CONTRACTED).rank(7).addAPart(Part.VIOLIN1));
         Player mp = new Player(new PlayerBuilder().firstNameArea("Maura").lastName("Pelinsky").type(Type.CONTRACTED).rank(8).addAPart(Part.VIOLIN1));
         Player jc = new Player(new PlayerBuilder().firstNameArea("Janice").lastName("Carlson").type(Type.CONTRACTED).rank(9).addAPart(Part.VIOLIN1));
-        Player jm = new Player(new PlayerBuilder().firstNameArea("Jonathan").lastName("Moser").type(Type.CONTRACTED).rank(1).addAPart(Part.VIOLIN1));
+        Player jm = new Player(new PlayerBuilder().firstNameArea("Jonathan").lastName("Moser").type(Type.CONTRACTED).rank(1).addAPart(Part.VIOLIN2));
         Player jenJ = new Player(new PlayerBuilder().firstNameArea("Jennifer").lastName("Jansen").type(Type.CONTRACTED).rank(3).addAPart(Part.VIOLIN2));
         Player tobias = new Player(new PlayerBuilder().firstNameArea("Tobias").lastName("Chisnall").type(Type.CONTRACTED).rank(4).addAPart(Part.VIOLIN2));
         Player jiyeonY = new Player(new PlayerBuilder().firstNameArea("Jiyeon").lastName("Yeo").type(Type.CONTRACTED).rank(5).addAPart(Part.VIOLIN2));
@@ -127,31 +124,65 @@ public class JPAWiringTest {
         ShowPiece birdOnFirst = new ShowPiece(firebird, firstShow);
         showPieceRepo.save(birdOnFirst);
 
-        List<Part> partsList = new ArrayList<>();
-        partsList.add(Part.CLARINET);
-        partsList.add(Part.EBCLARINET);
-        Chair firstChair = new ChairBuilder().parts(partsList).rank(4).build();
+        List<Part> firstPartsList = new ArrayList<>();
+        firstPartsList.add(Part.CLARINET);
+        firstPartsList.add(Part.EBCLARINET);
+        Chair firstChair = new ChairBuilder().parts(firstPartsList).rank(3).build();
         chairRepo.save(firstChair);
 
+        List<Part> trumpetPartsList = new ArrayList<>();
+        trumpetPartsList.add(Part.TRUMPET);
+        Chair trumpetChair = new ChairBuilder().parts(trumpetPartsList).rank(6).build();
+        chairRepo.save(trumpetChair);
+
+        Chair trumpetChair2 = new ChairBuilder().parts(trumpetPartsList).rank(7).build();
+        chairRepo.save(trumpetChair2);
+
         PlayerInChair firstPlayerChair = new PlayerInChair(birdOnFirst, firstChair);
+        PlayerInChair secondTrumpetPlayer = new PlayerInChair(birdOnFirst, trumpetChair2);
+        secondTrumpetPlayer.setPlayer(gd);
         picRepo.save(firstPlayerChair);
+        picRepo.save(secondTrumpetPlayer);
+
+//        PlayerInChair violinPlayerChair = new PlayerInChair(birdOnFirst, violin1Chair);
+//        secondPlayerChair.setPlayer(sls);
+//        picRepo.save(violinPlayerChair);
 
         Collection<Player> playersToSend = new ArrayList<>();
 
+        HashMap<Player, Boolean> eligiblePlayers = new HashMap<>();
         for (Player player : playerRepo.findAllByType(Type.CONTRACTED)) {
-            for (PlayerInChair chairToCheck : picRepo.findAllByShowPiece(firstPlayerChair.getShowPiece())) {
-                if (chairToCheck.hasThisPlayer(player)) {
-                    break;
-                } else if (player.couldSitHere(firstPlayerChair)) {
-                    playersToSend.add(player);
-                    System.out.println(player.getFirstNameArea());
-                }
+            eligiblePlayers.put(player, true);
+        }
+
+        for (PlayerInChair picToCheck : picRepo.findAllByShowPiece(firstPlayerChair.getShowPiece())) {
+            if (eligiblePlayers.containsKey(picToCheck.getPlayer())) {
+                eligiblePlayers.put(picToCheck.getPlayer(), false);
             }
         }
 
-        assertEquals(playersToSend.size(), 1);
+        for (Player player : playerRepo.findAllByType(Type.CONTRACTED)) {
+            if (!player.couldSitHere(secondTrumpetPlayer)) {
+                eligiblePlayers.put(player, false);
+            }
+        }
 
+//        for (Map.Entry<Player, Boolean> entry : eligiblePlayers.entrySet()) {
+//            if (entry.getKey().couldSitHere(firstPlayerChair)) {
+//                eligiblePlayers.put(entry.getKey(), false);
+//            }
+//        }
 
+        for (Map.Entry<Player, Boolean> entry : eligiblePlayers.entrySet()) {
+            if (entry.getValue().equals(true)) {
+                playersToSend.add(entry.getKey());
+            }
+        }
+
+        for (Player player : playersToSend) {
+            System.out.println(player.getFirstNameArea() + "   " + player.getLastName());
+        }
+//        assertEquals(playersToSend.size(), 54);
     }
 
 
