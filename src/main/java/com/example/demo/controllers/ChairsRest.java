@@ -84,16 +84,13 @@ public class ChairsRest {
             if (picToFind.isPresent()) {
                 PlayerInChair foundPIC = picToFind.get();
 
+                for (Player player : playerRepo.findAllByType(Type.CONTRACTED)) {
+                    if (player.couldSitHere(foundPIC)) {
+                        playersToSend.add(player);
+                        System.out.println(player.getFirstNameArea());
+                    }
+                }
 
-//                for (Player player : playerRepo.findAllByType(Type.CONTRACTED)) {
-//                    for (PlayerInChair chairToCheck : picRepo.findAllByShowPiece(foundPIC.getShowPiece())) {
-//                        if (chairToCheck.hasThisPlayer(player)) {
-//                            break;
-//                        } else if (player.canSitHere(chairToCheck.getChair())) {
-//                            playersToSend.add(player);
-//                        }
-//                    }
-//                }
 
             }
             Collections.sort(playersToSend);

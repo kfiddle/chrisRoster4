@@ -9,4 +9,8 @@ import java.util.Collection;
 public interface ChairRepo extends CrudRepository<Chair, Long> {
 
     Collection<Chair> findByPiece(Piece incomingPiece);
+
+    boolean existsByPiece(Piece piece);
+
+    Collection<Chair> findAllByPiece(Piece piece);
 }

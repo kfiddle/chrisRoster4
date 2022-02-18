@@ -4,7 +4,12 @@ package com.example.demo.controllers;
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.basicModels.show.Show;
 import com.example.demo.basicModels.show.ShowBuilder;
+import com.example.demo.legos.PlayerInChair;
 import com.example.demo.legos.ShowPiece;
+import com.example.demo.legos.emptyChair.Chair;
+import com.example.demo.legos.emptyChair.ChairBuilder;
+import com.example.demo.repos.ChairRepo;
+import com.example.demo.repos.PlayerInChairRepo;
 import com.example.demo.repos.ShowPieceRepo;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +27,12 @@ public class ShowPieceRest {
     @Resource
     ShowPieceRepo showPieceRepo;
 
+    @Resource
+    ChairRepo chairRepo;
+
+    @Resource
+    PlayerInChairRepo picRepo;
+
     @RequestMapping("/get-all-show-pieces")
     public Collection<ShowPiece> getAllShowPieces() {
         return (Collection<ShowPiece>) showPieceRepo.findAll();
@@ -34,6 +45,13 @@ public class ShowPieceRest {
             for (ShowPiece showPiece : showPiecesToAdd) {
                 ShowPiece newShowPiece = new ShowPiece(showPiece.getPiece(), showPiece.getShow(), showPiece.getOrderNum());
                 showPieceRepo.save(newShowPiece);
+
+                if (chairRepo.existsByPiece(newShowPiece.getPiece())) {
+                    for (Chair chair : chairRepo.findAllByPiece(newShowPiece.getPiece())) {
+                        picRepo.save(new PlayerInChair(newShowPiece, chair));
+                    }
+                }
+
             }
         } catch (
                 Exception error) {
