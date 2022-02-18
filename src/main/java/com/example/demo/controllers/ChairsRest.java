@@ -84,14 +84,20 @@ public class ChairsRest {
             if (picToFind.isPresent()) {
                 PlayerInChair foundPIC = picToFind.get();
 
-                for (Player player : playerRepo.findAllByType(Type.CONTRACTED)) {
-                    if (player.couldSitHere(foundPIC)) {
-                        playersToSend.add(player);
-                        System.out.println(player.getFirstNameArea());
+                Collection<Player> playersNotYetOnShow = playerRepo.findAllByType(Type.CONTRACTED);
+                for (Player player : playersNotYetOnShow) {
+                    for (PlayerInChair pic : picRepo.findAllByShowPiece(incomingPIC.getShowPiece())) {
+                        if (pic.hasThisPlayer(player)) {
+                            playersNotYetOnShow.remove(player);
+                        }
                     }
                 }
 
-
+                for (Player player : playersNotYetOnShow) {
+                    if (player.couldSitHere(foundPIC)) {
+                        playersToSend.add(player);
+                    }
+                }
             }
             Collections.sort(playersToSend);
             return playersToSend;
@@ -101,6 +107,25 @@ public class ChairsRest {
             error.printStackTrace();
         }
         return null;
+    }
+
+    @PostMapping("/put-player-in-pic/{picId}")
+    public Optional<ShowPiece> putAPlayerInAChair(@RequestBody Player incomingPlayer, @PathVariable Long picId) {
+        try {
+            Optional<PlayerInChair> premadePIC = picRepo.findById(picId);
+            Optional<Player> playerToFind = playerRepo.findById(incomingPlayer.getId());
+            if (premadePIC.isPresent() && playerToFind.isPresent()) {
+                PlayerInChair pic = premadePIC.get();
+                pic.setPlayer(playerToFind.get());
+                picRepo.save(pic);
+                return showPieceRepo.findById(pic.getShowPiece().getId());
+            }
+        } catch (
+                Exception error) {
+            error.printStackTrace();
+
+        }
+        return Optional.empty();
     }
 
 
