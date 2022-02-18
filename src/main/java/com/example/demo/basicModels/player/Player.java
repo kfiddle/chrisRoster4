@@ -4,6 +4,7 @@ package com.example.demo.basicModels.player;
 import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
 import com.example.demo.legos.PlayerInChair;
+import com.example.demo.legos.emptyChair.Chair;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -175,13 +176,19 @@ public class Player implements Comparable<Player> {
         return zip;
     }
 
-    public boolean willPlayPart(Part partToCheck) {
-        for (Part part : parts) {
-            if (part.equals(partToCheck)) {
-                return true;
+public boolean couldSitHere(PlayerInChair pic) {
+        Chair chair = pic.getChair();
+        if (rank > chair.getRank()) {
+            return false;
+        } else {
+            for (Part chairPart : chair.getParts()) {
+                if (!parts.contains(chairPart)) {
+                    return false;
+                }
             }
-        } return false;
-    }
+        } return true;
+}
+
 
     @Override
     public int compareTo(Player otherPlayer) {

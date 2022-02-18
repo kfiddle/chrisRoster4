@@ -71,18 +71,4 @@ public class Chair {
     public Part getPrimaryPart() {
         return parts.get(0);
     }
-
-    public boolean playerCanSitHere(Player player) {
-
-        if (player.getRank() > rank) {
-            return false;
-        }
-
-        for (Part part : parts) {
-            if (!player.willPlayPart(part)) {
-                return false;
-            }
-        }
-        return true;
-    }
 }

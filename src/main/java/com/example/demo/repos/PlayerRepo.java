@@ -1,10 +1,12 @@
 package com.example.demo.repos;
 
 import com.example.demo.basicModels.player.Player;
+import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface PlayerRepo extends CrudRepository<Player, Long> {
 
@@ -13,4 +15,5 @@ public interface PlayerRepo extends CrudRepository<Player, Long> {
     boolean existsByFirstNameAreaAndLastName(String firstNameArea, String lastName);
 
     Player findByFirstNameAreaAndLastName(String firstNameArea, String lastName);
+
 }

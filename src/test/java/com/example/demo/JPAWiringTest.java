@@ -1,7 +1,6 @@
 package com.example.demo;
 
 
-import com.example.demo.basicModels.DateTime;
 import com.example.demo.basicModels.piece.Piece;
 import com.example.demo.basicModels.piece.PieceBuilder;
 import com.example.demo.basicModels.player.Player;
@@ -10,33 +9,46 @@ import com.example.demo.basicModels.show.Show;
 import com.example.demo.basicModels.show.ShowBuilder;
 import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
-import com.example.demo.repos.PieceRepo;
-import com.example.demo.repos.PlayerRepo;
-import com.example.demo.repos.ShowRepo;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import com.example.demo.legos.PlayerInChair;
+import com.example.demo.legos.ShowPiece;
+import com.example.demo.legos.emptyChair.Chair;
+import com.example.demo.legos.emptyChair.ChairBuilder;
+import com.example.demo.repos.*;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import javax.annotation.Resource;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
-@Component
-public class Populator implements CommandLineRunner {
+import static org.junit.jupiter.api.Assertions.*;
 
-    @Resource
-    PlayerRepo playerRepo;
+@DataJpaTest
+public class JPAWiringTest {
 
-    @Resource
-    ShowRepo showRepo;
+    @Autowired
+    private PlayerRepo playerRepo;
 
-    @Resource
-    PieceRepo pieceRepo;
+    @Autowired
+    private PieceRepo pieceRepo;
 
-    @Override
-    public void run(String... args) throws Exception {
+    @Autowired
+    private ShowRepo showRepo;
+
+    @Autowired
+    private ShowPieceRepo showPieceRepo;
+
+    @Autowired
+    private ChairRepo chairRepo;
+
+    @Autowired
+    private PlayerInChairRepo picRepo;
+
+    @Test
+    public void mustSeeEligiblePlayersForChair() {
+
 
         Player leAnne = new PlayerBuilder().firstNameArea("Leanne").lastName("Wistrom").type(Type.CONTRACTED).rank(1).addAPart(Part.FLUTE).build();
         Player seanG = new PlayerBuilder().firstNameArea("Sean").lastName("Gabriel").type(Type.CONTRACTED).rank(2).addAPart(Part.FLUTE).build();
@@ -106,62 +118,41 @@ public class Populator implements CommandLineRunner {
                 eriS, ee, jiYoung, cv, kf, hl, wt, tobias, jiyeonY, jenJ, mp, jc, jm, nadineS, bn, jv, kieranH, josephH, tomC, jamesM, mariaP, mikeChen, dianaV,
                 samPetrey, maijaAnstine, chrisBlaha, erikSundet));
 
-        pieceRepo.saveAll(Arrays.asList(new PieceBuilder().title("Rapture").composerName("Rouse").build(),
-                new PieceBuilder().title("Violin Concerto in D").composerName("Brahms").build(),
-                new PieceBuilder().title("Firebird Suite(1945)").composerName("Stravinsky").build(),
-                new PieceBuilder().title("The Sorcerer's Apprentice").composerName("Dukas").build(),
-                new PieceBuilder().title("Concerto for Organ and Orchestra").composerName("Poulenc").build(),
-                new PieceBuilder().title("Symphony in D minor").composerName("Franck").build(),
-                new PieceBuilder().title("Along the Western Shore").composerName("Remick-Warren").build(),
-                new PieceBuilder().title("Prelude and Liebestod from Tristan und Isolde").composerName("Wagner").build(),
-                new PieceBuilder().title("Piano Concerto No. 3").composerName("Rachmaninoff").build(),
-                new PieceBuilder().title("Mary Poppins (Full Film)").composerName("Sherman and Sherman").build(),
-                new PieceBuilder().title("Star Wars: A New Hope ").composerName("Williams").build(),
-                new PieceBuilder().title("New Work based on Harriet Tubman").composerName("Timothy Adams").build(),
-                new PieceBuilder().title("Concertino da Camera for Alto Saxophone and Orchestra").composerName("Ibert").build(),
-                new PieceBuilder().title("Concerto, Alto Saxophone, op.109, E-flat major").composerName("Glazunov").build(),
-                new PieceBuilder().title("Symphony No. 7").composerName("Beethoven").build(),
-                new PieceBuilder().title("Rise").composerName("Zhou Tian").build(),
-                new PieceBuilder().title("Symphony No.2").composerName("Mahler").build()));
+        Show firstShow = new ShowBuilder().build();
+        showRepo.save(firstShow);
 
-        DateTime sym1Date = new DateTime(LocalDate.of(2022, 1, 8), LocalTime.of(8, 0));
+        Piece firebird = new PieceBuilder().build();
+        pieceRepo.save(firebird);
 
-        DateTime pops1First = new DateTime(LocalDate.of(2021, 12, 4), LocalTime.of(3, 0));
-        DateTime pops1Second = new DateTime(LocalDate.of(2021, 12, 4), LocalTime.of(8, 0));
-        DateTime pops2Date = new DateTime(LocalDate.of(2022, 1, 29), LocalTime.of(8, 0));
-        DateTime sym2Date = new DateTime(LocalDate.of(2022, 2, 26), LocalTime.of(8, 0));
-        DateTime sym3Date = new DateTime(LocalDate.of(2022, 3, 19), LocalTime.of(8, 0));
-        DateTime pops3DateFirst = new DateTime(LocalDate.of(2022, 4, 9), LocalTime.of(8, 0));
-        DateTime pops3DateSecond = new DateTime(LocalDate.of(2022, 4, 10), LocalTime.of(3, 0));
-        DateTime pops4First = new DateTime(LocalDate.of(2022, 4, 30), LocalTime.of(8, 0));
-        DateTime pops4Second = new DateTime(LocalDate.of(2022, 5, 1), LocalTime.of(3, 0));
-        DateTime sym4Date = new DateTime(LocalDate.of(2022, 5, 14), LocalTime.of(8, 0));
-        DateTime pops5Date = new DateTime(LocalDate.of(2022, 6, 12), LocalTime.of(3, 0));
-        DateTime sym5Date = new DateTime(LocalDate.of(2022, 6, 26), LocalTime.of(3, 0));
+        ShowPiece birdOnFirst = new ShowPiece(firebird, firstShow);
+        showPieceRepo.save(birdOnFirst);
 
-        List<DateTime> pops1Dates = new ArrayList<>();
-        pops1Dates.add(pops1First);
-        pops1Dates.add(pops1Second);
+        List<Part> partsList = new ArrayList<>();
+        partsList.add(Part.CLARINET);
+        partsList.add(Part.EBCLARINET);
+        Chair firstChair = new ChairBuilder().parts(partsList).rank(4).build();
+        chairRepo.save(firstChair);
 
-        List<DateTime> pops3Dates = new ArrayList<>();
-        pops3Dates.add(pops3DateFirst);
-        pops3Dates.add(pops3DateSecond);
+        PlayerInChair firstPlayerChair = new PlayerInChair(birdOnFirst, firstChair);
+        picRepo.save(firstPlayerChair);
 
-        List<DateTime> pops4Dates = new ArrayList<>();
-        pops4Dates.add(pops4First);
-        pops4Dates.add(pops4Second);
+        Collection<Player> playersToSend = new ArrayList<>();
 
-        Show pops1 = new ShowBuilder().title("Pops 1: Come Home for the Holidays").performanceDates(pops1Dates).build();
-        Show sym1 = new ShowBuilder().title("Sym 1: Midori").withDate(sym1Date).build();
-        Show pops2 = new ShowBuilder().title("Pops 2: Music of the Knights").withDate(pops2Date).build();
-        Show sym2 = new ShowBuilder().title("Sym 2: French / Organ").withDate(sym2Date).build();
-        Show sym3 = new ShowBuilder().title("Sym 3: Olga Kern").withDate(sym3Date).build();
-        Show pops3 = new ShowBuilder().title("Pops 3: Mary Poppins in Concert").performanceDates(pops3Dates).build();
-        Show pops4 = new ShowBuilder().title("Pops 4:Star Wars:A New Hope in Concert").performanceDates(pops4Dates).build();
-        Show sym4 = new ShowBuilder().title("Sym 4: Tim Adams / saxophone").withDate(sym4Date).build();
-        Show pops5 = new ShowBuilder().title("Pops 5: R&H").withDate(pops5Date).build();
-        Show sym5 = new ShowBuilder().title("Sym 5: Mahler 2").withDate(sym5Date).build();
+        for (Player player : playerRepo.findAllByType(Type.CONTRACTED)) {
+            for (PlayerInChair chairToCheck : picRepo.findAllByShowPiece(firstPlayerChair.getShowPiece())) {
+                if (chairToCheck.hasThisPlayer(player)) {
+                    break;
+                } else if (player.couldSitHere(firstPlayerChair)) {
+                    playersToSend.add(player);
+                    System.out.println(player.getFirstNameArea());
+                }
+            }
+        }
 
-        showRepo.saveAll(Arrays.asList(pops3, pops1, pops2, sym2, sym3, pops4, sym4, pops5, sym5, sym1));
+        assertEquals(playersToSend.size(), 1);
+
+
     }
+
+
 }

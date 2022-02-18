@@ -35,8 +35,9 @@ public class ChairsRest {
     PlayerRepo playerRepo;
 
     @RequestMapping("/get-chairs-in-show-piece")
-    public Collection<PlayerInChair> getAllChairsInAPieceOnShow() {
-        return (Collection<PlayerInChair>) picRepo.findAll();
+    public Collection<PlayerInChair> getAllChairsInAPieceOnShow(@RequestBody ShowPiece incomingShowPiece) {
+        Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(incomingShowPiece.getId());
+        return showPieceToFind.map(showPiece -> (Collection<PlayerInChair>) picRepo.findAllByShowPiece(showPiece)).orElse(null);
     }
 
     @RequestMapping("/get-orchestration-in-piece")
@@ -77,29 +78,22 @@ public class ChairsRest {
     @PostMapping("/get-possible-players")
     public List<Player> getPossiblePlayersForAChair(@RequestBody PlayerInChair incomingPIC) {
 
-//        System.out.println(incomingChair.getShowPiece().getPiece().getTitle());
-//        System.out.println(incomingChair.getChair().getParts().get(0));
-//        System.out.println(incomingChair.getChair().getRank());
-
         try {
             List<Player> playersToSend = new ArrayList<>();
-            Optional<PlayerInChair> chairToFind = picRepo.findById(incomingPIC.getId());
-            if (chairToFind.isPresent()) {
-                PlayerInChair foundPIC = chairToFind.get();
+            Optional<PlayerInChair> picToFind = picRepo.findById(incomingPIC.getId());
+            if (picToFind.isPresent()) {
+                PlayerInChair foundPIC = picToFind.get();
 
-                for (Player player : playerRepo.findAllByType(Type.CONTRACTED)) {
 
-                    for (PlayerInChair chairToCheck : picRepo.findAllByShowPiece(foundPIC.getShowPiece())) {
-
-                        if (chairToCheck.hasThisPlayer(player)) {
-                            break;
-                        }
-
-                        if (chairToCheck.getChair().playerCanSitHere(player)) {
-                            playersToSend.add(player);
-                        }
-                    }
-                }
+//                for (Player player : playerRepo.findAllByType(Type.CONTRACTED)) {
+//                    for (PlayerInChair chairToCheck : picRepo.findAllByShowPiece(foundPIC.getShowPiece())) {
+//                        if (chairToCheck.hasThisPlayer(player)) {
+//                            break;
+//                        } else if (player.canSitHere(chairToCheck.getChair())) {
+//                            playersToSend.add(player);
+//                        }
+//                    }
+//                }
 
             }
             Collections.sort(playersToSend);
