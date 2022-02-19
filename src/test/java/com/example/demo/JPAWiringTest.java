@@ -167,12 +167,6 @@ public class JPAWiringTest {
             }
         }
 
-//        for (Map.Entry<Player, Boolean> entry : eligiblePlayers.entrySet()) {
-//            if (entry.getKey().couldSitHere(firstPlayerChair)) {
-//                eligiblePlayers.put(entry.getKey(), false);
-//            }
-//        }
-
         for (Map.Entry<Player, Boolean> entry : eligiblePlayers.entrySet()) {
             if (entry.getValue().equals(true)) {
                 playersToSend.add(entry.getKey());
@@ -182,6 +176,13 @@ public class JPAWiringTest {
         for (Player player : playersToSend) {
             System.out.println(player.getFirstNameArea() + "   " + player.getLastName());
         }
+
+        System.out.println(Part.CORNET.getScoreOrder() + " is a cornet");
+        System.out.println(Part.FLUTE.getScoreOrder() + " is a cornet");
+        System.out.println(Part.PICCOLO.getScoreOrder() + " is a cornet");
+
+
+
 //        assertEquals(playersToSend.size(), 54);
     }
 
