@@ -45,7 +45,7 @@ public class ChairsRest {
         return chairRepo.findByPiece(incomingPiece);
     }
 
-    @PostMapping("/add-all-empty-chairs/{pieceId}")
+    @PostMapping("/add-empty-chairs/{pieceId}")
     public Optional<Piece> addFullOrchestration(@PathVariable Long pieceId, @RequestBody Collection<Chair> incomingChairs) throws IOException {
         Optional<Piece> pieceCheck = pieceRepo.findById(pieceId);
 
@@ -136,6 +136,12 @@ public class ChairsRest {
         }
         return Optional.empty();
     }
+
+//    @PostMapping("/make-string-chairs")
+//    public Collection<PlayerInChair> makeChairs (@RequestBody Collection<PlayerInChair> incomingStringSeats) throws IOException {
+//
+//
+//    }
 
 
 }

@@ -6,6 +6,9 @@ import com.example.demo.basicModels.piece.PieceBuilder;
 import com.example.demo.basicModels.piece.PieceEditor;
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.basicModels.player.PlayerEditor;
+import com.example.demo.enums.Part;
+import com.example.demo.legos.emptyChair.Chair;
+import com.example.demo.repos.ChairRepo;
 import com.example.demo.repos.PieceRepo;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,9 @@ public class PieceRest {
     @Resource
     PieceRepo pieceRepo;
 
+    @Resource
+    ChairRepo chairRepo;
+
     @RequestMapping("/get-all-pieces")
     public Collection<Piece> getAllPerformances() {
         return (Collection<Piece>) pieceRepo.findAll();
@@ -31,24 +37,24 @@ public class PieceRest {
     public Collection<Piece> addPieceToDatabase(@RequestBody Piece incoming) throws IOException {
 
         try {
-          pieceRepo.save(new PieceBuilder()
-                  .prefix(incoming.getPrefix())
-                  .libNumber(incoming.getLibNumber())
-                  .suffix(incoming.getSuffix())
-                  .composerName(incoming.getComposerName())
-                  .arranger(incoming.getArranger())
-                  .title(incoming.getTitle())
-                  .otherName(incoming.getOtherName())
-                  .publisher(incoming.getPublisher())
-                  .duration(incoming.getDuration())
-                  .instrumentation(incoming.getInstrumentation())
-                  .vocalistSoloist(incoming.getVocalistSoloist())
-                  .percBreakdown(incoming.getPercBreakdown())
-                  .notes(incoming.getNotes())
-                  .status(incoming.getStatus())
-                  .sign(incoming.getSign())
-                  .updated(incoming.getUpdated())
-                  .build());
+            pieceRepo.save(new PieceBuilder()
+                    .prefix(incoming.getPrefix())
+                    .libNumber(incoming.getLibNumber())
+                    .suffix(incoming.getSuffix())
+                    .composerName(incoming.getComposerName())
+                    .arranger(incoming.getArranger())
+                    .title(incoming.getTitle())
+                    .otherName(incoming.getOtherName())
+                    .publisher(incoming.getPublisher())
+                    .duration(incoming.getDuration())
+                    .instrumentation(incoming.getInstrumentation())
+                    .vocalistSoloist(incoming.getVocalistSoloist())
+                    .percBreakdown(incoming.getPercBreakdown())
+                    .notes(incoming.getNotes())
+                    .status(incoming.getStatus())
+                    .sign(incoming.getSign())
+                    .updated(incoming.getUpdated())
+                    .build());
 
         } catch (
                 Exception error) {
@@ -83,6 +89,24 @@ public class PieceRest {
             error.printStackTrace();
         }
         return null;
+    }
+
+    @RequestMapping("/strings-required/{pieceId}")
+    public boolean areStringsNeededInThisPiece(@PathVariable Long pieceId) {
+        Optional<Piece> pieceToFind = pieceRepo.findById(pieceId);
+        boolean answer = false;
+        if (pieceToFind.isPresent()) {
+            Collection<Chair> chairsInPiece = chairRepo.findAllByPiece(pieceToFind.get());
+            for (Chair chair : chairsInPiece) {
+                if (chair.getParts().contains(Part.VIOLIN1) ||
+                        chair.getParts().contains(Part.VIOLA) ||
+                        chair.getParts().contains(Part.CELLO) ||
+                        chair.getParts().contains(Part.BASS)) {
+                    answer = true;
+                    break;
+                }
+            }
+        } return answer;
     }
 
 
