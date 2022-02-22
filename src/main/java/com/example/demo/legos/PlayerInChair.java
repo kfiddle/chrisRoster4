@@ -25,12 +25,7 @@ public class PlayerInChair {
     @ManyToOne
     private Chair chair;
 
-//    private int rank;
-
-//    @ElementCollection
-//    private List<Part> parts = new ArrayList<>();
-//
-//    private Part primaryPart;
+    private int sectionSeat;
 
     public PlayerInChair() {
     }
@@ -38,6 +33,12 @@ public class PlayerInChair {
     public PlayerInChair(ShowPiece showPiece, Chair chair) {
         this.showPiece = showPiece;
         this.chair = chair;
+    }
+
+    public PlayerInChair(ShowPiece showPiece, Chair chair, int sectionSeat) {
+        this.showPiece = showPiece;
+        this.chair = chair;
+        this.sectionSeat = sectionSeat;
     }
 
     public void setPlayer(Player player) {
@@ -48,14 +49,13 @@ public class PlayerInChair {
         this.showPiece = showPiece;
     }
 
-//    public void setRank(int rank) {
-//        this.rank = rank;
-//    }
-//
-//    public void setParts(List<Part> parts) {
-//        this.parts = parts;
-//        this.primaryPart = parts.get(0);
-//    }
+    public void setChair(Chair chair) {
+        this.chair = chair;
+    }
+
+    public void setSectionSeat(int sectionSeat) {
+        this.sectionSeat = sectionSeat;
+    }
 
     public Long getId() {
         return id;
@@ -69,20 +69,12 @@ public class PlayerInChair {
         return showPiece;
     }
 
-//    public int getRank() {
-//        return rank;
-//    }
-//
-//    public List<Part> getParts() {
-//        return parts;
-//    }
-//
-//    public Part getPrimaryPart() {
-//        return primaryPart;
-//    }
-
     public Chair getChair() {
         return chair;
+    }
+
+    public int getSectionSeat() {
+        return sectionSeat;
     }
 
     public boolean hasThisPlayer(Player incomingPlayer) {

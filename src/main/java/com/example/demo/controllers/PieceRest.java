@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -106,8 +107,36 @@ public class PieceRest {
                     break;
                 }
             }
-        } return answer;
+        }
+        return answer;
     }
 
+    @RequestMapping("/get-string-chairs-in-piece/{pieceId}")
+    public Collection<Chair> returnStringChairs(@PathVariable Long pieceId) {
+        Optional<Piece> pieceToFind = pieceRepo.findById(pieceId);
+        Collection<Chair> chairsToReturn = new ArrayList<>();
+
+        if (pieceToFind.isPresent()) {
+            Collection<Chair> chairsInPiece = chairRepo.findAllByPiece(pieceToFind.get());
+            for (Chair chair : chairsInPiece) {
+                if (chair.getParts().contains(Part.VIOLIN1)) {
+                    chairsToReturn.add(chair);
+                }
+                if (chair.getParts().contains(Part.VIOLIN2)) {
+                    chairsToReturn.add(chair);
+                }
+                if (chair.getParts().contains(Part.VIOLA)) {
+                    chairsToReturn.add(chair);
+                }
+                if (chair.getParts().contains(Part.CELLO)) {
+                    chairsToReturn.add(chair);
+                }
+                if (chair.getParts().contains(Part.BASS)) {
+                    chairsToReturn.add(chair);
+                }
+
+            }
+        } return chairsToReturn;
+    }
 
 }

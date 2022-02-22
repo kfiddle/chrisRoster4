@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.basicModels.piece.Piece;
 import com.example.demo.basicModels.player.Player;
+import com.example.demo.basicModels.show.Show;
+import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
 import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.emptyChair.Chair;
@@ -137,8 +139,55 @@ public class ChairsRest {
         return Optional.empty();
     }
 
-//    @PostMapping("/make-string-chairs")
-//    public Collection<PlayerInChair> makeChairs (@RequestBody Collection<PlayerInChair> incomingStringSeats) throws IOException {
+    @PostMapping("/make-string-player-in-chairs/{showPieceId}")
+    public Collection<PlayerInChair> makeChairs(@RequestBody HashMap<Chair, Integer> incomingStringNumbers, @PathVariable Long showPieceId) throws IOException {
+
+        Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(showPieceId);
+        if (showPieceToFind.isPresent()) {
+            ShowPiece retrievedShowPiece = showPieceToFind.get();
+            for (Map.Entry<Chair, Integer> sectionSeats : incomingStringNumbers.entrySet()) {
+                for (int seat = 2; seat <= sectionSeats.getValue(); seat++) {
+                    picRepo.save(new PlayerInChair(retrievedShowPiece, sectionSeats.getKey(), seat));
+                }
+            }
+            return picRepo.findAllByShowPiece(retrievedShowPiece);
+        }
+        return null;
+
+    }
+
+//    @PostMapping("/make-string-player-in-chairs/{showPieceId}")
+//    public Collection<PlayerInChair> makeChairs (@RequestBody List<Integer> incomingStringNumbers, @PathVariable Long showPieceId) throws IOException {
+//
+//        Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(showPieceId);
+//        if (showPieceToFind.isPresent()) {
+//            ShowPiece retrievedShowPiece = showPieceToFind.get();
+//            Piece pieceToLookAt = retrievedShowPiece.getPiece();
+//
+//            int firstViolins = incomingStringNumbers.get(0);
+//            int secondViolins = incomingStringNumbers.get(1);
+//            int violas = incomingStringNumbers.get(2);
+//            int cellos = incomingStringNumbers.get(3);
+//            int basses = incomingStringNumbers.get(4);
+//
+//            Collection<Chair> chairsToLookAt = chairRepo.findAllByPiece(pieceToLookAt);
+//            for (Chair chair : chairsToLookAt) {
+//                if (chair.getParts().contains(Part.VIOLIN1)) {
+//                    Chair gottenChair = chairsToLookAt.findByPrimaryPart(Part.VIOLIN1);
+//                }
+//            }
+//
+//
+//
+//            if (firstViolins > 0) {
+//                for (int j = 1; j < firstViolins; j++) {
+//
+//                    picRepo.save(new PlayerInChair())
+//                }
+//            }
+//
+//
+//        }
 //
 //
 //    }
