@@ -140,14 +140,18 @@ public class ChairsRest {
     }
 
     @PostMapping("/make-string-player-in-chairs/{showPieceId}")
-    public Collection<PlayerInChair> makeChairs(@RequestBody HashMap<Chair, Integer> incomingStringNumbers, @PathVariable Long showPieceId) throws IOException {
+    public Collection<PlayerInChair> makeChairs(@RequestBody HashMap<Long, Integer> incomingStringNumbers, @PathVariable Long showPieceId) throws IOException {
 
         Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(showPieceId);
         if (showPieceToFind.isPresent()) {
             ShowPiece retrievedShowPiece = showPieceToFind.get();
-            for (Map.Entry<Chair, Integer> sectionSeats : incomingStringNumbers.entrySet()) {
-                for (int seat = 2; seat <= sectionSeats.getValue(); seat++) {
-                    picRepo.save(new PlayerInChair(retrievedShowPiece, sectionSeats.getKey(), seat));
+            for (Map.Entry<Long, Integer> sectionSeats : incomingStringNumbers.entrySet()) {
+                Optional<Chair> chairOpt = chairRepo.findById(sectionSeats.getKey());
+                if (chairOpt.isPresent()) {
+                    Chair chairToSeat = chairOpt.get();
+                    for (int seat = 2; seat <= sectionSeats.getValue(); seat++) {
+                        picRepo.save(new PlayerInChair(retrievedShowPiece, chairToSeat, seat));
+                    }
                 }
             }
             return picRepo.findAllByShowPiece(retrievedShowPiece);

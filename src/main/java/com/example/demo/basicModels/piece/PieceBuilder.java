@@ -1,9 +1,9 @@
 package com.example.demo.basicModels.piece;
 
+import com.example.demo.enums.Part;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 public class PieceBuilder {
 
@@ -23,6 +23,9 @@ public class PieceBuilder {
     public String status;
     public String sign;
     public LocalDate updated;
+
+    public boolean stringsRequired;
+    public Map<Part, Integer> strings = new HashMap<>();
 
 
     public PieceBuilder() {
@@ -121,6 +124,18 @@ public class PieceBuilder {
     public PieceBuilder updated(LocalDate updated) {
         Optional<LocalDate> updatedOpt = Optional.ofNullable(updated);
         updatedOpt.ifPresent(gotten -> this.updated = gotten);
+        return this;
+    }
+
+    public PieceBuilder stringsRequired(boolean stringsRequired) {
+        Optional<Boolean> stringsRequiredOpt = Optional.of(stringsRequired);
+        stringsRequiredOpt.ifPresent(gotten -> this.stringsRequired = stringsRequired);
+        return this;
+    }
+
+    public PieceBuilder strings(Map<Part, Integer> strings) {
+        Optional<Map<Part, Integer>> stringsOpt = Optional.ofNullable(strings);
+        stringsOpt.ifPresent(gotten -> this.strings = strings);
         return this;
     }
 

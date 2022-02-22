@@ -1,12 +1,16 @@
 package com.example.demo.basicModels.piece;
 
 
+import com.example.demo.enums.Part;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 public class Piece {
@@ -33,6 +37,11 @@ public class Piece {
 
     private LocalDate updated;
 
+    private boolean stringsRequired;
+
+    @ElementCollection
+    private Map<Part, Integer> strings = new HashMap<>();
+
     public Piece() {}
 
     public Piece(PieceBuilder pieceBuilder) {
@@ -52,6 +61,9 @@ public class Piece {
         status = pieceBuilder.status;
         sign = pieceBuilder.sign;
         updated = pieceBuilder.updated;
+
+        stringsRequired = pieceBuilder.stringsRequired;
+        strings = pieceBuilder.strings;
     }
 
     public void setPrefix(String prefix) {
@@ -116,6 +128,14 @@ public class Piece {
 
     public void setUpdated(LocalDate updated) {
         this.updated = updated;
+    }
+
+    public void setStringsRequired(boolean stringsRequired) {
+        this.stringsRequired = stringsRequired;
+    }
+
+    public void setStrings(Map<Part, Integer> strings) {
+        this.strings = strings;
     }
 
     public Long getId() {
@@ -184,5 +204,13 @@ public class Piece {
 
     public LocalDate getUpdated() {
         return updated;
+    }
+
+    public boolean isStringsRequired() {
+        return stringsRequired;
+    }
+
+    public Map<Part, Integer> getStrings() {
+        return strings;
     }
 }
