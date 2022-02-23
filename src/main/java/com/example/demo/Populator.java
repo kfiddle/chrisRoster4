@@ -19,9 +19,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class Populator implements CommandLineRunner {
@@ -164,5 +162,8 @@ public class Populator implements CommandLineRunner {
         Show sym5 = new ShowBuilder().title("Sym 5: Mahler 2").withDate(sym5Date).build();
 
         showRepo.saveAll(Arrays.asList(pops3, pops1, pops2, sym2, sym3, pops4, sym4, pops5, sym5, sym1));
+
+
+
     }
 }

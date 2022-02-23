@@ -24,10 +24,6 @@ public class PieceBuilder {
     public String sign;
     public LocalDate updated;
 
-    public boolean stringsRequired;
-    public Map<Part, Integer> strings = new HashMap<>();
-
-
     public PieceBuilder() {
     }
 
@@ -127,17 +123,12 @@ public class PieceBuilder {
         return this;
     }
 
-    public PieceBuilder stringsRequired(boolean stringsRequired) {
-        Optional<Boolean> stringsRequiredOpt = Optional.of(stringsRequired);
-        stringsRequiredOpt.ifPresent(gotten -> this.stringsRequired = stringsRequired);
-        return this;
-    }
+//    public PieceBuilder stringsRequired(boolean stringsRequired) {
+//        Optional<Boolean> stringsRequiredOpt = Optional.of(stringsRequired);
+//        stringsRequiredOpt.ifPresent(gotten -> this.stringsRequired = stringsRequired);
+//        return this;
+//    }
 
-    public PieceBuilder strings(Map<Part, Integer> strings) {
-        Optional<Map<Part, Integer>> stringsOpt = Optional.ofNullable(strings);
-        stringsOpt.ifPresent(gotten -> this.strings = strings);
-        return this;
-    }
 
     public Piece build() {
         return new Piece(this);

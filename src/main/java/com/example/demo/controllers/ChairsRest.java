@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 
 import com.example.demo.basicModels.piece.Piece;
+import com.example.demo.basicModels.piece.StringPartNum;
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.basicModels.show.Show;
 import com.example.demo.enums.Part;
@@ -139,62 +140,26 @@ public class ChairsRest {
         return Optional.empty();
     }
 
+
     @PostMapping("/make-string-player-in-chairs/{showPieceId}")
-    public Collection<PlayerInChair> makeChairs(@RequestBody HashMap<Long, Integer> incomingStringNumbers, @PathVariable Long showPieceId) throws IOException {
+    public void makeStringPICs(@RequestBody Collection<StringPartNum> incomingStringNumbers, @PathVariable Long showPieceId) throws IOException {
 
-        Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(showPieceId);
-        if (showPieceToFind.isPresent()) {
-            ShowPiece retrievedShowPiece = showPieceToFind.get();
-            for (Map.Entry<Long, Integer> sectionSeats : incomingStringNumbers.entrySet()) {
-                Optional<Chair> chairOpt = chairRepo.findById(sectionSeats.getKey());
-                if (chairOpt.isPresent()) {
-                    Chair chairToSeat = chairOpt.get();
-                    for (int seat = 2; seat <= sectionSeats.getValue(); seat++) {
-                        picRepo.save(new PlayerInChair(retrievedShowPiece, chairToSeat, seat));
-                    }
-                }
+       for (StringPartNum stringPartNum : incomingStringNumbers) {
+           System.out.println(stringPartNum.stringPart + "  and " + stringPartNum.number + "    of these ");
+       }
+
+
+        try {
+            Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(showPieceId);
+            if (showPieceToFind.isPresent()) {
+                ShowPiece retrievedShowPiece = showPieceToFind.get();
+
             }
-            return picRepo.findAllByShowPiece(retrievedShowPiece);
+        } catch (
+                Exception error) {
+            error.printStackTrace();
+
         }
-        return null;
-
     }
-
-//    @PostMapping("/make-string-player-in-chairs/{showPieceId}")
-//    public Collection<PlayerInChair> makeChairs (@RequestBody List<Integer> incomingStringNumbers, @PathVariable Long showPieceId) throws IOException {
-//
-//        Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(showPieceId);
-//        if (showPieceToFind.isPresent()) {
-//            ShowPiece retrievedShowPiece = showPieceToFind.get();
-//            Piece pieceToLookAt = retrievedShowPiece.getPiece();
-//
-//            int firstViolins = incomingStringNumbers.get(0);
-//            int secondViolins = incomingStringNumbers.get(1);
-//            int violas = incomingStringNumbers.get(2);
-//            int cellos = incomingStringNumbers.get(3);
-//            int basses = incomingStringNumbers.get(4);
-//
-//            Collection<Chair> chairsToLookAt = chairRepo.findAllByPiece(pieceToLookAt);
-//            for (Chair chair : chairsToLookAt) {
-//                if (chair.getParts().contains(Part.VIOLIN1)) {
-//                    Chair gottenChair = chairsToLookAt.findByPrimaryPart(Part.VIOLIN1);
-//                }
-//            }
-//
-//
-//
-//            if (firstViolins > 0) {
-//                for (int j = 1; j < firstViolins; j++) {
-//
-//                    picRepo.save(new PlayerInChair())
-//                }
-//            }
-//
-//
-//        }
-//
-//
-//    }
-
 
 }

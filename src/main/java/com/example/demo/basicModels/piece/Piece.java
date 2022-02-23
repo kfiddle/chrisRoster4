@@ -9,8 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 public class Piece {
@@ -39,9 +38,6 @@ public class Piece {
 
     private boolean stringsRequired;
 
-    @ElementCollection
-    private Map<Part, Integer> strings = new HashMap<>();
-
     public Piece() {}
 
     public Piece(PieceBuilder pieceBuilder) {
@@ -61,9 +57,6 @@ public class Piece {
         status = pieceBuilder.status;
         sign = pieceBuilder.sign;
         updated = pieceBuilder.updated;
-
-        stringsRequired = pieceBuilder.stringsRequired;
-        strings = pieceBuilder.strings;
     }
 
     public void setPrefix(String prefix) {
@@ -132,10 +125,6 @@ public class Piece {
 
     public void setStringsRequired(boolean stringsRequired) {
         this.stringsRequired = stringsRequired;
-    }
-
-    public void setStrings(Map<Part, Integer> strings) {
-        this.strings = strings;
     }
 
     public Long getId() {
@@ -210,7 +199,4 @@ public class Piece {
         return stringsRequired;
     }
 
-    public Map<Part, Integer> getStrings() {
-        return strings;
-    }
 }

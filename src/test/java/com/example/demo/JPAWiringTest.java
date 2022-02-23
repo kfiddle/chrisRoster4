@@ -9,6 +9,7 @@ import com.example.demo.basicModels.show.Show;
 import com.example.demo.basicModels.show.ShowBuilder;
 import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
+import com.example.demo.legos.PlayerChair2;
 import com.example.demo.legos.PlayerInChair;
 import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.emptyChair.Chair;
@@ -42,6 +43,10 @@ public class JPAWiringTest {
 
     @Autowired
     private PlayerInChairRepo picRepo;
+
+    @Autowired
+    private PlayerChair2Repo playerChair2Repo;
+
 
     @Test
     public void mustSeeEligiblePlayersForChair() {
@@ -144,10 +149,6 @@ public class JPAWiringTest {
         picRepo.save(firstPlayerChair);
         picRepo.save(secondTrumpetPlayer);
 
-//        PlayerInChair violinPlayerChair = new PlayerInChair(birdOnFirst, violin1Chair);
-//        secondPlayerChair.setPlayer(sls);
-//        picRepo.save(violinPlayerChair);
-
         Collection<Player> playersToSend = new ArrayList<>();
 
         HashMap<Player, Boolean> eligiblePlayers = new HashMap<>();
@@ -182,9 +183,6 @@ public class JPAWiringTest {
         System.out.println(Part.PICCOLO.getScoreOrder() + " is a cornet");
 
 
-
 //        assertEquals(playersToSend.size(), 54);
     }
-
-
 }
