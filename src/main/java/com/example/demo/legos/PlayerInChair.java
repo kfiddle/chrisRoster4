@@ -7,10 +7,11 @@ import com.example.demo.legos.emptyChair.Chair;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class PlayerInChair {
+public class PlayerInChair implements Comparable<PlayerInChair> {
 
     @Id
     @GeneratedValue
@@ -81,4 +82,20 @@ public class PlayerInChair {
         return player != null && player.equals(incomingPlayer);
     }
 
+    @Override
+    public int compareTo(PlayerInChair next) {
+        if (chair.getPrimaryPart().compare(next.chair.getPrimaryPart()) != 0) {
+            return chair.getPrimaryPart().compare(next.chair.getPrimaryPart());
+        } else if (chair.getRank() > next.chair.getRank()) {
+            return 1;
+        } else if (chair.getRank() < next.chair.getRank()) {
+            return -1;
+        } else {
+            if (sectionSeat > next.sectionSeat) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+    }
 }

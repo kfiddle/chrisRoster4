@@ -40,7 +40,12 @@ public class ChairsRest {
     @RequestMapping("/get-chairs-in-show-piece")
     public Collection<PlayerInChair> getAllChairsInAPieceOnShow(@RequestBody ShowPiece incomingShowPiece) {
         Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(incomingShowPiece.getId());
-        return showPieceToFind.map(showPiece -> (Collection<PlayerInChair>) picRepo.findAllByShowPiece(showPiece)).orElse(null);
+        if (showPieceToFind.isPresent()) {
+            List<PlayerInChair> picsToReturn = (List<PlayerInChair>) picRepo.findAllByShowPiece(showPieceToFind.get());
+            Collections.sort(picsToReturn);
+            return picsToReturn;
+        }
+        return null;
     }
 
     @RequestMapping("/get-orchestration-in-piece")
