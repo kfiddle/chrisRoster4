@@ -32,6 +32,7 @@ public class Chair {
         this.piece = chairBuilder.piece;
         this.rank = chairBuilder.rank;
         this.parts = chairBuilder.parts;
+        this.primaryPart = parts.get(0);
     }
 
 

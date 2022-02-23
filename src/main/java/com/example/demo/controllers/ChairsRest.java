@@ -144,16 +144,22 @@ public class ChairsRest {
     @PostMapping("/make-string-player-in-chairs/{showPieceId}")
     public void makeStringPICs(@RequestBody Collection<StringPartNum> incomingStringNumbers, @PathVariable Long showPieceId) throws IOException {
 
-       for (StringPartNum stringPartNum : incomingStringNumbers) {
-           System.out.println(stringPartNum.stringPart + "  and " + stringPartNum.number + "    of these ");
-       }
-
-
         try {
             Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(showPieceId);
             if (showPieceToFind.isPresent()) {
                 ShowPiece retrievedShowPiece = showPieceToFind.get();
 
+                for (StringPartNum stringPartNum : incomingStringNumbers) {
+                    if (chairRepo.existsByPrimaryPartAndPiece(stringPartNum.stringPart, retrievedShowPiece.getPiece())) {
+                        Chair chairToReference = chairRepo.findByPrimaryPartAndPiece(stringPartNum.stringPart, retrievedShowPiece.getPiece());
+                        System.out.println(chairToReference.getParts().get(0));
+                        for (int seat = 2; seat <= stringPartNum.number; seat++) {
+                            picRepo.save(new PlayerInChair(retrievedShowPiece, chairToReference, seat));
+                            System.out.println(seat);
+
+                        }
+                    }
+                }
             }
         } catch (
                 Exception error) {
