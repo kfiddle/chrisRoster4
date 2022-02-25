@@ -157,11 +157,8 @@ public class ChairsRest {
                 for (StringPartNum stringPartNum : incomingStringNumbers) {
                     if (chairRepo.existsByPrimaryPartAndPiece(stringPartNum.stringPart, retrievedShowPiece.getPiece())) {
                         Chair chairToReference = chairRepo.findByPrimaryPartAndPiece(stringPartNum.stringPart, retrievedShowPiece.getPiece());
-                        System.out.println(chairToReference.getParts().get(0));
                         for (int seat = 2; seat <= stringPartNum.number; seat++) {
                             picRepo.save(new PlayerInChair(retrievedShowPiece, chairToReference, seat));
-                            System.out.println(seat);
-
                         }
                     }
                 }

@@ -27,6 +27,7 @@ public enum Part {
     PERCUSSION("Percussion"),
     HARP("Harp"),
     PIANO("Piano"),
+    CELESTE("Celeste"),
     KEYBOARD("Keyboard"),
     VIOLIN1("Violin1"),
     VIOLIN2("Violin2"),

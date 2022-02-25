@@ -176,7 +176,7 @@ public class Player implements Comparable<Player> {
         return zip;
     }
 
-public boolean couldSitHere(PlayerInChair pic) {
+    public boolean couldSitHere(PlayerInChair pic) {
         Chair chair = pic.getChair();
         if (rank > chair.getRank()) {
             return false;
@@ -186,8 +186,9 @@ public boolean couldSitHere(PlayerInChair pic) {
                     return false;
                 }
             }
-        } return true;
-}
+        }
+        return true;
+    }
 
 
     @Override
