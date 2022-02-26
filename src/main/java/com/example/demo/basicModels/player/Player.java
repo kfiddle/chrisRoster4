@@ -195,8 +195,8 @@ public class Player implements Comparable<Player> {
     public int compareTo(Player otherPlayer) {
         if (primaryPart.compare(otherPlayer.getPrimaryPart()) != 0) {
             return primaryPart.compare(otherPlayer.getPrimaryPart());
-        } else if (rank > otherPlayer.getRank()) {
-            return 1;
+        } else if (rank < otherPlayer.getRank()) {
+            return -1;
         } else return type.compare(otherPlayer.getType());
     }
 }

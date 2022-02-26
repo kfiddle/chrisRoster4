@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.basicModels.player.PlayerBuilder;
+import com.example.demo.basicModels.player.PlayerCompare;
 import com.example.demo.basicModels.player.PlayerEditor;
 import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
@@ -62,11 +63,11 @@ public class PlayerRest {
 
     @RequestMapping("/get-all-contracted-players")
     public Collection<Player> getAllContractedPlayers() {
-        List<Player> playersToSendBack = (List<Player>) playerRepo.findAllByType(Type.CONTRACTED);
-        Collections.sort(playersToSendBack);
-        for (Player player : playersToSendBack) {
-            System.out.println(player.getLastName());
-        }
+        ArrayList<Player> playersToSendBack = new ArrayList<>(playerRepo.findAllByType(Type.CONTRACTED));
+
+        PlayerCompare playerCompare = new PlayerCompare();
+        playersToSendBack.sort(playerCompare);
+
 
         return playersToSendBack;
     }
