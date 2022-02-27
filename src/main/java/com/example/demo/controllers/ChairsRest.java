@@ -126,6 +126,27 @@ public class ChairsRest {
         return null;
     }
 
+    @PostMapping("/remove-player-from-pic")
+    public Optional<ShowPiece> removePlayerFromAChair(@RequestBody PlayerInChair incomingPIC) throws IOException {
+        Optional<ShowPiece> possibleShowPiece = showPieceRepo.findById(incomingPIC.getShowPiece().getId());
+
+        try {
+            Optional<PlayerInChair> picToFind = picRepo.findById(incomingPIC.getId());
+            picToFind.ifPresent(playerInChair -> {
+                playerInChair.setPlayer(null);
+                picRepo.save(playerInChair);
+            });
+
+
+        } catch (
+                Exception error) {
+            error.printStackTrace();
+
+        }
+        return possibleShowPiece;
+
+    }
+
     @PostMapping("/put-player-in-pic/{picId}")
     public Optional<ShowPiece> putAPlayerInAChair(@RequestBody Player incomingPlayer, @PathVariable Long picId) {
         try {
