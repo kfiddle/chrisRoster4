@@ -50,7 +50,6 @@ public class HorlogeRest {
     @PostMapping("/add-horloge")
     public Horloge addHorloge(@RequestBody Horloge incoming) throws IOException {
 
-        System.out.println("we are here");
 
         Horloge newOne = new HorlogeBuilder()
                 .date(incoming.getDate())
