@@ -6,10 +6,14 @@ import com.example.demo.basicModels.piece.Piece;
 import com.example.demo.basicModels.piece.PieceBuilder;
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.basicModels.player.PlayerBuilder;
+import com.example.demo.basicModels.show.Horloge;
+import com.example.demo.basicModels.show.HorlogeBuilder;
 import com.example.demo.basicModels.show.Show;
 import com.example.demo.basicModels.show.ShowBuilder;
+import com.example.demo.enums.Event;
 import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
+import com.example.demo.repos.HorlogeRepo;
 import com.example.demo.repos.PieceRepo;
 import com.example.demo.repos.PlayerRepo;
 import com.example.demo.repos.ShowRepo;
@@ -32,6 +36,9 @@ public class Populator implements CommandLineRunner {
 
     @Resource
     PieceRepo pieceRepo;
+
+    @Resource
+    HorlogeRepo horlogeRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -138,6 +145,7 @@ public class Populator implements CommandLineRunner {
         DateTime pops5Date = new DateTime(LocalDate.of(2022, 6, 12), LocalTime.of(3, 0));
         DateTime sym5Date = new DateTime(LocalDate.of(2022, 6, 26), LocalTime.of(3, 0));
 
+
         List<DateTime> pops1Dates = new ArrayList<>();
         pops1Dates.add(pops1First);
         pops1Dates.add(pops1Second);
@@ -163,7 +171,20 @@ public class Populator implements CommandLineRunner {
 
         showRepo.saveAll(Arrays.asList(pops3, pops1, pops2, sym2, sym3, pops4, sym4, pops5, sym5, sym1));
 
+        Horloge popsUno = new HorlogeBuilder().date(LocalDate.of(2021, 12, 4)).startTime(LocalTime.of(3, 0)).show(pops1).event(Event.PRIMARYDATE).build();
+        Horloge popsUno2 = new HorlogeBuilder().date(LocalDate.of(2021, 12, 4)).startTime(LocalTime.of(3, 0)).show(pops1).event(Event.CONCERT).build();
+        Horloge popsDue = new HorlogeBuilder().date(LocalDate.of(2022, 1, 29)).startTime(LocalTime.of(8, 0)).show(pops2).event(Event.PRIMARYDATE).build();
+        Horloge sym2Horloge = new HorlogeBuilder().date(LocalDate.of(2022, 2, 26)).startTime(LocalTime.of(8, 0)).show(sym2).event(Event.PRIMARYDATE).build();
+        Horloge sym3Hor = new HorlogeBuilder().date(LocalDate.of(2022, 3, 19)).startTime(LocalTime.of(8, 0)).show(sym3).event(Event.PRIMARYDATE).build();
+        Horloge pops3HorFirst = new HorlogeBuilder().date(LocalDate.of(2022, 4, 9)).startTime( LocalTime.of(8, 0)).show(pops3).event(Event.PRIMARYDATE).build();
+        Horloge pops3Hor2 = new HorlogeBuilder().date(LocalDate.of(2022, 4, 10)).startTime( LocalTime.of(3, 0)).show(pops3).event(Event.CONCERT).build();
+        Horloge pops4Uno = new HorlogeBuilder().date(LocalDate.of(2022, 4, 30)).startTime( LocalTime.of(8, 0)).show(pops4).event(Event.PRIMARYDATE).build();
+        Horloge pops4Due = new HorlogeBuilder().date(LocalDate.of(2022, 5, 1)).startTime( LocalTime.of(3, 0)).show(pops4).event(Event.CONCERT).build();
+        Horloge sym4Hor = new HorlogeBuilder().date(LocalDate.of(2022, 5, 14)).startTime( LocalTime.of(8, 0)).show(sym4).event(Event.PRIMARYDATE).build();
+        Horloge pops5Hor = new HorlogeBuilder().date(LocalDate.of(2022, 6, 12)).startTime( LocalTime.of(3, 0)).show(pops5).event(Event.PRIMARYDATE).build();
+        Horloge sym5Hor = new HorlogeBuilder().date(LocalDate.of(2022, 6, 26)).startTime( LocalTime.of(3, 0)).show(sym5).event(Event.PRIMARYDATE).build();
 
+        horlogeRepo.saveAll(Arrays.asList(popsUno, popsUno2, popsDue, sym2Horloge, sym3Hor, pops3HorFirst, pops3Hor2, pops4Uno, pops4Due, sym4Hor, pops5Hor, sym5Hor));
 
     }
 }
