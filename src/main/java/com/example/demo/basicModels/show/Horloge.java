@@ -3,6 +3,7 @@ package com.example.demo.basicModels.show;
 
 import com.example.demo.enums.Event;
 import com.example.demo.repos.HorlogeRepo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

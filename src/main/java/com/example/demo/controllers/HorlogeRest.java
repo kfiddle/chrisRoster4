@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -34,17 +33,32 @@ public class HorlogeRest {
         return primaryDates;
     }
 
+
     @RequestMapping("/get-performances-by-primary-date")
     public List<Show> getAllShowsByPrimaryDate() {
-        List<Show> showsToReturn = new ArrayList<>();
 
-        List<Horloge> primaryDates = horlogeRepo.findByEvent(Event.PRIMARYDATE);
-        Collections.sort(primaryDates);
+        try {
+            List<Show> showsToReturn = new ArrayList<>();
 
-        for (Horloge horloge : primaryDates) {
-            showsToReturn.add(horloge.getShow());
+            List<Horloge> primaryDates = horlogeRepo.findByEvent(Event.PRIMARYDATE);
+            Collections.sort(primaryDates);
+
+            for (Horloge horloge : primaryDates) {
+                showsToReturn.add(horloge.getShow());
+            }
+
+            for (Show show : showRepo.findAll()) {
+                if (!showsToReturn.contains(show)) {
+                    showsToReturn.add(show);
+                }
+            }
+            return showsToReturn;
+
+        } catch (
+                Exception error) {
+            error.printStackTrace();
         }
-        return showsToReturn;
+        return null;
     }
 
     @PostMapping("/add-horloge")
@@ -61,9 +75,29 @@ public class HorlogeRest {
         horlogeRepo.save(newOne);
 
         System.out.println(newOne.getDate());
+        System.out.println(newOne.getEvent());
         System.out.println(newOne.getShow().getTitle());
         System.out.println(newOne.getStartTime());
+        System.out.println(newOne.getEndTime());
         return newOne;
+    }
+
+    @PostMapping("/get-date-from-show")
+    public LocalDate getPrimaryDateFromShow(@RequestBody Show show) {
+        try {
+            Optional<Show> showToFind = showRepo.findById(show.getId());
+            if (showToFind.isPresent()) {
+                Show foundShow = showToFind.get();
+                if (horlogeRepo.existsByEventAndShow(Event.PRIMARYDATE, foundShow)) {
+                    return horlogeRepo.findByEventAndShow(Event.PRIMARYDATE, foundShow).getDate();
+                }
+            }
+        } catch (
+                Exception error) {
+            error.printStackTrace();
+
+        }
+        return null;
     }
 
 }
