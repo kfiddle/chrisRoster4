@@ -92,7 +92,11 @@ public class Horloge implements Comparable<Horloge> {
         } else if (date.isBefore(other.getDate())) {
             return -1;
         } else {
-            return this.startTime.compareTo(other.startTime);
+            if (this.startTime != null && other.getStartTime() != null) {
+                return this.startTime.compareTo(other.startTime);
+            } else {
+                return 0;
+            }
         }
     }
 }
