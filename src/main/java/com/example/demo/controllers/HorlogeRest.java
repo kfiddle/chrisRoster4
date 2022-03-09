@@ -25,14 +25,12 @@ public class HorlogeRest {
     @Resource
     ShowRepo showRepo;
 
-
     @RequestMapping("/get-all-primary-dates")
     public List<Horloge> getAllPrimaryDateHorlogesInDatabase() {
         List<Horloge> primaryDates = horlogeRepo.findByEvent(Event.PRIMARYDATE);
         Collections.sort(primaryDates);
         return primaryDates;
     }
-
 
     @RequestMapping("/get-performances-by-primary-date")
     public List<Show> getAllShowsByPrimaryDate() {
@@ -72,12 +70,6 @@ public class HorlogeRest {
                 .endTime(incoming.getEndTime())
                 .build();
         horlogeRepo.save(newOne);
-
-        System.out.println(newOne.getDate());
-        System.out.println(newOne.getEvent());
-        System.out.println(newOne.getShow().getTitle());
-        System.out.println(newOne.getStartTime());
-        System.out.println(newOne.getEndTime());
         return newOne;
     }
 
@@ -99,4 +91,30 @@ public class HorlogeRest {
         return null;
     }
 
+    @PostMapping("/get-all-concerts-of-show")
+    public List<Horloge> getAllConcertsInShow(@RequestBody Show incoming) throws IOException {
+
+        List<Horloge> datesToReturn = new ArrayList<>();
+
+        try {
+
+            Optional<Show> showToFind = showRepo.findById(incoming.getId());
+            if (showToFind.isPresent()) {
+                Show foundShow = showToFind.get();
+                if (horlogeRepo.existsByEventAndShow(Event.PRIMARYDATE, foundShow)) {
+                    datesToReturn.add(horlogeRepo.findByEventAndShow(Event.PRIMARYDATE, foundShow));
+                }
+                if (horlogeRepo.existsByEventAndShow(Event.CONCERT, foundShow)) {
+                    datesToReturn.addAll(horlogeRepo.findAllByEventAndShow(Event.CONCERT, foundShow));
+                }
+                Collections.sort(datesToReturn);
+            }
+            return datesToReturn;
+        } catch (
+                Exception error) {
+            error.printStackTrace();
+
+        }
+        return null;
+    }
 }
