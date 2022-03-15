@@ -159,6 +159,7 @@ public class Populator implements CommandLineRunner {
         pops4Dates.add(pops4Second);
 
         Show pops1 = new ShowBuilder().title("Pops 1: Come Home for the Holidays").performanceDates(pops1Dates).build();
+
         Show sym1 = new ShowBuilder().title("Sym 1: Midori").withDate(sym1Date).build();
         Show pops2 = new ShowBuilder().title("Pops 2: Music of the Knights").withDate(pops2Date).build();
         Show sym2 = new ShowBuilder().title("Sym 2: French / Organ").withDate(sym2Date).build();
@@ -172,6 +173,8 @@ public class Populator implements CommandLineRunner {
         showRepo.saveAll(Arrays.asList(pops3, pops1, pops2, sym2, sym3, pops4, sym4, pops5, sym5, sym1));
 
         Horloge popsUno = new HorlogeBuilder().date(LocalDate.of(2021, 12, 4)).startTime(LocalTime.of(3, 0)).show(pops1).event(Event.PRIMARYDATE).build();
+
+       Horloge sym1Hor = new HorlogeBuilder().date(LocalDate.of(2022, 1, 8)).startTime(LocalTime.of(8, 0)).show(sym1).event(Event.PRIMARYDATE).build();
         Horloge popsUno2 = new HorlogeBuilder().date(LocalDate.of(2021, 12, 4)).startTime(LocalTime.of(3, 0)).show(pops1).event(Event.CONCERT).build();
         Horloge popsDue = new HorlogeBuilder().date(LocalDate.of(2022, 1, 29)).startTime(LocalTime.of(8, 0)).show(pops2).event(Event.PRIMARYDATE).build();
         Horloge sym2Horloge = new HorlogeBuilder().date(LocalDate.of(2022, 2, 26)).startTime(LocalTime.of(8, 0)).show(sym2).event(Event.PRIMARYDATE).build();
@@ -184,7 +187,7 @@ public class Populator implements CommandLineRunner {
         Horloge pops5Hor = new HorlogeBuilder().date(LocalDate.of(2022, 6, 12)).startTime( LocalTime.of(3, 0)).show(pops5).event(Event.PRIMARYDATE).build();
         Horloge sym5Hor = new HorlogeBuilder().date(LocalDate.of(2022, 6, 26)).startTime( LocalTime.of(3, 0)).show(sym5).event(Event.PRIMARYDATE).build();
 
-        horlogeRepo.saveAll(Arrays.asList(popsUno, popsUno2, popsDue, sym2Horloge, sym3Hor, pops3HorFirst, pops3Hor2, pops4Uno, pops4Due, sym4Hor, pops5Hor, sym5Hor));
+        horlogeRepo.saveAll(Arrays.asList(popsUno, sym1Hor, popsUno2, popsDue, sym2Horloge, sym3Hor, pops3HorFirst, pops3Hor2, pops4Uno, pops4Due, sym4Hor, pops5Hor, sym5Hor));
 
     }
 }

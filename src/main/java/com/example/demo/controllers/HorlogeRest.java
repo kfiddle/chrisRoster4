@@ -1,9 +1,7 @@
 package com.example.demo.controllers;
 
 
-import com.example.demo.basicModels.show.Horloge;
-import com.example.demo.basicModels.show.HorlogeBuilder;
-import com.example.demo.basicModels.show.Show;
+import com.example.demo.basicModels.show.*;
 import com.example.demo.enums.Event;
 import com.example.demo.repos.HorlogeRepo;
 import com.example.demo.repos.ShowRepo;
@@ -72,6 +70,25 @@ public class HorlogeRest {
         horlogeRepo.save(newOne);
         return newOne;
     }
+
+    @PostMapping("/edit-horloge")
+    public Optional<Horloge> editHorloge(@RequestBody Horloge incoming) throws IOException {
+        Optional<Horloge> horlogeToFind = horlogeRepo.findById(incoming.getId());
+
+        try {
+            if (horlogeToFind.isPresent()) {
+                Horloge horlogeToEdit = horlogeToFind.get();
+                HorlogeEditor editor = new HorlogeEditor(horlogeToEdit);
+                editor.editFrom(incoming);
+                horlogeRepo.save(horlogeToEdit);
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        System.out.println(horlogeToFind.get().getId());
+        return horlogeToFind;
+    }
+
 
     @PostMapping("/get-date-from-show")
     public LocalDate getPrimaryDateFromShow(@RequestBody Show show) {
