@@ -69,6 +69,7 @@ public class ShowRest {
                 Show showToEdit = showToFind.get();
                 ShowEditor editor = new ShowEditor(showToEdit);
                 editor.editFrom(incoming);
+                showRepo.save(showToEdit);
             }
             return (Collection<Show>) showRepo.findAll();
 

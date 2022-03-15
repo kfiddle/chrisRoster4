@@ -176,27 +176,37 @@ public class Player implements Comparable<Player> {
         return zip;
     }
 
+//    public boolean couldSitHere(PlayerInChair pic) {
+//        Chair chair = pic.getChair();
+//
+//        if (rank > chair.getRank()) {
+//            return false;
+//        } else {
+//            for (Part chairPart : chair.getParts()) {
+//                if (!parts.contains(chairPart)) {
+//                    return false;
+//                }
+//            }
+//        }
+//        return true;
+//    }
+
     public boolean couldSitHere(PlayerInChair pic) {
         Chair chair = pic.getChair();
-        if (rank > chair.getRank()) {
-            return false;
-        } else {
-            for (Part chairPart : chair.getParts()) {
-                if (!parts.contains(chairPart)) {
-                    return false;
-                }
+        for (Part chairPart : chair.getParts()) {
+            if (!parts.contains(chairPart)) {
+                return false;
             }
+        } return true;
+    }
+
+
+        @Override
+        public int compareTo (Player otherPlayer){
+            if (primaryPart.compare(otherPlayer.getPrimaryPart()) != 0) {
+                return primaryPart.compare(otherPlayer.getPrimaryPart());
+            } else if (rank < otherPlayer.getRank()) {
+                return -1;
+            } else return type.compare(otherPlayer.getType());
         }
-        return true;
     }
-
-
-    @Override
-    public int compareTo(Player otherPlayer) {
-        if (primaryPart.compare(otherPlayer.getPrimaryPart()) != 0) {
-            return primaryPart.compare(otherPlayer.getPrimaryPart());
-        } else if (rank < otherPlayer.getRank()) {
-            return -1;
-        } else return type.compare(otherPlayer.getType());
-    }
-}
