@@ -149,9 +149,9 @@ public class Populator implements CommandLineRunner {
 
 
         Horloge pops1Hor = new HorlogeBuilder().date(LocalDate.of(2022, 10, 1)).startTime(LocalTime.of(8, 0)).show(pops1).event(Event.PRIMARYDATE).build();
-        Horloge pops2Hor = new HorlogeBuilder().date(LocalDate.of(2022, 11, 5)).startTime(LocalTime.of(8, 0)).show(pops1).event(Event.PRIMARYDATE).build();
-        Horloge pops3Hor = new HorlogeBuilder().date(LocalDate.of(2022, 12, 3)).startTime(LocalTime.of(8, 0)).show(pops2).event(Event.PRIMARYDATE).build();
-        Horloge pops4Hor = new HorlogeBuilder().date(LocalDate.of(2023, 2, 18)).startTime(LocalTime.of(8, 0)).show(pops3).event(Event.PRIMARYDATE).build();
+        Horloge pops2Hor = new HorlogeBuilder().date(LocalDate.of(2022, 11, 5)).startTime(LocalTime.of(8, 0)).show(pops2).event(Event.PRIMARYDATE).build();
+        Horloge pops3Hor = new HorlogeBuilder().date(LocalDate.of(2022, 12, 3)).startTime(LocalTime.of(8, 0)).show(pops3).event(Event.PRIMARYDATE).build();
+        Horloge pops4Hor = new HorlogeBuilder().date(LocalDate.of(2023, 2, 18)).startTime(LocalTime.of(8, 0)).show(pops4).event(Event.PRIMARYDATE).build();
         Horloge pops5Hor = new HorlogeBuilder().date(LocalDate.of(2023, 4, 15)).startTime(LocalTime.of(8, 0)).show(pops5).event(Event.PRIMARYDATE).build();
 
         horlogeRepo.saveAll(Arrays.asList(sym1Hor, sym2Hor, sym3Hor, sym4Hor, sym5Hor, pops1Hor, pops2Hor, pops3Hor, pops4Hor, pops5Hor));
