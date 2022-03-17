@@ -85,7 +85,6 @@ public class HorlogeRest {
         } catch (Exception error) {
             error.printStackTrace();
         }
-        System.out.println(horlogeToFind.get().getId());
         return horlogeToFind;
     }
 

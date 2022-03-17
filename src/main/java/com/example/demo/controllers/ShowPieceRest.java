@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -81,8 +78,8 @@ public class ShowPieceRest {
         return (Collection<ShowPiece>) showPieceRepo.findAll();
     }
 
-    @PostMapping("/get-pieces-on-program")
-    public List<ShowPiece> getPiecesOnAShow(@RequestBody Show incomingShow) throws IOException {
+    @PostMapping("/get-showtunes-on-program")
+    public List<ShowPiece> getShowTunesOnAShow(@RequestBody Show incomingShow) throws IOException {
         try {
             List<ShowPiece> showTunes = (List<ShowPiece>) showPieceRepo.findAllByShow(incomingShow);
             Collections.sort(showTunes);
@@ -93,4 +90,26 @@ public class ShowPieceRest {
         }
         return null;
     }
+
+    @PostMapping("/get-pieces-on-program")
+    public List<Piece> getPiecesOnAShow(@RequestBody Show incomingShow) throws IOException {
+
+        List<Piece> piecesToReturn = new ArrayList<>();
+
+        try {
+            List<ShowPiece> showTunes = (List<ShowPiece>) showPieceRepo.findAllByShow(incomingShow);
+            Collections.sort(showTunes);
+
+            for (ShowPiece showPiece : showTunes) {
+                piecesToReturn.add(showPiece.getPiece());
+            }
+
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+
+        return piecesToReturn;
+    }
+
+
 }
