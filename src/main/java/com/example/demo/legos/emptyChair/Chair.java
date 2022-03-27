@@ -2,6 +2,7 @@ package com.example.demo.legos.emptyChair;
 
 import com.example.demo.basicModels.piece.Piece;
 import com.example.demo.basicModels.player.Player;
+import com.example.demo.basicModels.show.Show;
 import com.example.demo.enums.Part;
 
 import javax.persistence.*;
@@ -18,6 +19,9 @@ public class Chair {
     @ManyToOne
     private Piece piece;
 
+    @ManyToOne
+    private Show show;
+
     private int rank;
 
     @ElementCollection
@@ -30,6 +34,7 @@ public class Chair {
 
     public Chair(ChairBuilder chairBuilder) {
         this.piece = chairBuilder.piece;
+        this.show = chairBuilder.show;
         this.rank = chairBuilder.rank;
         this.parts = chairBuilder.parts;
         this.primaryPart = parts.get(0);

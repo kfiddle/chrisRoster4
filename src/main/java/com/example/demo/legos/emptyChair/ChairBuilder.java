@@ -2,6 +2,7 @@ package com.example.demo.legos.emptyChair;
 
 
 import com.example.demo.basicModels.piece.Piece;
+import com.example.demo.basicModels.show.Show;
 import com.example.demo.enums.Part;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Optional;
 public class ChairBuilder {
 
     public Piece piece;
+    public Show show;
 
     public List<Part> parts = new ArrayList<>();
 
@@ -22,6 +24,12 @@ public class ChairBuilder {
     public ChairBuilder piece(Piece piece) {
         Optional<Piece> pieceOpt = Optional.ofNullable(piece);
         pieceOpt.ifPresent(gotten -> this.piece = gotten);
+        return this;
+    }
+
+    public ChairBuilder show(Show show) {
+        Optional<Show> showOpt = Optional.ofNullable(show);
+        showOpt.ifPresent(gotten -> this.show = gotten);
         return this;
     }
 

@@ -83,6 +83,33 @@ public class ChairsRest {
         return pieceCheck;
     }
 
+    @PostMapping("/add-chair-to-piece")
+    public Optional<Piece> addChairToPiece(@RequestBody Chair incomingChair) throws IOException {
+        Optional<Piece> pieceCheck = pieceRepo.findById(incomingChair.getPiece().getId());
+
+        try {
+            if (pieceCheck.isPresent()) {
+                Piece pieceForChair = pieceCheck.get();
+                Chair chairToSave = new ChairBuilder()
+                        .parts(incomingChair.getParts())
+                        .rank(incomingChair.getRank())
+                        .piece(pieceForChair)
+                        .build();
+                chairRepo.save(chairToSave);
+
+                if (showPieceRepo.existsByPiece(pieceForChair)) {
+                    for (ShowPiece showPiece : showPieceRepo.findAllByPiece(pieceForChair)) {
+                        picRepo.save(new PlayerInChair(showPiece, chairToSave));
+                    }
+                }
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return pieceCheck;
+    }
+
+
     @PostMapping("/get-possible-players")
     public List<Player> getPossiblePlayersForAChair(@RequestBody PlayerInChair incomingPIC) {
 
