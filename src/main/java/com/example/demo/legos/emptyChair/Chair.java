@@ -85,4 +85,5 @@ public class Chair {
     public Part getPrimaryPart() {
         return parts.get(0);
     }
+
 }

@@ -40,7 +40,7 @@ public class ChairsRest {
     @Resource
     PlayerRepo playerRepo;
 
-    @RequestMapping("/get-chairs-in-show-piece")
+    @RequestMapping("/get-pics-in-show-piece")
     public Collection<PlayerInChair> getAllChairsInAPieceOnShow(@RequestBody ShowPiece incomingShowPiece) {
         Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(incomingShowPiece.getId());
         if (showPieceToFind.isPresent()) {
@@ -50,6 +50,18 @@ public class ChairsRest {
         }
         return null;
     }
+
+    @RequestMapping("/get-pics-in-show")
+    public Collection<PlayerInChair> getAllChairsInShow(@RequestBody Show incomingShow) {
+        Optional<Show> showToFind = showRepo.findById(incomingShow.getId());
+        if (showToFind.isPresent()) {
+            List<PlayerInChair> picsToReturn = (List<PlayerInChair>) picRepo.findAllByShow(showToFind.get());
+            Collections.sort(picsToReturn);
+            return picsToReturn;
+        }
+        return null;
+    }
+
 
     @RequestMapping("/get-orchestration-in-piece")
     public Collection<Chair> getEmptyChairsNeededInPiece(@RequestBody Piece incomingPiece) {
@@ -125,13 +137,12 @@ public class ChairsRest {
                         .show(showForChair)
                         .build();
                 chairRepo.save(chairToSave);
+                picRepo.save(new PlayerInChair(showForChair, chairToSave));
             }
         } catch (Exception error) {
             error.printStackTrace();
         }
         return showCheck;
-
-
     }
 
 

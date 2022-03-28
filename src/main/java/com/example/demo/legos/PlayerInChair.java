@@ -2,6 +2,7 @@ package com.example.demo.legos;
 
 
 import com.example.demo.basicModels.player.Player;
+import com.example.demo.basicModels.show.Show;
 import com.example.demo.enums.Part;
 import com.example.demo.legos.emptyChair.Chair;
 
@@ -24,6 +25,9 @@ public class PlayerInChair implements Comparable<PlayerInChair> {
     private ShowPiece showPiece;
 
     @ManyToOne
+    private Show show;
+
+    @ManyToOne
     private Chair chair;
 
     private int sectionSeat;
@@ -42,12 +46,28 @@ public class PlayerInChair implements Comparable<PlayerInChair> {
         this.sectionSeat = sectionSeat;
     }
 
+    public PlayerInChair(Show showForChair, Chair chair) {
+        this.show = showForChair;
+        this.chair = chair;
+    }
+
+    public PlayerInChair(Show show, Chair chair, int sectionSeat) {
+        this.show = show;
+        this.chair = chair;
+        this.sectionSeat = sectionSeat;
+    }
+
+
     public void setPlayer(Player player) {
         this.player = player;
     }
 
     public void setShowPiece(ShowPiece showPiece) {
         this.showPiece = showPiece;
+    }
+
+    public void setShow(Show show) {
+        this.show = show;
     }
 
     public void setChair(Chair chair) {
@@ -68,6 +88,10 @@ public class PlayerInChair implements Comparable<PlayerInChair> {
 
     public ShowPiece getShowPiece() {
         return showPiece;
+    }
+
+    public Show getShow() {
+        return show;
     }
 
     public Chair getChair() {
@@ -98,4 +122,5 @@ public class PlayerInChair implements Comparable<PlayerInChair> {
             }
         }
     }
+
 }

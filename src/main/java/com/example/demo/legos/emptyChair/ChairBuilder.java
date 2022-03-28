@@ -29,7 +29,7 @@ public class ChairBuilder {
 
     public ChairBuilder show(Show show) {
         Optional<Show> showOpt = Optional.ofNullable(show);
-        showOpt.ifPresent(gotten -> this.show = gotten);
+        showOpt.ifPresent(gotten -> this.show = show);
         return this;
     }
 
