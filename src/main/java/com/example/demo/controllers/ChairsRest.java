@@ -29,6 +29,9 @@ public class ChairsRest {
     PieceRepo pieceRepo;
 
     @Resource
+    ShowRepo showRepo;
+
+    @Resource
     ShowPieceRepo showPieceRepo;
 
     @Resource
@@ -107,6 +110,28 @@ public class ChairsRest {
             error.printStackTrace();
         }
         return pieceCheck;
+    }
+
+    @PostMapping("/add-chair-to-show")
+    public Optional<Show> addChairToShow(@RequestBody Chair incomingChair) throws IOException {
+        Optional<Show> showCheck = showRepo.findById(incomingChair.getShow().getId());
+
+        try {
+            if (showCheck.isPresent()) {
+                Show showForChair = showCheck.get();
+                Chair chairToSave = new ChairBuilder()
+                        .parts(incomingChair.getParts())
+                        .rank(incomingChair.getRank())
+                        .show(showForChair)
+                        .build();
+                chairRepo.save(chairToSave);
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return showCheck;
+
+
     }
 
 

@@ -45,6 +45,10 @@ public class Chair {
         this.piece = piece;
     }
 
+    public void setShow(Show show) {
+        this.show = show;
+    }
+
     public void setRank(int rank) {
         this.rank = rank;
     }
@@ -64,6 +68,10 @@ public class Chair {
 
     public Piece getPiece() {
         return piece;
+    }
+
+    public Show getShow() {
+        return show;
     }
 
     public int getRank() {
