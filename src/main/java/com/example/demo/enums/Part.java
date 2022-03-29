@@ -9,6 +9,7 @@ public enum Part {
     ALTOFLUTE("Alto Flute"),
     OBOE("Oboe"),
     ENGLISHHORN("English Horn"),
+    OBOEDAMORE("D'Amore"),
     CLARINET("Clarinet"),
     ACLARINET("A Clarinet"),
     CCLARINET("C Clarinet"),
