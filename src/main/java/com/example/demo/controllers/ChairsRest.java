@@ -5,11 +5,10 @@ import com.example.demo.basicModels.piece.Piece;
 import com.example.demo.basicModels.piece.StringPartNum;
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.basicModels.show.Show;
-import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
 import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.emptyChair.Chair;
-import com.example.demo.legos.PlayerInChair;
+import com.example.demo.legos.playerInChair.PlayerInChair;
 import com.example.demo.legos.emptyChair.ChairBuilder;
 import com.example.demo.repos.*;
 import org.springframework.web.bind.annotation.*;
@@ -54,11 +53,20 @@ public class ChairsRest {
     @RequestMapping("/get-pics-in-show")
     public Collection<PlayerInChair> getAllChairsInShow(@RequestBody Show incomingShow) {
         Optional<Show> showToFind = showRepo.findById(incomingShow.getId());
+
         if (showToFind.isPresent()) {
             List<PlayerInChair> picsToReturn = (List<PlayerInChair>) picRepo.findAllByShow(showToFind.get());
             Collections.sort(picsToReturn);
             return picsToReturn;
         }
+
+//        if (showToFind.isPresent()) {
+//            Collection<PlayerInChair> picsByShow = picRepo.findAllByShow(showToFind.get());
+//            Collection<PlayerInChair> byInstrument = picRepo.sortAllByPrimaryPart(picsByShow);
+//
+//        }
+
+
         return null;
     }
 

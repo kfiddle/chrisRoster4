@@ -10,7 +10,7 @@ import com.example.demo.basicModels.show.ShowBuilder;
 import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
 import com.example.demo.legos.PlayerChair2;
-import com.example.demo.legos.PlayerInChair;
+import com.example.demo.legos.playerInChair.PlayerInChair;
 import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.emptyChair.Chair;
 import com.example.demo.legos.emptyChair.ChairBuilder;
@@ -20,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 public class JPAWiringTest {

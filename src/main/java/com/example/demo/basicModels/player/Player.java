@@ -3,7 +3,7 @@ package com.example.demo.basicModels.player;
 
 import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
-import com.example.demo.legos.PlayerInChair;
+import com.example.demo.legos.playerInChair.PlayerInChair;
 import com.example.demo.legos.emptyChair.Chair;
 
 import javax.persistence.*;

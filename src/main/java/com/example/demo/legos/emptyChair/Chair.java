@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Chair {
+public class Chair implements Comparable<Chair> {
 
     @Id
     @GeneratedValue
@@ -95,5 +95,16 @@ public class Chair {
 
     public String getSpecialDesignate() {
         return specialDesignate;
+    }
+
+    @Override
+    public int compareTo(Chair next) {
+        if (primaryPart.compare(next.getPrimaryPart()) != 0) {
+            return primaryPart.compare(next.getPrimaryPart());
+        } else if (rank > next.getRank()) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
 }

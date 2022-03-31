@@ -2,13 +2,10 @@ package com.example.demo.controllers;
 
 
 import com.example.demo.basicModels.piece.Piece;
-import com.example.demo.basicModels.player.Player;
 import com.example.demo.basicModels.show.Show;
-import com.example.demo.basicModels.show.ShowBuilder;
-import com.example.demo.legos.PlayerInChair;
+import com.example.demo.legos.playerInChair.PlayerInChair;
 import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.emptyChair.Chair;
-import com.example.demo.legos.emptyChair.ChairBuilder;
 import com.example.demo.repos.ChairRepo;
 import com.example.demo.repos.PlayerInChairRepo;
 import com.example.demo.repos.ShowPieceRepo;

@@ -1,15 +1,12 @@
-package com.example.demo.legos;
+package com.example.demo.legos.playerInChair;
 
 
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.basicModels.show.Show;
-import com.example.demo.enums.Part;
+import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.emptyChair.Chair;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 public class PlayerInChair implements Comparable<PlayerInChair> {
@@ -106,21 +103,34 @@ public class PlayerInChair implements Comparable<PlayerInChair> {
         return player != null && player.equals(incomingPlayer);
     }
 
+
+//    @Override
+//    public int compareTo(PlayerInChair next) {
+//        if (chair.getPrimaryPart().compare(next.chair.getPrimaryPart()) != 0) {
+//            return chair.getPrimaryPart().compare(next.chair.getPrimaryPart());
+//        } else if (chair.getRank() > next.chair.getRank()) {
+//            return 1;
+//        } else if (chair.getRank() < next.chair.getRank()) {
+//            return -1;
+//        } else {
+//            if (sectionSeat > next.sectionSeat) {
+//                return 1;
+//            } else {
+//                return -1;
+//            }
+//        }
+//    }
+
     @Override
     public int compareTo(PlayerInChair next) {
-        if (chair.getPrimaryPart().compare(next.chair.getPrimaryPart()) != 0) {
-            return chair.getPrimaryPart().compare(next.chair.getPrimaryPart());
-        } else if (chair.getRank() > next.chair.getRank()) {
+        if (chair.compareTo(next.getChair()) != 0) {
+            return chair.compareTo(next.getChair());
+        } else if (sectionSeat > next.sectionSeat) {
             return 1;
-        } else if (chair.getRank() < next.chair.getRank()) {
-            return -1;
         } else {
-            if (sectionSeat > next.sectionSeat) {
-                return 1;
-            } else {
-                return -1;
-            }
+            return -1;
         }
     }
-
 }
+
+
