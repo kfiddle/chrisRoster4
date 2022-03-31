@@ -24,6 +24,8 @@ public class Chair {
 
     private int rank;
 
+    private String specialDesignate;
+
     @ElementCollection
     private List<Part> parts = new ArrayList<>();
 
@@ -38,6 +40,7 @@ public class Chair {
         this.rank = chairBuilder.rank;
         this.parts = chairBuilder.parts;
         this.primaryPart = parts.get(0);
+        this.specialDesignate = chairBuilder.specialDesignate;
     }
 
 
@@ -60,6 +63,10 @@ public class Chair {
 
     public void setPrimaryPart(Part primaryPart) {
         this.primaryPart = primaryPart;
+    }
+
+    public void setSpecialDesignate(String specialDesignate) {
+        this.specialDesignate = specialDesignate;
     }
 
     public Long getId() {
@@ -86,4 +93,7 @@ public class Chair {
         return parts.get(0);
     }
 
+    public String getSpecialDesignate() {
+        return specialDesignate;
+    }
 }

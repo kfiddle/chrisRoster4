@@ -81,6 +81,7 @@ public class ChairsRest {
                             .parts(chair.getParts())
                             .rank(chair.getRank())
                             .piece(pieceForChairs)
+                            .specialDesignate(chair.getSpecialDesignate())
                             .build();
                     chairRepo.save(chairToSave);
 

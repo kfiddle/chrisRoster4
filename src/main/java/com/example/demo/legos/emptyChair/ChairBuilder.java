@@ -17,6 +17,7 @@ public class ChairBuilder {
     public List<Part> parts = new ArrayList<>();
 
     public int rank;
+    public String specialDesignate;
 
     public ChairBuilder() {
     }
@@ -46,11 +47,15 @@ public class ChairBuilder {
         return this;
     }
 
+    public ChairBuilder specialDesignate(String specialDesignate) {
+        Optional<String> specialOpt = Optional.ofNullable(specialDesignate);
+        specialOpt.ifPresent(gotten -> this.specialDesignate = gotten);
+        return this;
+    }
+
     public Chair build() {
         return new Chair(this);
     }
-
-
 
 
 }
