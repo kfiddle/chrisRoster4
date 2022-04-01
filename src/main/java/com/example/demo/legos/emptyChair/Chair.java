@@ -98,7 +98,7 @@ public class Chair implements Comparable<Chair> {
     }
 
     public boolean hasAssDesignate() {
-        return specialDesignate != null && specialDesignate.equals("A");
+        return specialDesignate != null && specialDesignate.equals("Assist");
     }
 
     public boolean isPrincipalHorn() {
