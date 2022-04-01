@@ -97,6 +97,14 @@ public class Chair implements Comparable<Chair> {
         return specialDesignate;
     }
 
+    public boolean hasAssDesignate() {
+        return specialDesignate != null && specialDesignate.equals("A");
+    }
+
+    public boolean isPrincipalHorn() {
+        return primaryPart.equals(Part.HORN) && rank == 1;
+    }
+
     @Override
     public int compareTo(Chair next) {
         if (primaryPart.compare(next.getPrimaryPart()) != 0) {

@@ -10,6 +10,7 @@ import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.emptyChair.Chair;
 import com.example.demo.legos.playerInChair.PlayerInChair;
 import com.example.demo.legos.emptyChair.ChairBuilder;
+import com.example.demo.legos.playerInChair.PlayerInChairSorter;
 import com.example.demo.repos.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +46,8 @@ public class ChairsRest {
         if (showPieceToFind.isPresent()) {
             List<PlayerInChair> picsToReturn = (List<PlayerInChair>) picRepo.findAllByShowPiece(showPieceToFind.get());
             Collections.sort(picsToReturn);
-            return picsToReturn;
+            PlayerInChairSorter sorter = new PlayerInChairSorter(picsToReturn);
+            return sorter.sort();
         }
         return null;
     }
@@ -57,15 +59,10 @@ public class ChairsRest {
         if (showToFind.isPresent()) {
             List<PlayerInChair> picsToReturn = (List<PlayerInChair>) picRepo.findAllByShow(showToFind.get());
             Collections.sort(picsToReturn);
-            return picsToReturn;
+
+            PlayerInChairSorter sorter = new PlayerInChairSorter(picsToReturn);
+            return sorter.sort();
         }
-
-//        if (showToFind.isPresent()) {
-//            Collection<PlayerInChair> picsByShow = picRepo.findAllByShow(showToFind.get());
-//            Collection<PlayerInChair> byInstrument = picRepo.sortAllByPrimaryPart(picsByShow);
-//
-//        }
-
 
         return null;
     }

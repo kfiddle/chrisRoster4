@@ -9,37 +9,33 @@ import java.util.List;
 public class PlayerInChairSorter {
 
     Collection<PlayerInChair> picsToSort;
-    List<PlayerInChair> picsToReturn = new ArrayList<>();
 
-    PlayerInChairSorter(Collection<PlayerInChair> picsToSort) {
+    public PlayerInChairSorter(Collection<PlayerInChair> picsToSort) {
         this.picsToSort = picsToSort;
     }
 
-//    public void byInstrument(Collection<PlayerInChair> pics) {
-//
-//    }
+    public List<PlayerInChair> sort() {
+        ArrayList<PlayerInChair> pics = new ArrayList<PlayerInChair>(picsToSort);
 
+        int assistantIndex = 0;
+        int principalIndex = 0;
+        boolean assistantExists = false;
+        for (PlayerInChair pic : pics) {
+            if (pic.getChair().isPrincipalHorn()) {
+                principalIndex = pics.indexOf(pic);
+            }
+            if (pic.getChair().hasAssDesignate()) {
+                assistantIndex = pics.indexOf(pic);
+                assistantExists = true;
+            }
+        }
 
-//    public List<PlayerInChair> sort() {
-//        Collection<Collection<PlayerInChair>> allByInstrument = new ArrayList<>();
-//        for (Part part : Part.values()) {
-//            Collection<PlayerInChair> bySinglePart = new ArrayList<>();
-//            for (PlayerInChair pic : picsToSort) {
-//                if (pic.getChair().getPrimaryPart().equals(part)) {
-//                    bySinglePart.add(pic);
-//                }
-//            }
-//           allByInstrument.add(bySinglePart);
-//        }
-//
-//        for (Collection<PlayerInChair> byInstrumentList : allByInstrument ) {
-//
-//        }
-//
-//        return picsToReturn;
-//    }
-
-
+        if (assistantExists) {
+            pics.add(principalIndex + 1, pics.get(assistantIndex));
+            pics.remove(assistantIndex + 1);
+        }
+        return pics;
+    }
 
 
 }

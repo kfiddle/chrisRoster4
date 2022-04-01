@@ -256,6 +256,88 @@ public class JPAWiringTest {
         for (PlayerInChair pic : picsToSort) {
             System.out.println(pic.getSectionSeat() + "    " + pic.getChair().getRank());
         }
+    }
+
+    @Test
+    public void tryingOutArrayListReplacing() {
+
+        ArrayList<String> aList = new ArrayList<String>();
+        aList.add(0, "1");
+        aList.add(1, "2");
+        aList.add(2, "3");
+        aList.add(3, "4");
+        aList.add(4, "5");
+        aList.add(5, "Assistant");
+
+        System.out.println(aList);
+
+        String assString = aList.get(5);
+        aList.remove(2);
+        aList.add(1, assString);
+        System.out.println(aList);
+    }
+
+    @Test
+    public void nowSortingHorns() {
+        Show firstShow = new ShowBuilder().build();
+        showRepo.save(firstShow);
+
+        Piece firebird = new PieceBuilder().build();
+        pieceRepo.save(firebird);
+
+        ShowPiece firebirdOnFirst = new ShowPiece(firebird, firstShow);
+        showPieceRepo.save(firebirdOnFirst);
+
+        for (int j = 1; j <= 8; j++) {
+            if (j == 3) {
+                chairRepo.save(new ChairBuilder().primaryPart(Part.HORN).rank(j).specialDesignate("A").build());
+            } else {
+                chairRepo.save(new ChairBuilder().primaryPart(Part.HORN).rank(j).build());
+            }
+        }
+        for (Chair chair : chairRepo.findAll()) {
+            picRepo.save(new PlayerInChair(firebirdOnFirst, chair));
+        }
+
+        System.out.println("first list:   ");
+        for (PlayerInChair pic : picRepo.findAll()) {
+            if (pic.getChair().getSpecialDesignate() != null) {
+                System.out.println(pic.getChair().getPrimaryPart() + "   " + pic.getChair().getSpecialDesignate());
+            } else {
+                System.out.println(pic.getChair().getPrimaryPart() + "    " + pic.getChair().getRank());
+            }
+        }
+
+        ArrayList<PlayerInChair> pics = new ArrayList<PlayerInChair>((Collection<? extends PlayerInChair>) picRepo.findAll());
+
+        int assistantIndex = 0;
+        int principalIndex = 0;
+        boolean assistantExists = false;
+        for (PlayerInChair pic : pics) {
+            if (pic.getChair().isPrincipalHorn()) {
+                principalIndex = pics.indexOf(pic);
+            }
+            if (pic.getChair().hasAssDesignate()) {
+                assistantIndex = pics.indexOf(pic);
+                assistantExists = true;
+            }
+        }
+
+        if (assistantExists) {
+            pics.add(principalIndex + 1, pics.get(assistantIndex));
+            pics.remove(assistantIndex + 1);
+        }
+
+
+        System.out.println("second list:   ");
+        for (PlayerInChair pic : pics) {
+            if (pic.getChair().getSpecialDesignate() != null) {
+                System.out.println(pic.getChair().getPrimaryPart() + "   " + pic.getChair().getSpecialDesignate());
+            } else {
+                System.out.println(pic.getChair().getPrimaryPart() + "    " + pic.getChair().getRank());
+            }
+        }
+
 
     }
 
