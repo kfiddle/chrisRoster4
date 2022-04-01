@@ -123,12 +123,13 @@ public class PlayerInChair implements Comparable<PlayerInChair> {
 
     @Override
     public int compareTo(PlayerInChair next) {
+
         if (chair.compareTo(next.getChair()) != 0) {
             return chair.compareTo(next.getChair());
-        } else if (sectionSeat > next.sectionSeat) {
-            return 1;
-        } else {
+        } else if (sectionSeat < next.sectionSeat) {
             return -1;
+        } else {
+            return 1;
         }
     }
 }

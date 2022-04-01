@@ -103,8 +103,10 @@ public class Chair implements Comparable<Chair> {
             return primaryPart.compare(next.getPrimaryPart());
         } else if (rank > next.getRank()) {
             return 1;
-        } else {
+        } else if (rank < next.getRank()) {
             return -1;
+        } else {
+            return 0;
         }
     }
 }

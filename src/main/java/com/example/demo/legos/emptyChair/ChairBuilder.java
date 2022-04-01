@@ -47,6 +47,14 @@ public class ChairBuilder {
         return this;
     }
 
+    public ChairBuilder primaryPart(Part part) {
+        Optional<Part> partOpt = Optional.ofNullable(part);
+        if (partOpt.isPresent() && parts.size() == 0) {
+            parts.add(part);
+        }
+        return this;
+    }
+
     public ChairBuilder specialDesignate(String specialDesignate) {
         Optional<String> specialOpt = Optional.ofNullable(specialDesignate);
         specialOpt.ifPresent(gotten -> this.specialDesignate = gotten);

@@ -9,11 +9,10 @@ import com.example.demo.basicModels.show.Show;
 import com.example.demo.basicModels.show.ShowBuilder;
 import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
-import com.example.demo.legos.PlayerChair2;
-import com.example.demo.legos.playerInChair.PlayerInChair;
 import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.emptyChair.Chair;
 import com.example.demo.legos.emptyChair.ChairBuilder;
+import com.example.demo.legos.playerInChair.PlayerInChair;
 import com.example.demo.repos.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +40,6 @@ public class JPAWiringTest {
 
     @Autowired
     private PlayerInChairRepo picRepo;
-
-    @Autowired
-    private PlayerChair2Repo playerChair2Repo;
 
 
     @Test
@@ -228,7 +224,38 @@ public class JPAWiringTest {
             System.out.println(player.getPrimaryPart());
             System.out.println(player.getRank());
         }
+    }
 
+
+    @Test
+    public void shouldBeAbleToSortStringPICs() {
+
+        Show firstShow = new ShowBuilder().build();
+        showRepo.save(firstShow);
+
+        Piece firebird = new PieceBuilder().build();
+        pieceRepo.save(firebird);
+
+        ShowPiece firebirdOnFirst = new ShowPiece(firebird, firstShow);
+        showPieceRepo.save(firebirdOnFirst);
+
+        for (int j = 1; j < 8; j++) {
+            chairRepo.save(new ChairBuilder().primaryPart(Part.VIOLIN1).rank(1).build());
+        }
+
+        Collection<Chair> chairsClump = (Collection<Chair>) chairRepo.findAll();
+        ArrayList<Chair> chairs = new ArrayList<>(chairsClump);
+
+        for (int j = 1; j < chairs.size(); j++) {
+            picRepo.save(new PlayerInChair(firebirdOnFirst, chairs.get(j), j));
+        }
+
+        List<PlayerInChair> picsToSort = (List<PlayerInChair>) picRepo.findAll();
+        Collections.sort(picsToSort);
+
+        for (PlayerInChair pic : picsToSort) {
+            System.out.println(pic.getSectionSeat() + "    " + pic.getChair().getRank());
+        }
 
     }
 
