@@ -13,10 +13,8 @@ import com.example.demo.basicModels.show.ShowBuilder;
 import com.example.demo.enums.Event;
 import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
-import com.example.demo.repos.HorlogeRepo;
-import com.example.demo.repos.PieceRepo;
-import com.example.demo.repos.PlayerRepo;
-import com.example.demo.repos.ShowRepo;
+import com.example.demo.legos.ShowPiece;
+import com.example.demo.repos.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +34,9 @@ public class Populator implements CommandLineRunner {
 
     @Resource
     PieceRepo pieceRepo;
+
+    @Resource
+    ShowPieceRepo showPieceRepo;
 
     @Resource
     HorlogeRepo horlogeRepo;
@@ -114,9 +115,6 @@ public class Populator implements CommandLineRunner {
 
         pieceRepo.saveAll(Arrays.asList(new PieceBuilder().composerName("Beethoven").title("Symphony 9").duration("65:00").build(),
                 new PieceBuilder().composerName("Sigfúsdóttir").title("Oceans").duration("9:30").build(),
-                new PieceBuilder().composerName("Diamond").title("Symphony 4").duration("16:00").build(),
-                new PieceBuilder().composerName("Poulenc").title("Concerto for Organ and Orchestra").duration("26:00").build(),
-                new PieceBuilder().composerName("Debussy").title("La Mer").duration("23:00").build(),
                 new PieceBuilder().composerName("Golijov").title("Sidereus").duration("8:00").build(),
                 new PieceBuilder().composerName("Piazzolla").title("Aconcagua").duration("20:00").build(),
                 new PieceBuilder().composerName("Holst").title("The Planets").duration("51:00").build(),
@@ -126,6 +124,13 @@ public class Populator implements CommandLineRunner {
                 new PieceBuilder().composerName("Auerbach").title("Icarus").duration("12:00").build(),
                 new PieceBuilder().composerName("Tchaikovsky").title("Piano Concerto No. 1").duration("32:00").build(),
                 new PieceBuilder().composerName("Prokofiev").title("Alexander Nevsky Cantata").duration("36:00").build()));
+
+
+        Piece diamond = new PieceBuilder().composerName("Diamond").title("Symphony 4").duration("16:00").build();
+        Piece poulenc = new PieceBuilder().composerName("Poulenc").title("Concerto for Organ and Orchestra").duration("26:00").build();
+        Piece laMer = new PieceBuilder().composerName("Debussy").title("La Mer").duration("23:00").build();
+
+        pieceRepo.saveAll(Arrays.asList(diamond, poulenc, laMer));
 
         Show sym1 = new ShowBuilder().title("Sym 1").build();
         Show sym2 = new ShowBuilder().title("Sym 2").build();
@@ -155,6 +160,14 @@ public class Populator implements CommandLineRunner {
         Horloge pops5Hor = new HorlogeBuilder().date(LocalDate.of(2023, 4, 15)).startTime(LocalTime.of(8, 0)).show(pops5).event(Event.PRIMARYDATE).build();
 
         horlogeRepo.saveAll(Arrays.asList(sym1Hor, sym2Hor, sym3Hor, sym4Hor, sym5Hor, pops1Hor, pops2Hor, pops3Hor, pops4Hor, pops5Hor));
+
+
+        ShowPiece diamondOnFirst = new ShowPiece(diamond, sym1, 1);
+        ShowPiece poulencOnFirst = new ShowPiece(poulenc, sym1, 2);
+        ShowPiece laMerOnFirst = new ShowPiece(laMer, sym1, 3);
+
+        showPieceRepo.saveAll(Arrays.asList(diamondOnFirst, poulencOnFirst, laMerOnFirst));
+
 
     }
 }

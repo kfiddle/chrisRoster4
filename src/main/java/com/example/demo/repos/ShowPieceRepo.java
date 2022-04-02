@@ -14,4 +14,10 @@ public interface ShowPieceRepo extends CrudRepository<ShowPiece, Long> {
     boolean existsByPiece(Piece pieceForChairs);
 
     Collection<ShowPiece> findAllByPiece(Piece pieceForChairs);
+
+    boolean existsByPieceAndShowAndOrderNum(Piece piece, Show show, int orderNum);
+
+    boolean existsByPieceAndShow(Piece piece, Show show);
+
+    ShowPiece findByPieceAndShow(Piece piece, Show show);
 }
