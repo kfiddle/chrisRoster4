@@ -71,7 +71,7 @@ public class ShowPiece implements Comparable<ShowPiece> {
         if (orderNum > other.getOrderNum()) {
             return 1;
         }
-        return 0;
+        return -1;
     }
 
 

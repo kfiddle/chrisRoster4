@@ -162,9 +162,9 @@ public class Populator implements CommandLineRunner {
         horlogeRepo.saveAll(Arrays.asList(sym1Hor, sym2Hor, sym3Hor, sym4Hor, sym5Hor, pops1Hor, pops2Hor, pops3Hor, pops4Hor, pops5Hor));
 
 
-        ShowPiece diamondOnFirst = new ShowPiece(diamond, sym1, 1);
-        ShowPiece poulencOnFirst = new ShowPiece(poulenc, sym1, 2);
-        ShowPiece laMerOnFirst = new ShowPiece(laMer, sym1, 3);
+        ShowPiece diamondOnFirst = new ShowPiece(diamond, sym1, 0);
+        ShowPiece poulencOnFirst = new ShowPiece(poulenc, sym1, 1);
+        ShowPiece laMerOnFirst = new ShowPiece(laMer, sym1, 2);
 
         showPieceRepo.saveAll(Arrays.asList(diamondOnFirst, poulencOnFirst, laMerOnFirst));
 

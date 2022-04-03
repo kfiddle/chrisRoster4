@@ -341,4 +341,32 @@ public class JPAWiringTest {
 
     }
 
+    @Test
+    public void shouldBeAbleToSortShowPieces() {
+
+        Piece diamond = new PieceBuilder().composerName("Diamond").title("Symphony 4").duration("16:00").build();
+        Piece poulenc = new PieceBuilder().composerName("Poulenc").title("Concerto for Organ and Orchestra").duration("26:00").build();
+        Piece laMer = new PieceBuilder().composerName("Debussy").title("La Mer").duration("23:00").build();
+
+        pieceRepo.saveAll(Arrays.asList(diamond, poulenc, laMer));
+        Show sym1 = new ShowBuilder().title("Sym 1").build();
+        showRepo.save(sym1);
+
+        ShowPiece laMerOnFirst = new ShowPiece(laMer, sym1, 1);
+        ShowPiece diamondOnFirst = new ShowPiece(diamond, sym1, 0);
+        ShowPiece poulencOnFirst = new ShowPiece(poulenc, sym1, 2);
+
+        showPieceRepo.saveAll(Arrays.asList(diamondOnFirst, poulencOnFirst, laMerOnFirst));
+        List<ShowPiece> showPieces = new ArrayList<ShowPiece>((Collection<? extends ShowPiece>) showPieceRepo.findAll());
+
+        Collections.sort(showPieces);
+
+        for (ShowPiece showPiece : showPieces) {
+            System.out.println(showPiece.getPiece().getTitle());
+        }
+
+
+
+    }
+
 }

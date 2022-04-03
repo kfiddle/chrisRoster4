@@ -41,6 +41,7 @@ public class ShowPieceRest {
         ShowPiece newShowPiece = new ShowPiece(showPieceToAdd.getPiece(), showPieceToAdd.getShow(), showPieceToAdd.getOrderNum());
         showPieceRepo.save(newShowPiece);
 
+
         if (chairRepo.existsByPiece(newShowPiece.getPiece())) {
             for (Chair chair : chairRepo.findAllByPiece(newShowPiece.getPiece())) {
                 picRepo.save(new PlayerInChair(newShowPiece, chair));
@@ -61,31 +62,23 @@ public class ShowPieceRest {
         return null;
     }
 
+    @PostMapping("/edit-showpiece-ordernum/{orderNum}")
+    public Optional<ShowPiece> editWhereOnProgram(@PathVariable int orderNum, @RequestBody ShowPiece incoming) throws IOException {
+        Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(incoming.getId());
+        if (showPieceToFind.isPresent()) {
+            ShowPiece showPieceToChange = showPieceToFind.get();
+            showPieceToChange.setOrderNum(orderNum);
+            showPieceRepo.save(showPieceToChange);
 
-    @PostMapping("add-or-edit-showpiece")
-    public ShowPiece addOrEditShowPiece(@RequestBody ShowPiece incomingShowPiece) throws IOException {
-        try {
-            Optional<Show> showToFind = showRepo.findById(incomingShowPiece.getShow().getId());
-            if (showToFind.isPresent()) {
-                Show show = showToFind.get();
-                if (showPieceRepo.existsByPieceAndShowAndOrderNum(incomingShowPiece.getPiece(), show, incomingShowPiece.getOrderNum())) {
-                    return null;
-                } else if (showPieceRepo.existsByPieceAndShow(incomingShowPiece.getPiece(), show)) {
-                    ShowPiece showPieceToEdit = showPieceRepo.findByPieceAndShow(incomingShowPiece.getPiece(), show);
-                    showPieceToEdit.setOrderNum(incomingShowPiece.getOrderNum());
-                    showPieceRepo.save(showPieceToEdit);
-                    return showPieceToEdit;
-                } else {
-                    return addAShowPiece(incomingShowPiece);
-                }
+            for (ShowPiece showPiece : showPieceRepo.findAll()) {
+                System.out.println(showPiece.getPiece().getTitle() + "    " + showPiece.getOrderNum());
             }
-        } catch (Exception error) {
-            error.printStackTrace();
         }
-
-
-        return null;
+        return showPieceToFind;
     }
+
+
+
 
     @PostMapping("/remove-showpiece")
     public String deleteShowPieceFromDB(@RequestBody Show incomingShow) throws IOException {
