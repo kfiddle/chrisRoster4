@@ -236,6 +236,27 @@ public class ChairsRest {
     }
 
 
+    @PostMapping("/make-single-string-section/{showPieceId}")
+    public void makeStringSection(@RequestBody StringPartNum sectionAndNumber, @PathVariable Long showPieceId) throws IOException {
+
+        try {
+            Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(showPieceId);
+            if (showPieceToFind.isPresent()) {
+
+                ShowPiece retrievedShowPiece = showPieceToFind.get();
+                if (chairRepo.existsByPrimaryPartAndPiece(sectionAndNumber.stringPart, retrievedShowPiece.getPiece())) {
+                    Chair chairToReference = chairRepo.findByPrimaryPartAndPiece(sectionAndNumber.stringPart, retrievedShowPiece.getPiece());
+                    for (int seat = 1; seat < sectionAndNumber.number; seat++) {
+                        picRepo.save(new PlayerInChair(retrievedShowPiece, chairToReference, seat));
+                    }
+                }
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+    }
+
+
     @PostMapping("/make-string-player-in-chairs/{showPieceId}")
     public void makeStringPICs(@RequestBody Collection<StringPartNum> incomingStringNumbers, @PathVariable Long showPieceId) throws IOException {
 
