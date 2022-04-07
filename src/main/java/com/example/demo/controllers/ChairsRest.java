@@ -61,6 +61,7 @@ public class ChairsRest {
             Collections.sort(picsToReturn);
 
             PlayerInChairSorter sorter = new PlayerInChairSorter(picsToReturn);
+//            System.out.println(picsToReturn.size());
             return sorter.sort();
         }
 
@@ -217,7 +218,7 @@ public class ChairsRest {
     }
 
     @PostMapping("/put-player-in-pic/{picId}")
-    public Optional<ShowPiece> putAPlayerInAChair(@RequestBody Player incomingPlayer, @PathVariable Long picId) {
+    public Optional<PlayerInChair> putAPlayerInAChair(@RequestBody Player incomingPlayer, @PathVariable Long picId) {
         try {
             Optional<PlayerInChair> premadePIC = picRepo.findById(picId);
             Optional<Player> playerToFind = playerRepo.findById(incomingPlayer.getId());
@@ -225,7 +226,7 @@ public class ChairsRest {
                 PlayerInChair pic = premadePIC.get();
                 pic.setPlayer(playerToFind.get());
                 picRepo.save(pic);
-                return showPieceRepo.findById(pic.getShowPiece().getId());
+                return premadePIC;
             }
         } catch (
                 Exception error) {
