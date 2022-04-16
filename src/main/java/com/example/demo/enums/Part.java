@@ -1,6 +1,8 @@
 package com.example.demo.enums;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public enum Part {
 
@@ -42,6 +44,7 @@ public enum Part {
     CELLO("Cello"),
     BASS("Bass");
 
+
     private final String stringVersion;
 
     Part(String stringVersion) {
@@ -62,11 +65,19 @@ public enum Part {
 
     static public Part ofPartName(String partName) {
         for (Part part : Part.values()) {
-            if (part.toString().equals(partName)) {
+            if (part.stringVersion.equals(partName)) {
                 return part;
             }
         }
         throw new IllegalArgumentException("No such part name as: " + partName);
+    }
+
+    public static List<Part> listFromPartNames(List<String> parts) {
+        List<Part> partsToReturn = new ArrayList<>();
+        for (String part : parts) {
+            partsToReturn.add(ofPartName(part));
+        }
+        return partsToReturn;
     }
 
 }

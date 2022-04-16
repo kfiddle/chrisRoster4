@@ -5,6 +5,7 @@ import com.example.demo.basicModels.piece.Piece;
 import com.example.demo.basicModels.piece.StringPartNum;
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.basicModels.show.Show;
+import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
 import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.emptyChair.Chair;
@@ -61,7 +62,6 @@ public class ChairsRest {
             Collections.sort(picsToReturn);
 
             PlayerInChairSorter sorter = new PlayerInChairSorter(picsToReturn);
-//            System.out.println(picsToReturn.size());
             return sorter.sort();
         }
 
@@ -138,6 +138,7 @@ public class ChairsRest {
         try {
             if (showCheck.isPresent()) {
                 Show showForChair = showCheck.get();
+
                 Chair chairToSave = new ChairBuilder()
                         .parts(incomingChair.getParts())
                         .rank(incomingChair.getRank())
@@ -145,6 +146,7 @@ public class ChairsRest {
                         .build();
                 chairRepo.save(chairToSave);
                 picRepo.save(new PlayerInChair(showForChair, chairToSave));
+
             }
         } catch (Exception error) {
             error.printStackTrace();

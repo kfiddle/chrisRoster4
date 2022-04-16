@@ -364,8 +364,20 @@ public class JPAWiringTest {
         for (ShowPiece showPiece : showPieces) {
             System.out.println(showPiece.getPiece().getTitle());
         }
+    }
 
+    @Test
+    public void shouldBeAbleToSortPartsFromStrings() {
 
+        String violin1 = "Violin1";
+        String cello = "Cello";
+        String damour = "D'Amore";
+
+        ArrayList<String> initialParts = new ArrayList<>(Arrays.asList(violin1, cello, damour));
+        List<Part> converted = Part.listFromPartNames(initialParts);
+        System.out.println(converted);
+        System.out.println("and now...");
+        System.out.println(initialParts);
 
     }
 
