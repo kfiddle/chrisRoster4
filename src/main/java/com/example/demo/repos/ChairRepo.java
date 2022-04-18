@@ -1,6 +1,7 @@
 package com.example.demo.repos;
 
 import com.example.demo.basicModels.piece.Piece;
+import com.example.demo.basicModels.show.Show;
 import com.example.demo.enums.Part;
 import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.emptyChair.Chair;
@@ -20,4 +21,12 @@ public interface ChairRepo extends CrudRepository<Chair, Long> {
     boolean existsByPrimaryPartAndPiece(Part part, Piece piece);
 
     Chair findByPrimaryPartAndPiece(Part part, Piece piece);
+
+    boolean existsByPieceAndPrimaryPartAndRank(Piece piece, Part primaryPart, int rank);
+
+    Collection<Chair> findAllByPieceAndPrimaryPartAndRank(Piece piece, Part primaryPart, int rank);
+
+    boolean existsByShowAndPrimaryPartAndRank(Show show, Part part, int rank);
+
+    Collection<Chair> findAllByShowAndPrimaryPartAndRank(Show show, Part primaryPart, int rank);
 }

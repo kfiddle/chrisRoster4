@@ -117,6 +117,7 @@ public class ChairsRest {
                         .rank(incomingChair.getRank())
                         .piece(pieceForChair)
                         .build();
+
                 chairRepo.save(chairToSave);
 
                 if (showPieceRepo.existsByPiece(pieceForChair)) {
