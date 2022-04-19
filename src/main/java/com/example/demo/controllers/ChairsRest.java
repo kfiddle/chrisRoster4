@@ -116,6 +116,7 @@ public class ChairsRest {
                         .parts(incomingChair.getParts())
                         .rank(incomingChair.getRank())
                         .piece(pieceForChair)
+                        .specialDesignate(incomingChair.getSpecialDesignate())
                         .build();
 
                 chairRepo.save(chairToSave);
@@ -144,6 +145,7 @@ public class ChairsRest {
                         .parts(incomingChair.getParts())
                         .rank(incomingChair.getRank())
                         .show(showForChair)
+                        .specialDesignate(incomingChair.getSpecialDesignate())
                         .build();
                 chairRepo.save(chairToSave);
                 picRepo.save(new PlayerInChair(showForChair, chairToSave));
@@ -240,7 +242,7 @@ public class ChairsRest {
     }
 
 
-    @PostMapping("/make-single-string-section/{showPieceId}")
+    @PostMapping("/make-single-string-section-in-piece/{showPieceId}")
     public void makeStringSection(@RequestBody StringPartNum sectionAndNumber, @PathVariable Long showPieceId) throws IOException {
 
         try {
@@ -252,6 +254,26 @@ public class ChairsRest {
                     Chair chairToReference = chairRepo.findByPrimaryPartAndPiece(sectionAndNumber.stringPart, retrievedShowPiece.getPiece());
                     for (int seat = 1; seat < sectionAndNumber.number; seat++) {
                         picRepo.save(new PlayerInChair(retrievedShowPiece, chairToReference, seat));
+                    }
+                }
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+    }
+
+    @PostMapping("/make-single-string-section-in-show/{showId}")
+    public void makeStringSectionForPops(@RequestBody StringPartNum sectionAndNumber, @PathVariable Long showId) throws IOException {
+
+        try {
+            Optional<Show> showToFind = showRepo.findById(showId);
+            if (showToFind.isPresent()) {
+
+                Show retrievedShow = showToFind.get();
+                if (chairRepo.existsByPrimaryPartAndShow(sectionAndNumber.stringPart, retrievedShow)) {
+                    Chair chairToReference = chairRepo.findByPrimaryPartAndShow(sectionAndNumber.stringPart, retrievedShow);
+                    for (int seat = 1; seat < sectionAndNumber.number; seat++) {
+                        picRepo.save(new PlayerInChair(retrievedShow, chairToReference, seat));
                     }
                 }
             }

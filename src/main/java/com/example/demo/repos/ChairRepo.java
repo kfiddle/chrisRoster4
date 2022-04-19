@@ -29,4 +29,8 @@ public interface ChairRepo extends CrudRepository<Chair, Long> {
     boolean existsByShowAndPrimaryPartAndRank(Show show, Part part, int rank);
 
     Collection<Chair> findAllByShowAndPrimaryPartAndRank(Show show, Part primaryPart, int rank);
+
+    boolean existsByPrimaryPartAndShow(Part stringPart, Show retrievedShow);
+
+    Chair findByPrimaryPartAndShow(Part stringPart, Show retrievedShow);
 }
