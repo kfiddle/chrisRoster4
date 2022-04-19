@@ -13,4 +13,7 @@ public interface PlayerInChairRepo extends CrudRepository<PlayerInChair, Long> {
 
     Collection<PlayerInChair> findAllByShow(Show show);
 
+    boolean existsByShowPiece(ShowPiece showPiece);
+
+    void deleteAllByShowPiece(ShowPiece showPiece);
 }

@@ -104,23 +104,6 @@ public class PlayerInChair implements Comparable<PlayerInChair> {
     }
 
 
-//    @Override
-//    public int compareTo(PlayerInChair next) {
-//        if (chair.getPrimaryPart().compare(next.chair.getPrimaryPart()) != 0) {
-//            return chair.getPrimaryPart().compare(next.chair.getPrimaryPart());
-//        } else if (chair.getRank() > next.chair.getRank()) {
-//            return 1;
-//        } else if (chair.getRank() < next.chair.getRank()) {
-//            return -1;
-//        } else {
-//            if (sectionSeat > next.sectionSeat) {
-//                return 1;
-//            } else {
-//                return -1;
-//            }
-//        }
-//    }
-
     @Override
     public int compareTo(PlayerInChair next) {
 

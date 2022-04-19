@@ -201,25 +201,40 @@ public class ChairsRest {
         return null;
     }
 
+//    @PostMapping("/remove-player-from-pic")
+//    public Optional<ShowPiece> removePlayerFromAChair(@RequestBody PlayerInChair incomingPIC) throws IOException {
+//        Optional<ShowPiece> possibleShowPiece = showPieceRepo.findById(incomingPIC.getShowPiece().getId());
+//
+//        try {
+//            Optional<PlayerInChair> picToFind = picRepo.findById(incomingPIC.getId());
+//            picToFind.ifPresent(playerInChair -> {
+//                playerInChair.setPlayer(null);
+//                picRepo.save(playerInChair);
+//            });
+//
+//
+//        } catch (
+//                Exception error) {
+//            error.printStackTrace();
+//
+//        }
+//        return possibleShowPiece;
+//    }
+
     @PostMapping("/remove-player-from-pic")
-    public Optional<ShowPiece> removePlayerFromAChair(@RequestBody PlayerInChair incomingPIC) throws IOException {
-        Optional<ShowPiece> possibleShowPiece = showPieceRepo.findById(incomingPIC.getShowPiece().getId());
+    public Optional<PlayerInChair> removePlayerFromAChair(@RequestBody PlayerInChair incomingPIC) throws IOException {
+        Optional<PlayerInChair> picToFind = picRepo.findById(incomingPIC.getId());
 
         try {
-            Optional<PlayerInChair> picToFind = picRepo.findById(incomingPIC.getId());
             picToFind.ifPresent(playerInChair -> {
                 playerInChair.setPlayer(null);
                 picRepo.save(playerInChair);
             });
-
-
         } catch (
                 Exception error) {
             error.printStackTrace();
-
         }
-        return possibleShowPiece;
-
+        return picToFind;
     }
 
     @PostMapping("/put-player-in-pic/{picId}")

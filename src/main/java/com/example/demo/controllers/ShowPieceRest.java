@@ -78,14 +78,21 @@ public class ShowPieceRest {
     }
 
 
-
-
     @PostMapping("/remove-showpiece")
     public String deleteShowPieceFromDB(@RequestBody Show incomingShow) throws IOException {
         Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(incomingShow.getId());
 
         if (showPieceToFind.isPresent()) {
-            showPieceRepo.delete(showPieceToFind.get());
+            ShowPiece spToRemove = showPieceToFind.get();
+
+            if (picRepo.existsByShowPiece(spToRemove)) {
+                Collection<PlayerInChair> picsToRemove = picRepo.findAllByShowPiece(spToRemove);
+                for (PlayerInChair pic : picsToRemove) {
+                    picRepo.deleteById(pic.getId());
+                }
+            }
+
+            showPieceRepo.delete(spToRemove);
             return "returned string";
         }
         return "nothing was deleted";
