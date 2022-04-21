@@ -239,6 +239,7 @@ public class ChairsRest {
 
     @PostMapping("/put-player-in-pic/{picId}")
     public Optional<PlayerInChair> putAPlayerInAChair(@RequestBody Player incomingPlayer, @PathVariable Long picId) {
+
         try {
             Optional<PlayerInChair> premadePIC = picRepo.findById(picId);
             Optional<Player> playerToFind = playerRepo.findById(incomingPlayer.getId());

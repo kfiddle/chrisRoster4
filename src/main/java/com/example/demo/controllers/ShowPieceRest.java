@@ -69,10 +69,6 @@ public class ShowPieceRest {
             ShowPiece showPieceToChange = showPieceToFind.get();
             showPieceToChange.setOrderNum(orderNum);
             showPieceRepo.save(showPieceToChange);
-
-            for (ShowPiece showPiece : showPieceRepo.findAll()) {
-                System.out.println(showPiece.getPiece().getTitle() + "    " + showPiece.getOrderNum());
-            }
         }
         return showPieceToFind;
     }
@@ -135,44 +131,4 @@ public class ShowPieceRest {
 
 }
 
-//    @PostMapping("/add-show-piece")
-//    public ShowPiece addSingleShowPiece(@RequestBody ShowPiece showPieceToAdd) throws IOException {
-//
-//        try {
-//            ShowPiece newShowPiece = new ShowPiece(showPieceToAdd.getPiece(), showPieceToAdd.getShow(), showPieceToAdd.getOrderNum());
-//            showPieceRepo.save(newShowPiece);
-//
-//            if (chairRepo.existsByPiece(newShowPiece.getPiece())) {
-//                for (Chair chair : chairRepo.findAllByPiece(newShowPiece.getPiece())) {
-//                    picRepo.save(new PlayerInChair(newShowPiece, chair));
-//                }
-//            }
-//            return newShowPiece;
-//        } catch (
-//                Exception error) {
-//            error.printStackTrace();
-//        }
-//        return null;
-//    }
 
-//    @PostMapping("/add-show-pieces")
-//    public Collection<ShowPiece> addShowPiecesToDatabase(@RequestBody Collection<ShowPiece> showPiecesToAdd) throws IOException {
-//        try {
-//            for (ShowPiece showPiece : showPiecesToAdd) {
-//                ShowPiece newShowPiece = new ShowPiece(showPiece.getPiece(), showPiece.getShow(), showPiece.getOrderNum());
-//                showPieceRepo.save(newShowPiece);
-//
-//                if (chairRepo.existsByPiece(newShowPiece.getPiece())) {
-//                    for (Chair chair : chairRepo.findAllByPiece(newShowPiece.getPiece())) {
-//                        picRepo.save(new PlayerInChair(newShowPiece, chair));
-//                    }
-//                }
-//
-//            }
-//        } catch (
-//                Exception error) {
-//            error.printStackTrace();
-//        }
-//
-//        return (Collection<ShowPiece>) showPieceRepo.findAll();
-//    }
