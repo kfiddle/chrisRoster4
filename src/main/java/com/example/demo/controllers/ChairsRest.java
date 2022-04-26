@@ -240,14 +240,45 @@ public class ChairsRest {
     @PostMapping("/put-player-in-pic/{picId}")
     public Optional<PlayerInChair> putAPlayerInAChair(@RequestBody Player incomingPlayer, @PathVariable Long picId) {
 
+//        for (PlayerInChair picToCheck : picRepo.findAllByShowPiece(foundPIC.getShowPiece())) {
+//            if (eligiblePlayers.containsKey(picToCheck.getPlayer())) {
+//                eligiblePlayers.put(picToCheck.getPlayer(), false);
+//            }
+//        }
+
         try {
             Optional<PlayerInChair> premadePIC = picRepo.findById(picId);
             Optional<Player> playerToFind = playerRepo.findById(incomingPlayer.getId());
             if (premadePIC.isPresent() && playerToFind.isPresent()) {
                 PlayerInChair pic = premadePIC.get();
-                pic.setPlayer(playerToFind.get());
-                picRepo.save(pic);
-                return premadePIC;
+                Player foundPlayer = playerToFind.get();
+                boolean flagTest = false;
+
+                ShowPiece possibleShowPiece;
+                Show possibleShow;
+
+                if (pic.getShow() == null) {
+                    possibleShowPiece = pic.getShowPiece();
+                    for (PlayerInChair pic1 : picRepo.findAllByShowPiece(possibleShowPiece)) {
+                        if (pic1.hasThisPlayer(foundPlayer)) {
+                            flagTest = true;
+                        }
+                    }
+                } else {
+                    possibleShow = pic.getShow();
+                    for (PlayerInChair pic2 : picRepo.findAllByShow(possibleShow)) {
+                        if (pic2.hasThisPlayer(foundPlayer)) {
+                            flagTest = true;
+                        }
+                    }
+                }
+
+                if (!flagTest) {
+                    pic.setPlayer(foundPlayer);
+                    picRepo.save(pic);
+                    return premadePIC;
+                }
+
             }
         } catch (
                 Exception error) {
