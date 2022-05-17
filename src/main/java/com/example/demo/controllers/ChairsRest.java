@@ -354,4 +354,22 @@ public class ChairsRest {
         }
     }
 
+
+    @PostMapping("/change-seating")
+    public void changeSeatingOrder(@RequestBody PlayerInChair pic) {
+        try {
+            Optional<PlayerInChair> picToFind = picRepo.findById(pic.getId());
+            if (picToFind.isPresent()) {
+                PlayerInChair foundPic = picToFind.get();
+                if (foundPic.getSectionSeat() != pic.getSectionSeat()) {
+                    foundPic.setSectionSeat(pic.getSectionSeat());
+                    picRepo.save(foundPic);
+                }
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+
+    }
+
 }
