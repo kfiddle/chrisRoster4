@@ -240,12 +240,6 @@ public class ChairsRest {
     @PostMapping("/put-player-in-pic/{picId}")
     public Optional<PlayerInChair> putAPlayerInAChair(@RequestBody Player incomingPlayer, @PathVariable Long picId) {
 
-//        for (PlayerInChair picToCheck : picRepo.findAllByShowPiece(foundPIC.getShowPiece())) {
-//            if (eligiblePlayers.containsKey(picToCheck.getPlayer())) {
-//                eligiblePlayers.put(picToCheck.getPlayer(), false);
-//            }
-//        }
-
         try {
             Optional<PlayerInChair> premadePIC = picRepo.findById(picId);
             Optional<Player> playerToFind = playerRepo.findById(incomingPlayer.getId());
@@ -356,14 +350,29 @@ public class ChairsRest {
 
 
     @PostMapping("/change-seating")
-    public void changeSeatingOrder(@RequestBody PlayerInChair pic) {
+    public void changeSeatingOrder(@RequestBody Collection<PlayerInChair> pics) {
+
+
         try {
-            Optional<PlayerInChair> picToFind = picRepo.findById(pic.getId());
-            if (picToFind.isPresent()) {
-                PlayerInChair foundPic = picToFind.get();
-                if (foundPic.getSectionSeat() != pic.getSectionSeat()) {
-                    foundPic.setSectionSeat(pic.getSectionSeat());
-                    picRepo.save(foundPic);
+            for (PlayerInChair pic : pics) {
+                Optional<PlayerInChair> picToFind = picRepo.findById(pic.getId());
+                if (picToFind.isPresent()) {
+                    PlayerInChair foundPic = picToFind.get();
+             
+
+                    if (!(foundPic.getPlayer() == null && pic.getPlayer() == null)) {
+                        if ((foundPic.getPlayer() == null && pic.getPlayer() != null) || (foundPic.getPlayer() != null && pic.getPlayer() == null)) {
+                            foundPic.setPlayer(pic.getPlayer());
+                            System.out.println("We are here with somebody being null  ");
+                            picRepo.save(foundPic);
+                        } else if (!foundPic.getPlayer().equals(pic.getPlayer())) {
+                            foundPic.setPlayer(pic.getPlayer());
+                            System.out.println("And here with a mismatch... ");
+                            System.out.println(foundPic.getPlayer().getLastName());
+                            System.out.println(pic.getPlayer().getLastName());
+                            picRepo.save(foundPic);
+                        }
+                    }
                 }
             }
         } catch (Exception error) {
