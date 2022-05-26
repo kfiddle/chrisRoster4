@@ -358,18 +358,13 @@ public class ChairsRest {
                 Optional<PlayerInChair> picToFind = picRepo.findById(pic.getId());
                 if (picToFind.isPresent()) {
                     PlayerInChair foundPic = picToFind.get();
-             
 
                     if (!(foundPic.getPlayer() == null && pic.getPlayer() == null)) {
                         if ((foundPic.getPlayer() == null && pic.getPlayer() != null) || (foundPic.getPlayer() != null && pic.getPlayer() == null)) {
                             foundPic.setPlayer(pic.getPlayer());
-                            System.out.println("We are here with somebody being null  ");
                             picRepo.save(foundPic);
                         } else if (!foundPic.getPlayer().equals(pic.getPlayer())) {
                             foundPic.setPlayer(pic.getPlayer());
-                            System.out.println("And here with a mismatch... ");
-                            System.out.println(foundPic.getPlayer().getLastName());
-                            System.out.println(pic.getPlayer().getLastName());
                             picRepo.save(foundPic);
                         }
                     }
