@@ -303,6 +303,12 @@ public class ChairsRest {
         }
     }
 
+
+    @PostMapping("/some-random-ness")
+    public Map<Part, Integer> makeSomething(@RequestParam Map<Part, Integer> secNum, @RequestBody Show show) throws Exception {
+        return secNum;
+    }
+
     @PostMapping("/make-single-string-section-in-show/{showId}")
     public void makeStringSectionForPops(@RequestBody StringPartNum sectionAndNumber, @PathVariable Long showId) throws IOException {
 

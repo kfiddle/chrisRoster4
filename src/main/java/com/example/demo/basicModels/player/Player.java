@@ -37,6 +37,7 @@ public class Player implements Comparable<Player> {
     private String city;
     private String state;
     private String zip;
+    private String password;
 
     public Player() {
     }
@@ -116,6 +117,10 @@ public class Player implements Comparable<Player> {
         this.zip = zip;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }
@@ -176,7 +181,11 @@ public class Player implements Comparable<Player> {
         return zip;
     }
 
-//    public boolean couldSitHere(PlayerInChair pic) {
+    public String getPassword() {
+        return password;
+    }
+
+    //    public boolean couldSitHere(PlayerInChair pic) {
 //        Chair chair = pic.getChair();
 //
 //        if (rank > chair.getRank()) {
@@ -197,16 +206,17 @@ public class Player implements Comparable<Player> {
             if (!parts.contains(chairPart)) {
                 return false;
             }
-        } return true;
-    }
-
-
-        @Override
-        public int compareTo (Player otherPlayer){
-            if (primaryPart.compare(otherPlayer.getPrimaryPart()) != 0) {
-                return primaryPart.compare(otherPlayer.getPrimaryPart());
-            } else if (rank < otherPlayer.getRank()) {
-                return -1;
-            } else return type.compare(otherPlayer.getType());
         }
+        return true;
     }
+
+
+    @Override
+    public int compareTo(Player otherPlayer) {
+        if (primaryPart.compare(otherPlayer.getPrimaryPart()) != 0) {
+            return primaryPart.compare(otherPlayer.getPrimaryPart());
+        } else if (rank < otherPlayer.getRank()) {
+            return -1;
+        } else return type.compare(otherPlayer.getType());
+    }
+}
