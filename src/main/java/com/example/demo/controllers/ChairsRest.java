@@ -201,25 +201,6 @@ public class ChairsRest {
         return null;
     }
 
-//    @PostMapping("/remove-player-from-pic")
-//    public Optional<ShowPiece> removePlayerFromAChair(@RequestBody PlayerInChair incomingPIC) throws IOException {
-//        Optional<ShowPiece> possibleShowPiece = showPieceRepo.findById(incomingPIC.getShowPiece().getId());
-//
-//        try {
-//            Optional<PlayerInChair> picToFind = picRepo.findById(incomingPIC.getId());
-//            picToFind.ifPresent(playerInChair -> {
-//                playerInChair.setPlayer(null);
-//                picRepo.save(playerInChair);
-//            });
-//
-//
-//        } catch (
-//                Exception error) {
-//            error.printStackTrace();
-//
-//        }
-//        return possibleShowPiece;
-//    }
 
     @PostMapping("/remove-player-from-pic")
     public Optional<PlayerInChair> removePlayerFromAChair(@RequestBody PlayerInChair incomingPIC) throws IOException {
@@ -304,10 +285,15 @@ public class ChairsRest {
     }
 
 
-    @PostMapping("/some-random-ness")
-    public Map<Part, Integer> makeSomething(@RequestParam Map<Part, Integer> secNum, @RequestBody Show show) throws Exception {
-        return secNum;
-    }
+//    @PostMapping("/some-random-ness")
+//    public Map<String, Integer> makeSomething(@RequestParam Map<String, Integer> secNum) throws Exception {
+//        return secNum;
+//    }
+//
+//    @PostMapping("/more-random-ness")
+//    public String makeSomething(@RequestParam String someString) throws Exception {
+//        return someString;
+//    }
 
     @PostMapping("/make-single-string-section-in-show/{showId}")
     public void makeStringSectionForPops(@RequestBody StringPartNum sectionAndNumber, @PathVariable Long showId) throws IOException {
