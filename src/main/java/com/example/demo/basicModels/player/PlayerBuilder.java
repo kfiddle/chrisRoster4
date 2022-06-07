@@ -26,6 +26,9 @@ public class PlayerBuilder {
     public String city;
     public String state;
     public String zip;
+    public String username;
+    public String password;
+    public String role;
 
     public PlayerBuilder() {
     }
@@ -70,7 +73,10 @@ public class PlayerBuilder {
 
     public PlayerBuilder email(String email) {
         Optional<String> emailOpt = Optional.ofNullable(email);
-        emailOpt.ifPresent(gotten -> this.email = gotten);
+        if (emailOpt.isPresent()) {
+            this.email = email;
+            this.username = email;
+        }
         return this;
     }
 
@@ -113,6 +119,20 @@ public class PlayerBuilder {
     public PlayerBuilder zip(String zip) {
         Optional<String> zipOpt = Optional.ofNullable(zip);
         zipOpt.ifPresent(gotten -> this.zip = gotten);
+        return this;
+    }
+
+    //username is above in email()
+
+    public PlayerBuilder password(String password) {
+        Optional<String> passwordOpt = Optional.ofNullable(password);
+        passwordOpt.ifPresent(gotten -> this.password = gotten);
+        return this;
+    }
+
+    public PlayerBuilder role(String role) {
+        Optional<String> roleOpt = Optional.ofNullable(role);
+        roleOpt.ifPresent(gotten -> this.role = gotten);
         return this;
     }
 

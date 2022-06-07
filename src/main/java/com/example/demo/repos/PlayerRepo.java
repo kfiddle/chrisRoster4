@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface PlayerRepo extends CrudRepository<Player, Long> {
 
@@ -16,4 +17,5 @@ public interface PlayerRepo extends CrudRepository<Player, Long> {
 
     Player findByFirstNameAreaAndLastName(String firstNameArea, String lastName);
 
+    Optional<Player> findByUsername(String username);
 }

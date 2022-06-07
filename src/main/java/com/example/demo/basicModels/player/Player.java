@@ -37,7 +37,10 @@ public class Player implements Comparable<Player> {
     private String city;
     private String state;
     private String zip;
+
+    private String username;
     private String password;
+    private String role;
 
     public Player() {
     }
@@ -55,6 +58,11 @@ public class Player implements Comparable<Player> {
         city = playerBuilder.city;
         state = playerBuilder.state;
         zip = playerBuilder.zip;
+
+        username = playerBuilder.username;
+        password = playerBuilder.password;
+        role = playerBuilder.role;
+
         parts = playerBuilder.parts;
         if (playerBuilder.parts.size() > 0) {
             primaryPart = playerBuilder.parts.get(0);
@@ -121,6 +129,10 @@ public class Player implements Comparable<Player> {
         this.password = password;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Long getId() {
         return id;
     }
@@ -181,8 +193,16 @@ public class Player implements Comparable<Player> {
         return zip;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     //    public boolean couldSitHere(PlayerInChair pic) {
@@ -219,4 +239,6 @@ public class Player implements Comparable<Player> {
             return -1;
         } else return type.compare(otherPlayer.getType());
     }
+
+
 }
