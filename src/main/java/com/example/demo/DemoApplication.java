@@ -6,6 +6,7 @@ import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,9 @@ import java.util.HashMap;
 public class DemoApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(DemoApplication.class, args);
+
     }
 
 }

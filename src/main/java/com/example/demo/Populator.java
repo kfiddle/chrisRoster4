@@ -16,6 +16,7 @@ import com.example.demo.enums.Type;
 import com.example.demo.legos.ShowPiece;
 import com.example.demo.repos.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -44,15 +45,31 @@ public class Populator implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        BCryptPasswordEncoder robot = new BCryptPasswordEncoder(10);
 
-        Player leAnne = new PlayerBuilder().firstNameArea("Leanne").lastName("Wistrom").type(Type.CONTRACTED).rank(1).addAPart(Part.FLUTE).build();
-        Player seanG = new PlayerBuilder().firstNameArea("Sean").lastName("Gabriel").type(Type.CONTRACTED).rank(2).addAPart(Part.FLUTE).build();
-        Player danna = new PlayerBuilder().firstNameArea("Danna").lastName("Sundet").type(Type.CONTRACTED).rank(1).addAPart(Part.OBOE).build();
+
+        String leAnnePass = "$2a$10$kGpFBqAssRWvAD8ZOpaA4OcMAuwF8HhLgcBRaKxtkYJS/nLFslr2q"; //WistromFlute;
+        String seanGPass = "$2a$10$eruF6uYH1f3U7m71kZ7NAuXg1QXHpD.HC77bs4cdBeTATMz0Lp9Qm"; // GabrielFlute;
+        String dannaPass = "$2a$10$4g4MTJQJvGxDOwq8I3o11eK.oprxXzmQoZUKz53ASd4p1M2S5WSd6"; //SundetOboe;
+        String sarahHamPass = robot.encode("HamiltonOboe");
+        String benCPass = "$2a$10$vbcr4fk7Xvmij5S7.PAYHO/EQB/09lSBJW2c53OB0XPrXGtD5SiEC"; //ChenClarinet;
+        String amiPass = "$2a$10$.khi1kIOXsVLPjWHyTC2GexDRWGnfsL0zOi9AsGd5wktcBKp0M97e"; //VardiClarinet;
+        String boutinePass = robot.encode("dbb@Email");
+
+
+        String kenPass = robot.encode("KenPassword");
+        String chrisPass = robot.encode("ChrisPass");
+
+        Player chrisNewlun = new PlayerBuilder().firstNameArea("Chris").lastName("Newlun").email("cn@Email").password(chrisPass).build();
+
+        Player leAnne = new PlayerBuilder().firstNameArea("Leanne").lastName("Wistrom").type(Type.CONTRACTED).rank(1).addAPart(Part.FLUTE).password(leAnnePass).email("lw@Email").build();
+        Player seanG = new PlayerBuilder().firstNameArea("Sean").lastName("Gabriel").type(Type.CONTRACTED).rank(2).addAPart(Part.FLUTE).password(seanGPass).email("sg@Email").build();
+        Player danna = new PlayerBuilder().firstNameArea("Danna").lastName("Sundet").type(Type.CONTRACTED).rank(1).addAPart(Part.OBOE).password(dannaPass).email("ds@Email").build();
         Player heatherS = new PlayerBuilder().firstNameArea("Heather").lastName("Story").type(Type.CONTRACTED).rank(2).addAPart(Part.OBOE).build();
-        Player sarahH = new PlayerBuilder().firstNameArea("Sarah").lastName("Hamilton").type(Type.CONTRACTED).rank(3).addAPart(Part.OBOE).build();
-        Player ami = new Player(new PlayerBuilder().firstNameArea("Ami").lastName("Vardi").type(Type.CONTRACTED).rank(1).addAPart(Part.CLARINET));
-        Player benC = new Player(new PlayerBuilder().firstNameArea("Benjamin").lastName("Chen").type(Type.CONTRACTED).rank(2).addAPart(Part.CLARINET));
-        Player db = new Player(new PlayerBuilder().firstNameArea("David").lastName("Boutin-Bourque").type(Type.CONTRACTED).rank(3).addAPart(Part.CLARINET).addAPart(Part.BASSCLARINET));
+        Player sarahH = new PlayerBuilder().firstNameArea("Sarah").lastName("Hamilton").type(Type.CONTRACTED).rank(3).addAPart(Part.OBOE).password(sarahHamPass).email("sh@Email").build();
+        Player ami = new Player(new PlayerBuilder().firstNameArea("Ami").lastName("Vardi").type(Type.CONTRACTED).rank(1).addAPart(Part.CLARINET).password(amiPass).email("av@Email"));
+        Player benC = new Player(new PlayerBuilder().firstNameArea("Benjamin").lastName("Chen").type(Type.CONTRACTED).rank(2).addAPart(Part.CLARINET).password(benCPass).email("bc@Email"));
+        Player db = new Player(new PlayerBuilder().firstNameArea("David").lastName("Boutin-Bourque").type(Type.CONTRACTED).rank(3).addAPart(Part.CLARINET).addAPart(Part.BASSCLARINET).password(boutinePass).email("dbb@Email"));
         Player kdo = new Player(new PlayerBuilder().firstNameArea("KeriAnn").lastName("DiBari-Oberle").type(Type.CONTRACTED).rank(4).addAPart(Part.CLARINET).addAPart(Part.EBCLARINET));
         Player lk = new Player(new PlayerBuilder().firstNameArea("Laura").lastName("Koepke").type(Type.CONTRACTED).rank(1).addAPart(Part.BASSOON));
         Player lel = new Player(new PlayerBuilder().firstNameArea("Sarah Elizabeth").lastName("Lee").type(Type.CONTRACTED).rank(2).addAPart(Part.BASSOON));
@@ -70,7 +87,7 @@ public class Populator implements CommandLineRunner {
         Player bradA = new Player(new PlayerBuilder().firstNameArea("Brad").lastName("Amidon").type(Type.CONTRACTED).rank(1).addAPart(Part.PERCUSSION));
         Player ml = new Player(new PlayerBuilder().firstNameArea("Matt").lastName("Larson").type(Type.CONTRACTED).rank(2).addAPart(Part.PERCUSSION));
         Player mr = new Player(new PlayerBuilder().firstNameArea("Melody").lastName("Rapier").type(Type.CONTRACTED).rank(1).addAPart(Part.HARP));
-        Player kj = new Player(new PlayerBuilder().firstNameArea("Ken").lastName("Johnston").type(Type.CONTRACTED).rank(1).addAPart(Part.VIOLIN1));
+        Player kj = new Player(new PlayerBuilder().firstNameArea("Ken").lastName("Johnston").type(Type.CONTRACTED).rank(1).addAPart(Part.VIOLIN1).password(kenPass).email("kj@Email"));
         Player sls = new Player(new PlayerBuilder().firstNameArea("Sandro").lastName("Leal-Santiesteban").type(Type.CONTRACTED).rank(2).addAPart(Part.VIOLIN1));
         Player jh = new Player(new PlayerBuilder().firstNameArea("Joshua").lastName("Huang").type(Type.CONTRACTED).rank(3).addAPart(Part.VIOLIN1));
         Player melissaH = new Player(new PlayerBuilder().firstNameArea("Melissa").lastName("Hernandez").type(Type.CONTRACTED).rank(3).addAPart(Part.VIOLIN1));
@@ -108,7 +125,7 @@ public class Populator implements CommandLineRunner {
         Player chrisBlaha = new Player(new PlayerBuilder().firstNameArea("Chris").lastName("Blaha").type(Type.SUB).rank(1).addAPart(Part.TUBA));
         Player erikSundet = new Player(new PlayerBuilder().firstNameArea("Erik").lastName("Sundet").type(Type.SUB).rank(1).addAPart(Part.TRUMPET));
 
-        playerRepo.saveAll(Arrays.asList(leAnne, seanG, ami, sarahH, danna, heatherS, sarahH, benC, db, kdo, jenJ, jeffS, jiYoung, lk, lel, cr, ma, es, ba, bs, gd,
+        playerRepo.saveAll(Arrays.asList(chrisNewlun, leAnne, seanG, ami, sarahH, danna, heatherS, sarahH, benC, db, kdo, jenJ, jeffS, jiYoung, lk, lel, cr, ma, es, ba, bs, gd,
                 da, mh, wc, sb, kh, bradA, ml, mr, kj, sls, jh, melissaH, ah, stefS, yk, mp, jc, sy, benS,
                 eriS, ee, jiYoung, cv, kf, hl, wt, tobias, jiyeonY, jenJ, mp, jc, jm, nadineS, bn, jv, kieranH, josephH, tomC, jamesM, mariaP, mikeChen, dianaV,
                 samPetrey, maijaAnstine, chrisBlaha, erikSundet));

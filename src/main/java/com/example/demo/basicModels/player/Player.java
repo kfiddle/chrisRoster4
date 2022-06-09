@@ -61,7 +61,7 @@ public class Player implements Comparable<Player> {
 
         username = playerBuilder.username;
         password = playerBuilder.password;
-        role = playerBuilder.role;
+        role = "player";
 
         parts = playerBuilder.parts;
         if (playerBuilder.parts.size() > 0) {
