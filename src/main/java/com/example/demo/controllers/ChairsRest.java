@@ -278,10 +278,12 @@ public class ChairsRest {
                         picRepo.save(new PlayerInChair(retrievedShowPiece, chairToReference, seat));
                     }
                 }
-            } return sectionAndNumber;
+            }
+            return sectionAndNumber;
         } catch (Exception error) {
             error.printStackTrace();
-        } return null;
+        }
+        return null;
     }
 
 
@@ -335,8 +337,7 @@ public class ChairsRest {
 
 
     @PostMapping("/change-seating")
-    public void changeSeatingOrder(@RequestBody Collection<PlayerInChair> pics) {
-
+    public Collection<PlayerInChair> changeSeatingOrder(@RequestBody Collection<PlayerInChair> pics) {
 
         try {
             for (PlayerInChair pic : pics) {
@@ -355,9 +356,11 @@ public class ChairsRest {
                     }
                 }
             }
+            return pics;
         } catch (Exception error) {
             error.printStackTrace();
         }
+        return null;
 
     }
 
