@@ -265,7 +265,7 @@ public class ChairsRest {
 
 
     @PostMapping("/make-single-string-section-in-piece/{showPieceId}")
-    public void makeStringSection(@RequestBody StringPartNum sectionAndNumber, @PathVariable Long showPieceId) throws IOException {
+    public StringPartNum makeStringSection(@RequestBody StringPartNum sectionAndNumber, @PathVariable Long showPieceId) throws IOException {
 
         try {
             Optional<ShowPiece> showPieceToFind = showPieceRepo.findById(showPieceId);
@@ -278,25 +278,15 @@ public class ChairsRest {
                         picRepo.save(new PlayerInChair(retrievedShowPiece, chairToReference, seat));
                     }
                 }
-            }
+            } return sectionAndNumber;
         } catch (Exception error) {
             error.printStackTrace();
-        }
+        } return null;
     }
 
 
-//    @PostMapping("/some-random-ness")
-//    public Map<String, Integer> makeSomething(@RequestParam Map<String, Integer> secNum) throws Exception {
-//        return secNum;
-//    }
-//
-//    @PostMapping("/more-random-ness")
-//    public String makeSomething(@RequestParam String someString) throws Exception {
-//        return someString;
-//    }
-
     @PostMapping("/make-single-string-section-in-show/{showId}")
-    public void makeStringSectionForPops(@RequestBody StringPartNum sectionAndNumber, @PathVariable Long showId) throws IOException {
+    public StringPartNum makeStringSectionForPops(@RequestBody StringPartNum sectionAndNumber, @PathVariable Long showId) throws IOException {
 
         try {
             Optional<Show> showToFind = showRepo.findById(showId);
@@ -308,11 +298,14 @@ public class ChairsRest {
                     for (int seat = 1; seat < sectionAndNumber.number; seat++) {
                         picRepo.save(new PlayerInChair(retrievedShow, chairToReference, seat));
                     }
+                    return sectionAndNumber;
+
                 }
             }
         } catch (Exception error) {
             error.printStackTrace();
         }
+        return null;
     }
 
 
