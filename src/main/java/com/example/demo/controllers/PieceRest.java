@@ -136,7 +136,11 @@ public class PieceRest {
                 }
 
             }
-        } return chairsToReturn;
+        }
+
+        if (!chairsToReturn.isEmpty()) {
+            return chairsToReturn;
+        } return null;
     }
 
 }
