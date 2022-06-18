@@ -157,6 +157,12 @@ public class ChairsRest {
         return showCheck;
     }
 
+    @PostMapping("/get-chairs-in-piece")
+    public Collection<Chair> getOrchestrationOfPiece(@RequestBody Piece incomingPiece) throws IOException {
+        Optional<Piece> pieceCheck = pieceRepo.findById(incomingPiece.getId());
+        return pieceCheck.map(piece -> chairRepo.findAllByPiece(piece)).orElse(null);
+    }
+
 
     @PostMapping("/get-possible-players")
     public List<Player> getPossiblePlayersForAChair(@RequestBody PlayerInChair incomingPIC) {
