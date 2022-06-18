@@ -31,6 +31,7 @@ public enum Part {
     BASSTROMBONE("Bass Trombone"),
     EUPHONIUM("Euphonium"),
     TUBA("Tuba"),
+    TNRTUBA("Tenor Tuba"),
     TIMPANI("Timpani"),
     PERCUSSION("Percussion"),
     HARP("Harp"),

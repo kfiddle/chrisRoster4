@@ -69,11 +69,6 @@ public class ChairsRest {
     }
 
 
-    @RequestMapping("/get-orchestration-in-piece")
-    public Collection<Chair> getEmptyChairsNeededInPiece(@RequestBody Piece incomingPiece) {
-        return chairRepo.findByPiece(incomingPiece);
-    }
-
     @PostMapping("/add-empty-chairs/{pieceId}")
     public Optional<Piece> addFullOrchestration(@PathVariable Long pieceId, @RequestBody Collection<Chair> incomingChairs) throws IOException {
         Optional<Piece> pieceCheck = pieceRepo.findById(pieceId);
@@ -160,7 +155,17 @@ public class ChairsRest {
     @PostMapping("/get-chairs-in-piece")
     public Collection<Chair> getOrchestrationOfPiece(@RequestBody Piece incomingPiece) throws IOException {
         Optional<Piece> pieceCheck = pieceRepo.findById(incomingPiece.getId());
-        return pieceCheck.map(piece -> chairRepo.findAllByPiece(piece)).orElse(null);
+
+        try {
+            if (pieceCheck.isPresent()) {
+                List<Chair> chairsToReturn = (List<Chair>) chairRepo.findAllByPiece(pieceCheck.get());
+                Collections.sort(chairsToReturn);
+                return chairsToReturn;
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return null;
     }
 
 
