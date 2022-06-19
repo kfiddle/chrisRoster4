@@ -34,6 +34,7 @@ public enum Part {
     TNRTUBA("Tenor Tuba"),
     TIMPANI("Timpani"),
     PERCUSSION("Percussion"),
+    DRUMSET("Drum Set"),
     HARP("Harp"),
     PIANO("Piano"),
     CELESTE("Celeste"),

@@ -2,6 +2,7 @@ package com.example.demo;
 
 
 import com.example.demo.basicModels.DateTime;
+import com.example.demo.basicModels.gigOffer.GigOffer;
 import com.example.demo.basicModels.piece.Piece;
 import com.example.demo.basicModels.piece.PieceBuilder;
 import com.example.demo.basicModels.player.Player;
@@ -42,6 +43,9 @@ public class Populator implements CommandLineRunner {
     @Resource
     HorlogeRepo horlogeRepo;
 
+    @Resource
+    GigOfferRepo gigOfferRepo;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -59,7 +63,7 @@ public class Populator implements CommandLineRunner {
 
         String kenPass = robot.encode("KenPassword");
         String chrisPass = robot.encode("ChrisPass");
-        String troyPass = robot.encode ("rookfoot");
+        String troyPass = robot.encode("rookfoot");
 
         Player chrisNewlun = new PlayerBuilder().firstNameArea("Chris").lastName("Newlun").email("cn@Email").password(chrisPass).build();
         Player troy = new PlayerBuilder().firstNameArea("Troy").lastName("Harris").email("troyman7000@gmail.com").password(troyPass).build();
@@ -187,37 +191,10 @@ public class Populator implements CommandLineRunner {
 
         showPieceRepo.saveAll(Arrays.asList(diamondOnFirst, poulencOnFirst, laMerOnFirst));
 
+        LocalDate generalDate = LocalDate.of(2022, 6, 17);
+
+        gigOfferRepo.saveAll(Arrays.asList(new GigOffer(pops1, kj, generalDate), new GigOffer(pops4, chrisNewlun, generalDate)));
+
 
     }
 }
-
-//        pieceRepo.saveAll(Arrays.asList(new PieceBuilder().title("Rapture").composerName("Rouse").build(),
-//                new PieceBuilder().title("Violin Concerto in D").composerName("Brahms").build(),
-//                new PieceBuilder().title("Firebird Suite(1945)").composerName("Stravinsky").build(),
-//                new PieceBuilder().title("The Sorcerer's Apprentice").composerName("Dukas").build(),
-//                new PieceBuilder().title("Concerto for Organ and Orchestra").composerName("Poulenc").build(),
-//                new PieceBuilder().title("Symphony in D minor").composerName("Franck").build(),
-//                new PieceBuilder().title("Along the Western Shore").composerName("Remick-Warren").build(),
-//                new PieceBuilder().title("Prelude and Liebestod from Tristan und Isolde").composerName("Wagner").build(),
-//                new PieceBuilder().title("Piano Concerto No. 3").composerName("Rachmaninoff").build(),
-//                new PieceBuilder().title("Mary Poppins (Full Film)").composerName("Sherman and Sherman").build(),
-//                new PieceBuilder().title("Star Wars: A New Hope ").composerName("Williams").build(),
-//                new PieceBuilder().title("New Work based on Harriet Tubman").composerName("Timothy Adams").build(),
-//                new PieceBuilder().title("Concertino da Camera for Alto Saxophone and Orchestra").composerName("Ibert").build(),
-//                new PieceBuilder().title("Concerto, Alto Saxophone, op.109, E-flat major").composerName("Glazunov").build(),
-//                new PieceBuilder().title("Symphony No. 7").composerName("Beethoven").build(),
-//                new PieceBuilder().title("Rise").composerName("Zhou Tian").build(),
-//                new PieceBuilder().title("Symphony No.2").composerName("Mahler").build()));
-
-//    Show pops1 = new ShowBuilder().title("Pops 1: Come Home for the Holidays").build();
-//    Show sym1 = new ShowBuilder().title("Sym 1: Midori").build();
-//    Show pops2 = new ShowBuilder().title("Pops 2: Music of the Knights").build();
-//    Show sym2 = new ShowBuilder().title("Sym 2: French / Organ").build();
-//    Show sym3 = new ShowBuilder().title("Sym 3: Olga Kern").build();
-//    Show pops3 = new ShowBuilder().title("Pops 3: Mary Poppins in Concert").build();
-//    Show pops4 = new ShowBuilder().title("Pops 4:Star Wars:A New Hope in Concert").build();
-//    Show sym4 = new ShowBuilder().title("Sym 4: Tim Adams / saxophone").build();
-//    Show pops5 = new ShowBuilder().title("Pops 5: R&H").build();
-//    Show sym5 = new ShowBuilder().title("Sym 5: Mahler 2").build();
-//
-//        showRepo.saveAll(Arrays.asList(pops3, pops1, pops2, sym2, sym3, pops4, sym4, pops5, sym5, sym1));

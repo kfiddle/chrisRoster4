@@ -1,14 +1,14 @@
 package com.example.demo.basicModels.player;
 
 
+import com.example.demo.basicModels.Strumento;
 import com.example.demo.enums.Part;
 import com.example.demo.enums.Type;
 import com.example.demo.legos.playerInChair.PlayerInChair;
 import com.example.demo.legos.emptyChair.Chair;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Player implements Comparable<Player> {
@@ -24,6 +24,9 @@ public class Player implements Comparable<Player> {
 
     @ElementCollection
     private List<Part> parts = new ArrayList<>();
+
+//    @ManyToMany
+//    private Set<Strumento> strumenti = new HashSet<>()
 
     private Part primaryPart;
 
