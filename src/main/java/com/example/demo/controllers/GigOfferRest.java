@@ -3,7 +3,10 @@ package com.example.demo.controllers;
 
 import com.example.demo.basicModels.gigOffer.GigOffer;
 import com.example.demo.basicModels.player.Player;
+import com.example.demo.basicModels.show.Show;
+import com.example.demo.legos.playerInChair.PlayerInChair;
 import com.example.demo.repos.GigOfferRepo;
+import com.example.demo.repos.PlayerInChairRepo;
 import com.example.demo.repos.PlayerRepo;
 import com.example.demo.repos.ShowRepo;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,9 @@ public class GigOfferRest {
 
     @Resource
     private PlayerRepo playerRepo;
+
+    @Resource
+    private PlayerInChairRepo picRepo;
 
     @RequestMapping("/get-all-gig-offers")
     public Collection<GigOffer> getAllOffers() throws IOException {
@@ -53,6 +59,34 @@ public class GigOfferRest {
             error.printStackTrace();
         }
         return null;
+    }
+
+    @RequestMapping("/compute-offers-for-player/{playerId}")
+    public String computeOffersForPlayer(@PathVariable Long playerId) throws IOException {
+
+        try {
+
+            Optional<Player> playerToFind = playerRepo.findById(playerId);
+            if (playerToFind.isPresent()) {
+                Player playerToOffer = playerToFind.get();
+
+                Collection<GigOffer> gigsToOffer = new ArrayList<>();
+
+                for (Show show : showRepo.findAll()) {
+                    Collection<PlayerInChair> picsInShow = picRepo.findAllByShow(show);
+
+                    for (PlayerInChair pic : picsInShow) {
+                        if (pic.getChair().getPrimaryPart().equals(playerToOffer.getPrimaryPart()) &&
+                                pic.getChair().getRank() == playerToOffer.getRank()) {
+                            return "TRUE";
+                        }
+                    }
+                }
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return "nope";
     }
 
 

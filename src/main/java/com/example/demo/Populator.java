@@ -193,7 +193,10 @@ public class Populator implements CommandLineRunner {
 
         LocalDate generalDate = LocalDate.of(2022, 6, 17);
 
-        gigOfferRepo.saveAll(Arrays.asList(new GigOffer(pops1, kj, generalDate), new GigOffer(pops4, chrisNewlun, generalDate)));
+        gigOfferRepo.saveAll(Arrays.asList(new GigOffer(pops1, kj, generalDate),
+                new GigOffer(pops4, leAnne, generalDate),
+                new GigOffer(sym1, ami, generalDate),
+                new GigOffer(sym2, kieranH, generalDate)));
 
 
     }
