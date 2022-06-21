@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 
 @Entity
-public class GigOffer implements Comparable<GigOffer>{
+public class GigOffer {
 
     @Id
     @GeneratedValue
@@ -92,8 +92,5 @@ public class GigOffer implements Comparable<GigOffer>{
         return responseDate;
     }
 
-    @Override
-    public int compareTo(GigOffer next) {
-        return this.dateOffered.compareTo(next.getDateOffered());
-    }
+
 }

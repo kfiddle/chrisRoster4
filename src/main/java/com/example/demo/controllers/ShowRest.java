@@ -25,7 +25,7 @@ public class ShowRest {
         List<Show> sortedShows = new ArrayList<>((Collection<Show>) showRepo.findAll());
 
         try {
-            Collections.sort(sortedShows);
+//            Collections.sort(sortedShows);
             return sortedShows;
 
         } catch (Exception error) {
@@ -44,8 +44,8 @@ public class ShowRest {
             if (!showRepo.existsByTitle(incoming.getTitle())) {
                 showToReturn = new ShowBuilder()
                         .title(incoming.getTitle())
-                        .performanceDates(incoming.getPerformanceDates())
-                        .rehearsalDates(incoming.getRehearsalDates())
+//                        .performanceDates(incoming.getPerformanceDates())
+//                        .rehearsalDates(incoming.getRehearsalDates())
                         .numberOfServices(incoming.getNumberOfServices())
                         .notes(incoming.getNotes())
                         .build();

@@ -3,12 +3,11 @@ package com.example.demo.controllers;
 
 import com.example.demo.basicModels.gigOffer.GigOffer;
 import com.example.demo.basicModels.player.Player;
+import com.example.demo.basicModels.show.Horloge;
 import com.example.demo.basicModels.show.Show;
+import com.example.demo.enums.Event;
 import com.example.demo.legos.playerInChair.PlayerInChair;
-import com.example.demo.repos.GigOfferRepo;
-import com.example.demo.repos.PlayerInChairRepo;
-import com.example.demo.repos.PlayerRepo;
-import com.example.demo.repos.ShowRepo;
+import com.example.demo.repos.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -32,6 +31,9 @@ public class GigOfferRest {
     @Resource
     private PlayerInChairRepo picRepo;
 
+    @Resource
+    private HorlogeRepo horlogeRepo;
+
     @RequestMapping("/get-all-gig-offers")
     public Collection<GigOffer> getAllOffers() throws IOException {
         return (Collection<GigOffer>) gigOfferRepo.findAll();
@@ -45,14 +47,22 @@ public class GigOfferRest {
 
     @RequestMapping("/offers-by-player/{playerId}")
     public List<GigOffer> findAllOffersMadeToPlayer(@PathVariable Long playerId) throws IOException {
+        List<GigOffer> offersToReturn = new ArrayList<>();
 
         try {
             Optional<Player> playerToFind = playerRepo.findById(playerId);
             if (playerToFind.isPresent()) {
-                List<GigOffer> offersMade = (List<GigOffer>) gigOfferRepo.findAllByPlayer(playerToFind.get());
-                if (offersMade.size() > 0) {
-                    Collections.sort(offersMade);
-                    return offersMade;
+                Collection<GigOffer> offers = gigOfferRepo.findAllByPlayer(playerToFind.get());
+                if (offers.size() > 0) {
+                    for (Horloge horloge : horlogeRepo.findAllByEventOrderByDate(Event.PRIMARYDATE)) {
+                        System.out.println(horloge.getShow().getTitle());
+                        for (GigOffer offer : offers) {
+                            if (horloge.getShow().equals(offer.getShow())) {
+                                offersToReturn.add(offer);
+                            }
+                        }
+                    }
+                    return offersToReturn;
                 }
             }
         } catch (Exception error) {

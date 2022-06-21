@@ -182,7 +182,14 @@ public class Populator implements CommandLineRunner {
         Horloge pops4Hor = new HorlogeBuilder().date(LocalDate.of(2023, 2, 18)).startTime(LocalTime.of(8, 0)).show(pops4).event(Event.PRIMARYDATE).build();
         Horloge pops5Hor = new HorlogeBuilder().date(LocalDate.of(2023, 4, 15)).startTime(LocalTime.of(8, 0)).show(pops5).event(Event.PRIMARYDATE).build();
 
-        horlogeRepo.saveAll(Arrays.asList(sym1Hor, sym2Hor, sym3Hor, sym4Hor, sym5Hor, pops1Hor, pops2Hor, pops3Hor, pops4Hor, pops5Hor));
+        Horloge sym1Rh1 = new HorlogeBuilder().date(LocalDate.of(2022, 10, 18)).startTime(LocalTime.of(7, 30)).endTime(LocalTime.of(10, 0)).show(sym1).event(Event.REHEARSAL).build();
+        Horloge sym1Rh2 = new HorlogeBuilder().date(LocalDate.of(2022, 10, 19)).startTime(LocalTime.of(7, 30)).endTime(LocalTime.of(10, 0)).show(sym1).event(Event.REHEARSAL).build();
+        Horloge sym1Rh3 = new HorlogeBuilder().date(LocalDate.of(2022, 10, 22)).startTime(LocalTime.of(2, 0)).endTime(LocalTime.of(4, 30)).show(sym1).event(Event.REHEARSAL).build();
+
+
+        horlogeRepo.saveAll(Arrays.asList(sym1Hor, sym2Hor, sym3Hor, sym4Hor, sym5Hor, pops1Hor, pops2Hor, pops3Hor, pops4Hor, pops5Hor,
+                sym1Rh1, sym1Rh2, sym1Rh3
+        ));
 
 
         ShowPiece diamondOnFirst = new ShowPiece(diamond, sym2, 0);
@@ -195,9 +202,17 @@ public class Populator implements CommandLineRunner {
 
         gigOfferRepo.saveAll(Arrays.asList(new GigOffer(pops1, kj, generalDate),
                 new GigOffer(pops4, leAnne, generalDate),
+                new GigOffer(sym1, leAnne, generalDate),
+                new GigOffer(sym2, leAnne, generalDate),
+                new GigOffer(sym3, leAnne, generalDate),
+                new GigOffer(sym4, leAnne, generalDate),
+                new GigOffer(sym5, leAnne, generalDate),
+                new GigOffer(pops1, leAnne, generalDate),
+                new GigOffer(pops2, leAnne, generalDate),
+                new GigOffer(pops3, leAnne, generalDate),
+                new GigOffer(pops5, leAnne, generalDate),
                 new GigOffer(sym1, ami, generalDate),
-                new GigOffer(sym2, kieranH, generalDate)));
-
+                new GigOffer(sym2, danna, generalDate)));
 
     }
 }

@@ -113,7 +113,6 @@ public class HorlogeRest {
         List<Horloge> datesToReturn = new ArrayList<>();
 
         try {
-
             Optional<Show> showToFind = showRepo.findById(incoming.getId());
             if (showToFind.isPresent()) {
                 Show foundShow = showToFind.get();
@@ -129,8 +128,33 @@ public class HorlogeRest {
         } catch (
                 Exception error) {
             error.printStackTrace();
-
         }
         return null;
     }
+
+
+    @PostMapping("/get-full-schedule-of-show")
+    public List<Horloge> getAllDatesOfShow(@RequestBody Show incoming) throws IOException {
+        List<Horloge> datesToReturn = new ArrayList<>();
+
+        try {
+            Optional<Show> showToFind = showRepo.findById(incoming.getId());
+            if (showToFind.isPresent()) {
+                Show foundShow = showToFind.get();
+                if (horlogeRepo.existsByShow(foundShow)) {
+                    datesToReturn.addAll(horlogeRepo.findAllByShow(foundShow));
+                }
+                Collections.sort(datesToReturn);
+            }
+            return datesToReturn;
+        } catch (
+                Exception error) {
+            error.printStackTrace();
+        }
+        return null;
+
+    }
+
+
+
 }
