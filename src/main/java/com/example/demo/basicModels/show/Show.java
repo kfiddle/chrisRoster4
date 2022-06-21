@@ -16,12 +16,6 @@ public class Show {
 
     private String title;
 
-//    @ElementCollection
-//    private List<DateTime> performanceDates = new ArrayList<>();
-//
-//    @ElementCollection
-//    private List<DateTime> rehearsalDates = new ArrayList<>();
-
     private int numberOfServices;
 
     private String notes;
@@ -31,8 +25,6 @@ public class Show {
 
     public Show(ShowBuilder showBuilder) {
         this.title = showBuilder.title;
-//        this.performanceDates = showBuilder.performanceDates;
-//        this.rehearsalDates = showBuilder.rehearsalDates;
         this.numberOfServices = showBuilder.numberOfServices;
         this.notes = showBuilder.notes;
     }
@@ -40,14 +32,6 @@ public class Show {
     public void setTitle(String title) {
         this.title = title;
     }
-
-//    public void setPerformanceDates(List<DateTime> performanceDates) {
-//        this.performanceDates = performanceDates;
-//    }
-//
-//    public void setRehearsalDates(List<DateTime> rehearsalDates) {
-//        this.rehearsalDates = rehearsalDates;
-//    }
 
     public void setNumberOfServices(int numberOfServices) {
         this.numberOfServices = numberOfServices;
@@ -64,14 +48,6 @@ public class Show {
     public String getTitle() {
         return title;
     }
-
-//    public List<DateTime> getPerformanceDates() {
-//        return performanceDates;
-//    }
-//
-//    public List<DateTime> getRehearsalDates() {
-//        return rehearsalDates;
-//    }
 
     public int getNumberOfServices() {
         return numberOfServices;

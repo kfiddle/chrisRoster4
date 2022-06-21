@@ -15,14 +15,10 @@ public class ShowEditor {
 
     public void editFrom(Show incoming) {
         Optional<String> titleOpt = Optional.ofNullable(incoming.getTitle());
-//        Optional<List<DateTime>> performanceDatesOpt = Optional.ofNullable(incoming.getPerformanceDates());
-//        Optional<List<DateTime>> rehearsalDatesOpt = Optional.ofNullable(incoming.getRehearsalDates());
         int services = incoming.getNumberOfServices();
         Optional<String> notesOpt = Optional.ofNullable(incoming.getNotes());
 
         titleOpt.ifPresent(gotten -> storedShow.setTitle(gotten));
-//        performanceDatesOpt.ifPresent(gotten -> storedShow.setPerformanceDates(gotten));
-//        rehearsalDatesOpt.ifPresent(gotten -> storedShow.setRehearsalDates(gotten));
         if (services > 0) {
             storedShow.setNumberOfServices(services);
         }

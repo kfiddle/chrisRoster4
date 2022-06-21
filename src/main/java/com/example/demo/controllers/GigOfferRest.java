@@ -55,7 +55,6 @@ public class GigOfferRest {
                 Collection<GigOffer> offers = gigOfferRepo.findAllByPlayer(playerToFind.get());
                 if (offers.size() > 0) {
                     for (Horloge horloge : horlogeRepo.findAllByEventOrderByDate(Event.PRIMARYDATE)) {
-                        System.out.println(horloge.getShow().getTitle());
                         for (GigOffer offer : offers) {
                             if (horloge.getShow().equals(offer.getShow())) {
                                 offersToReturn.add(offer);
