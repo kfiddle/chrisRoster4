@@ -2,16 +2,21 @@ package com.example.demo.controllers;
 
 
 import com.example.demo.basicModels.gigOffer.GigOffer;
+import com.example.demo.basicModels.logEvent.LogEvent;
 import com.example.demo.basicModels.player.Player;
 import com.example.demo.basicModels.show.Horloge;
 import com.example.demo.basicModels.show.Show;
 import com.example.demo.enums.Event;
+import com.example.demo.enums.Part;
+import com.example.demo.enums.Reply;
 import com.example.demo.legos.playerInChair.PlayerInChair;
 import com.example.demo.repos.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.sql.SQLOutput;
+import java.time.LocalDate;
 import java.util.*;
 
 @CrossOrigin
@@ -21,6 +26,9 @@ public class GigOfferRest {
 
     @Resource
     private GigOfferRepo gigOfferRepo;
+
+    @Resource
+    private LogEventRepo logEventRepo;
 
     @Resource
     private ShowRepo showRepo;
@@ -98,6 +106,23 @@ public class GigOfferRest {
         return "nope";
     }
 
+    private void fillChair(GigOffer offerToSetReply) {
+        Player playerToSit = offerToSetReply.getPlayer();
+        int playerRank = playerToSit.getRank();
+        Part playerPart = playerToSit.getPrimaryPart();
+
+        System.out.println(offerToSetReply.getPlayer().getLastName());
+
+        Collection<PlayerInChair> picsToFill = picRepo.findAllByShow(offerToSetReply.getShow());
+        for (PlayerInChair pic : picsToFill) {
+            if (pic.getChair().getRank() == playerRank && pic.getChair().getPrimaryPart().equals(playerPart)) {
+                pic.setPlayer(playerToSit);
+                System.out.println("We have a winner");
+                picRepo.save(pic);
+            }
+        }
+    }
+
     @PostMapping("/gig-offer-reply")
     public GigOffer logPlayerResponseToGigOffer(@RequestBody GigOffer incomingReply) throws IOException {
 
@@ -105,11 +130,20 @@ public class GigOfferRest {
 
         try {
             Optional<GigOffer> offerToFind = gigOfferRepo.findById(incomingReply.getId());
+            LocalDate currentDate = LocalDate.now();
             if (offerToFind.isPresent()) {
                 GigOffer offerToSetReply = offerToFind.get();
                 offerToSetReply.setReply(incomingReply.getReply());
+                offerToSetReply.setResponseDate(currentDate);
                 gigOfferRepo.save(offerToSetReply);
-                System.out.println(offerToSetReply.getReply());
+
+                if (offerToSetReply.getReply().equals(Reply.ACCEPT)) {
+                    fillChair(offerToSetReply);
+                }
+
+                LogEvent newEvent = new LogEvent(offerToSetReply, currentDate);
+                logEventRepo.save(newEvent);
+
                 return offerToSetReply;
             }
         } catch (Exception error) {
@@ -117,6 +151,8 @@ public class GigOfferRest {
         }
         return null;
     }
+
+
 
 
 }
