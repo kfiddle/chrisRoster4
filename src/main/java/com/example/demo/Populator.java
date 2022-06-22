@@ -182,9 +182,9 @@ public class Populator implements CommandLineRunner {
         Horloge pops4Hor = new HorlogeBuilder().date(LocalDate.of(2023, 2, 18)).startTime(LocalTime.of(8, 0)).show(pops4).event(Event.PRIMARYDATE).build();
         Horloge pops5Hor = new HorlogeBuilder().date(LocalDate.of(2023, 4, 15)).startTime(LocalTime.of(8, 0)).show(pops5).event(Event.PRIMARYDATE).build();
 
-        Horloge sym1Rh1 = new HorlogeBuilder().date(LocalDate.of(2022, 10, 18)).startTime(LocalTime.of(7, 30)).endTime(LocalTime.of(10, 0)).show(sym1).event(Event.REHEARSAL).build();
-        Horloge sym1Rh2 = new HorlogeBuilder().date(LocalDate.of(2022, 10, 19)).startTime(LocalTime.of(7, 30)).endTime(LocalTime.of(10, 0)).show(sym1).event(Event.REHEARSAL).build();
-        Horloge sym1Rh3 = new HorlogeBuilder().date(LocalDate.of(2022, 10, 22)).startTime(LocalTime.of(2, 0)).endTime(LocalTime.of(4, 30)).show(sym1).event(Event.REHEARSAL).build();
+        Horloge sym1Rh1 = new HorlogeBuilder().date(LocalDate.of(2022, 10, 18)).startTime(LocalTime.of(7, 30)).endTime(LocalTime.of(10, 0)).show(sym1).event(Event.REHEARSAL).location("Warner").build();
+        Horloge sym1Rh2 = new HorlogeBuilder().date(LocalDate.of(2022, 10, 19)).startTime(LocalTime.of(7, 30)).endTime(LocalTime.of(10, 0)).show(sym1).event(Event.REHEARSAL).location("Warner-Rehearsal Hall").build();
+        Horloge sym1Rh3 = new HorlogeBuilder().date(LocalDate.of(2022, 10, 22)).startTime(LocalTime.of(2, 0)).endTime(LocalTime.of(4, 30)).show(sym1).event(Event.REHEARSAL).location("Warner").build();
 
 
         horlogeRepo.saveAll(Arrays.asList(sym1Hor, sym2Hor, sym3Hor, sym4Hor, sym5Hor, pops1Hor, pops2Hor, pops3Hor, pops4Hor, pops5Hor,

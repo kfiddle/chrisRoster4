@@ -98,5 +98,25 @@ public class GigOfferRest {
         return "nope";
     }
 
+    @PostMapping("/gig-offer-reply")
+    public GigOffer logPlayerResponseToGigOffer(@RequestBody GigOffer incomingReply) throws IOException {
+
+        //don't forget to set response date too
+
+        try {
+            Optional<GigOffer> offerToFind = gigOfferRepo.findById(incomingReply.getId());
+            if (offerToFind.isPresent()) {
+                GigOffer offerToSetReply = offerToFind.get();
+                offerToSetReply.setReply(incomingReply.getReply());
+                gigOfferRepo.save(offerToSetReply);
+                System.out.println(offerToSetReply.getReply());
+                return offerToSetReply;
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return null;
+    }
+
 
 }

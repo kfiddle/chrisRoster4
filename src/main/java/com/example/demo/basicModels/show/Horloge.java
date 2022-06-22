@@ -28,6 +28,8 @@ public class Horloge implements Comparable<Horloge> {
     private LocalTime startTime;
     private LocalTime endTime;
 
+    private String location;
+
     public Horloge() {
     }
 
@@ -38,6 +40,7 @@ public class Horloge implements Comparable<Horloge> {
         this.date = horlogeBuilder.date;
         this.startTime = horlogeBuilder.startTime;
         this.endTime = horlogeBuilder.endTime;
+        this.location = horlogeBuilder.location;
     }
 
 
@@ -59,6 +62,10 @@ public class Horloge implements Comparable<Horloge> {
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Long getId() {
@@ -83,6 +90,10 @@ public class Horloge implements Comparable<Horloge> {
 
     public LocalTime getEndTime() {
         return endTime;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     @Override

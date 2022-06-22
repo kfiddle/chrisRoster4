@@ -16,6 +16,7 @@ public class HorlogeBuilder {
     public LocalDate date;
     public LocalTime startTime;
     public LocalTime endTime;
+    public String location;
 
     public HorlogeBuilder() {
     }
@@ -47,6 +48,12 @@ public class HorlogeBuilder {
     public HorlogeBuilder endTime(LocalTime endTime) {
         Optional<LocalTime> endTimeCheck = Optional.ofNullable(endTime);
         endTimeCheck.ifPresent(gotten -> this.endTime = gotten);
+        return this;
+    }
+
+    public HorlogeBuilder location(String location) {
+        Optional<String> locationCheck = Optional.ofNullable(location);
+        locationCheck.ifPresent(gotten -> this.location = gotten);
         return this;
     }
 
