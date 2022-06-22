@@ -9,6 +9,7 @@ import com.example.demo.basicModels.show.Show;
 import com.example.demo.enums.Event;
 import com.example.demo.enums.Part;
 import com.example.demo.enums.Reply;
+import com.example.demo.legos.ShowPiece;
 import com.example.demo.legos.playerInChair.PlayerInChair;
 import com.example.demo.repos.*;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,9 @@ public class GigOfferRest {
 
     @Resource
     private ShowRepo showRepo;
+
+    @Resource
+    private ShowPieceRepo showPieceRepo;
 
     @Resource
     private PlayerRepo playerRepo;
@@ -113,12 +117,24 @@ public class GigOfferRest {
 
         System.out.println(offerToSetReply.getPlayer().getLastName());
 
+        //for pops only
+
         Collection<PlayerInChair> picsToFill = picRepo.findAllByShow(offerToSetReply.getShow());
         for (PlayerInChair pic : picsToFill) {
             if (pic.getChair().getRank() == playerRank && pic.getChair().getPrimaryPart().equals(playerPart)) {
                 pic.setPlayer(playerToSit);
                 System.out.println("We have a winner");
                 picRepo.save(pic);
+            }
+        }
+
+        for (ShowPiece showPiece : showPieceRepo.findAllByShow(offerToSetReply.getShow())) {
+            for (PlayerInChair pic : picRepo.findAllByShowPiece(showPiece)) {
+                if (pic.getChair().getRank() == playerRank && pic.getChair().getPrimaryPart().equals(playerPart)) {
+                    pic.setPlayer(playerToSit);
+                    System.out.println("We have a winner in this now");
+                    picRepo.save(pic);
+                }
             }
         }
     }
@@ -151,8 +167,6 @@ public class GigOfferRest {
         }
         return null;
     }
-
-
 
 
 }
