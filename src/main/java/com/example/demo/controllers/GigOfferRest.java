@@ -123,7 +123,6 @@ public class GigOfferRest {
         for (PlayerInChair pic : picsToFill) {
             if (pic.getChair().getRank() == playerRank && pic.getChair().getPrimaryPart().equals(playerPart)) {
                 pic.setPlayer(playerToSit);
-                System.out.println("We have a winner");
                 picRepo.save(pic);
             }
         }
@@ -132,7 +131,6 @@ public class GigOfferRest {
             for (PlayerInChair pic : picRepo.findAllByShowPiece(showPiece)) {
                 if (pic.getChair().getRank() == playerRank && pic.getChair().getPrimaryPart().equals(playerPart)) {
                     pic.setPlayer(playerToSit);
-                    System.out.println("We have a winner in this now");
                     picRepo.save(pic);
                 }
             }
@@ -142,7 +140,6 @@ public class GigOfferRest {
     @PostMapping("/gig-offer-reply")
     public GigOffer logPlayerResponseToGigOffer(@RequestBody GigOffer incomingReply) throws IOException {
 
-        //don't forget to set response date too
 
         try {
             Optional<GigOffer> offerToFind = gigOfferRepo.findById(incomingReply.getId());
