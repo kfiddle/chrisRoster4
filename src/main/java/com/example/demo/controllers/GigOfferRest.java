@@ -127,6 +127,8 @@ public class GigOfferRest {
             }
         }
 
+        //for syms
+
         for (ShowPiece showPiece : showPieceRepo.findAllByShow(offerToSetReply.getShow())) {
             for (PlayerInChair pic : picRepo.findAllByShowPiece(showPiece)) {
                 if (pic.getChair().getRank() == playerRank && pic.getChair().getPrimaryPart().equals(playerPart)) {

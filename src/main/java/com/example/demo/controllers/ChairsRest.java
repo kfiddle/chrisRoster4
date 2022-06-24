@@ -274,6 +274,21 @@ public class ChairsRest {
         return Optional.empty();
     }
 
+    @PostMapping("/delete-pic")
+    public String deleteEntireChair(@RequestBody PlayerInChair picToRemove) throws IOException {
+
+        try {
+            Optional<PlayerInChair> pic = picRepo.findById(picToRemove.getId());
+            System.out.println(picToRemove.getId() + "   " + picToRemove.getChair().getPrimaryPart());
+            pic.ifPresent(foundPic -> picRepo.deleteById(foundPic.getId()));
+            return "deleted";
+
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+        return "unable to delete";
+    }
+
 
     @PostMapping("/make-single-string-section-in-piece/{showPieceId}")
     public StringPartNum makeStringSection(@RequestBody StringPartNum sectionAndNumber, @PathVariable Long showPieceId) throws IOException {
