@@ -275,18 +275,18 @@ public class ChairsRest {
     }
 
     @PostMapping("/delete-pic")
-    public String deleteEntireChair(@RequestBody PlayerInChair picToRemove) throws IOException {
+    public PlayerInChair deleteEntireChair(@RequestBody PlayerInChair picToRemove) throws IOException {
 
         try {
             Optional<PlayerInChair> pic = picRepo.findById(picToRemove.getId());
             System.out.println(picToRemove.getId() + "   " + picToRemove.getChair().getPrimaryPart());
             pic.ifPresent(foundPic -> picRepo.deleteById(foundPic.getId()));
-            return "deleted";
+            return picToRemove;
 
         } catch (Exception error) {
             error.printStackTrace();
         }
-        return "unable to delete";
+        return null;
     }
 
 
